@@ -7,7 +7,7 @@ slug: "/posts/browser-router-hash-router"
 category: "Tech"
 tags:
   - "Router"
-description: "회사의 어드민 프로젝트 중 하나가 Hash Router로 구성되어 있었는데, 해당 프로젝트를 다뤄야 하는 일이 생겼다. 그런데 이 프로젝트는 왜 Hash Router로 되어 있는거지?"
+description: "회사의 어드민 프로젝트 중 하나가 Hash Router로 구성되어 있었는데, 해당 프로젝트를 다뤄야 하는 일이 생겼다. 그런데, 이 프로젝트는 왜 Hash Router로 되어 있는거지?"
 ---
 
 ### Hash Router가 도대체 뭔데?
