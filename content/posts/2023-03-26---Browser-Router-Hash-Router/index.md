@@ -7,15 +7,18 @@ slug: "/posts/browser-router-hash-router"
 category: "Tech"
 tags:
   - "Router"
-description: "회사의 어드민 프로젝트 중 하나가 Hash Router로 구성되어 있었는데, 해당 프로젝트를 다뤄야 하는 일이 생겼다. 그런데, 이 프로젝트는 왜 Hash Router로 되어 있는거지?"
+description: "회사 어드민 프로젝트에 필터 기능을 구현하려고 코드를 뒤적이고 있었는데... 그런데 잠깐, 이 프로젝트는 왜 Hash Router로 되어 있는거지?"
 ---
 
-### Hash Router가 도대체 뭔데?
+### Hash Router 너는 누구니?
 
-회사의 어드민 프로젝트 중 하나가 Hash Router로 구성되어 있었는데, 해당 프로젝트를 다뤄야 하는 일이 생겼다. 도대체 이 프로젝트는 왜 Hash Router로 되어 있는거지? (…부끄러운 이야기이지만) 나는 이제까지의 React 프로젝트 대부분에서 Browser Router만을 사용했기 때문에 Hash Router는 친숙하지 않았다. 도대체 이 프로젝트는 왜 Hash Router로 되어 있는걸까? Browser Router와 Hash Router의 차이는 뭘까?
+회사 어드민 프로젝트에 필터 기능을 구현하기 위해 쿼리스트링을 열심히 달던 중이였다. 그런데 정말 귀신이 곡할 노릇으로 새로 고침만 하면 쿼리스트링 부분이 홀랑 날아가버렸다. 아니 이게 무슨 일이냐고. (헛짚은거 같긴 한데) 해시 라우터 니가 범인이니? 아니 잠깐, 이 프로젝트는 도대체 왜 해시 라우터로 되어 있는거지? <br />
+(깔깔 포인트: 너무나 당연하게도 해시 라우터는 범인이 아니였다. 그저 어떤 HOC에서 의도치 않게 쿼리스트링을 날려버리는 버그가 있었을 뿐 ^^(...) 잘 해결했다.)
+
+(… 부끄러운 이야기이지만) 나는 이제껏 경험한 React 프로젝트에서는 모두 Browser Router만을 사용했기 때문에 Hash Router는 친숙하지 않았다. 도대체 이 프로젝트는 무슨 이유로 브라우저 라우터를 사용하지 않고 해시 라우터를 사용한 것일까? 두 라우터 간의 차이점은 뭘까?
 <br />
 
-여러 자료들을 참고해보니 Hash Router와 Browser Router는 다음과 같은 특징을 갖고 있었다.
+여러 글을 읽어보니 Hash Router와 Browser Router는 다음과 같은 특징을 갖고 있었다.
 
 #### Browser Router
 
