@@ -30,10 +30,11 @@
 
         p {
           font-size: $typographic-base-font-size * 1.6817;
+          margin-bottom: 24px;
           max-width: $layout-post-width;
           @include margin-top(0);
-          @include margin-bottom(1);
-          @include line-height(1.5);
+          // @include margin-bottom(1);
+          @include line-height(1.3);
         }
       }
     }
@@ -79,9 +80,9 @@
       @include margin-bottom(1.125);
 
       p {
-        font-size: $typographic-base-font-size * 1.125;
-        @include line-height(1.125);
-        @include margin-bottom(1.125);
+        // font-size: $typographic-base-font-size * 1.125;
+        // @include line-height(1.125);
+        // @include margin-bottom(1.125);
       }
 
       h2 > a {

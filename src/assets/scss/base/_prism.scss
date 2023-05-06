@@ -1,8 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
+
 code[class*="language-"],
 pre[class*="language-"] {
-  color: #657b83;
-  font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
-  font-size: 1em;
+  color: #eb5757;
+  // font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+  // font-family: Menlo, Monaco, 'Courier New', Courier, monospace;
+  font-family: Fira Code, Menlo, Monaco,Consolas,Andale Mono,Ubuntu Mono,Courier New,monospace;
+  // font-size: 1em;
+  font-size: 15px;
   -ms-hyphens: none;
   -moz-hyphens: none;
   -webkit-hyphens: none;
@@ -32,7 +37,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"] {
   border-radius: 0.3em;
-  padding: 0.1em;
+  padding: 0.2em;
 }
 
 code[class*="language-"] ::-moz-selection,
