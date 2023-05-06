@@ -128,15 +128,19 @@ p {
   // margin-bottom: 24px;
   // line-height: 1.625;
   // @include line-height(0.95);
-  // @include margin-bottom(1);
+  @include margin-bottom(1);
 }
 
 blockquote {
   background-color: #f1f1ef;
+  border-radius: 4px;
   font-style: italic;
-  // padding: 0;
-  padding: 4px 0;
+  padding: 24px 0;
   text-align: center;
+
+  p {
+    margin: 0;
+  }
 }
 
 figure {
