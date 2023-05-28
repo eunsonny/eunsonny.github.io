@@ -7,7 +7,7 @@ slug: "/posts/The-problem-that-Streaming-SSR-solves"
 category: "Tech"
 description: "작게 쪼개볼게요"
 ---
-Next.js의 버전이 13.4에 접어들면서 App Router가 stable 상태로 변경되었다. 그렇다고 바로 프로덕션에 적용하기엔 조심스럽지만 이제 더 이상 외면하고 있을 수는 없을 것 같다. App Router를 받아들일 몸(?)과 마음의 준비를 해야 한다. Streaming SSR이 해결하는 문제에 대해서 말한다더니 왜 갑자기 Next.js의 App Router 이야기냐고? 바로 App Router를 통해 우리는 Streaming SSR에 편하고 빠르게 가까워질 것이기 때문이다. 그럼 각설하고 본론으로 들어가보자! 
+Next.js의 버전이 13.4에 접어들면서 App Router가 stable 상태로 변경되었다. 그렇다고 당장 프로덕션에 적용하기엔 조심스럽지만 이제 더 이상 외면하고 있을 수는 없을 것 같다. App Router를 받아들일 몸(?)과 마음의 준비를 해야 한다. Streaming SSR이 해결하는 문제에 대해서 말한다더니 왜 갑자기 Next.js의 App Router 이야기냐고 🙄? 바로 App Router를 통해 우리는 Streaming SSR에 편하고 빠르게 가까워질 것이기 때문이다. 그럼 각설하고 본론으로 들어가보자! 
 ## CSR과 비교했을 때 SSR이 가진 장점
 
 SSR은 서버에서 매번 페이지를 HTML 형태로 완전히 렌더링한 후에 클라이언트로 전송한다. 따라서 자바스크립트의 파싱과 실행 절차 없이 첫 화면을 빠르게 그릴 수 있게 된다. 즉 초기 로딩 시 LCP(Largest Contentful Paint)가 빨라져 사용자들이 페이지의 주요 내용에 더 빨리 접근할 수 있게 해주고, 사용자 경험을 향상시킨다.
@@ -62,6 +62,7 @@ hydrateRoot(
   </RightPane>
 </Layout>
 ```
+
 
 페이지는 Suspense를 경계로 쪼개져 스트리밍 된다. 위의 코드에서는 `<Comments>` 항목을 `<Suspense>`로 감싸줌으로써, React에게 댓글 부분을 기다리지 않고 나머지 페이지에 대해 HTML을 스트리밍 하도록 할 수 있다. 댓글 부분 대신에 React는 placeholder에 해당하는 `<Spinner>` 컴포넌트를 보내준다.
 

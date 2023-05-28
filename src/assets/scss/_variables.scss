@@ -1,13 +1,18 @@
 @use "sass:math";
 @use "sass:color";
 
-$color-dark: hsl(220, 17%, 17%);
+// $color-dark: hsl(220, 17%, 17%);
+$color-dark: #212425;
 $color-dark-cloud: hsl(220, 17%, 30%);
-$color-dark-paper: hsl(220, 17%, 12%);
-$color-white: hsl(0, 0%, 100%);
+// $color-dark-paper: hsl(220, 17%, 12%);
+$color-dark-paper: #151718;
+// $color-white: hsl(0, 0%, 100%);
+// $color-white: #d1d5db;
+$color-white: #f6f1ea;
 $color-white-cloud: hsl(240, 1%, 92%);
 $color-gray: hsl(220, 17%, 57%);
-$color-blue: hsl(220, 100%, 68%);
+// $color-blue: hsl(220, 100%, 68%);
+$color-blue: #00B5F5;
 $color-orange: hsl(31, 92%, 62%);
 
 $typographic-root-font-size: 100;
