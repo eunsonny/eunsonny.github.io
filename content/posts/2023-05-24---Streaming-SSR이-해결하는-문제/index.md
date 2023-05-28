@@ -14,7 +14,7 @@ SSR은 서버에서 매번 페이지를 HTML 형태로 완전히 렌더링한 �
 <br /><br />
 
 ## 그럼에도 현재 SSR이 가진 문제점
-### Everything or Nothing, 무언가 하기 전에 무엇이든 다 해야 한다.
+### All or Nothing, 무언가 하기 전에 무엇이든 다 해야 한다.
 ![everything-or-nothing](/media/everything-or-nothing.png)
 
 - 유저에게 UI 보여주기 전에 필요한 데이터를 **전부** 다 패치해서 HTML을 그려줘야 한다.
@@ -32,12 +32,23 @@ SSR은 서버에서 매번 페이지를 HTML 형태로 완전히 렌더링한 �
 
 ## Streaming SSR **(Streaming HTML and Selective Hydration)**
 
-짜잔- 이 문제를 해결하기 위해 등장한게 바로 Streaming SSR으로 기존에 페이지 단위로 준비하던 것을 작게 나눔으로써 해결한다. 즉 기존의 SSR은 **전체의 페이지를 최대한 빨리 준비해서 보여준다**의 방식이였다면, Streaming SSR은 **페이지를 부분으로 작게 쪼개 준비되는 부분부터 보여준다**의 방식을 택한다. 이로 인해 사용자는 빠르게 페이지를 보게 되며, 서버 부하를 분산시킬 수 있게 된다.
+짜잔- 이 문제를 해결하기 위해 등장한게 바로 Streaming SSR으로 기존에 페이지 단위로 준비하던 것을 작게 나눔으로써 해결한다. 즉 기존의 SSR은 **전체의 페이지를 최대한 빨리 준비해서 보여준다**의 방식이였다면, Streaming SSR은 **페이지를 부분으로 작게 쪼개어 준비되는 부분부터 보여준다**의 방식을 택한다. 
 
+- 서버에서 HTML을 스트리밍 형식으로 전달해야 한다. 기존에 우리는 Next.js와 같은 프레임 워크 없이 React SSR을 직접 구현할 떄 `renderToString` 메소드를 사용했다. 그러나 Html을 스트리밍 형식으로 전달하기 위해서는 `renderToString` 메소드를 대신해 [`renderToPipeableStream`](https://react.dev/reference/react-dom/server/renderToPipeableStream) 메소드를 사용해야 한다.
 
-- 서버에서 HTML을 스트리밍 형식으로 전달한다. 이렇게 하기 위해서 전통적인 방식의 SSR을 구현하던 `renderToString` 메소드를 대신해 [`renderToPipeableStream`](https://react.dev/reference/react-dom/server/renderToPipeableStream) 메소드로 바꿔줘야 한다.
+- 클라이언트에서도 선택적으로 하이드레이션 한다. 이를 위해 클라이언트 단에서 [hydrateRoot로 바꿔주고](https://github.com/reactwg/react-18/discussions/5) 애플리케이션의 부분 부분을 `<Suspense>`로 감싸줘야 한다.
 
-- 클라이언트에서도 선택적으로 하이드레이션 한다. 사용하기 위해 클라이언트 단에서 [createRoot로 바꿔주고](https://github.com/reactwg/react-18/discussions/5) 애플리케이션의 부분 부분을 `<Suspense>`로 감싸줘야 한다.
+```tsx
+import { hydrateRoot } from 'react-dom/client';
+import App from './App.js';
+
+hydrateRoot(
+  document.getElementById('root'),
+  <App />
+);
+
+```
+
 
 ```tsx
 <Layout>
@@ -70,15 +81,20 @@ SSR은 서버에서 매번 페이지를 HTML 형태로 완전히 렌더링한 �
 
 ## Stream with Suspense
 
-위에서도 언급했듯이 Streaming SSR은 Suspense 컴포넌트를 사용해 이루어진다. 지금까지 수차례 ‘작게 나눈다’고 언급했는데 바로 Suspense가 작게 나뉜 UI의 경계가 된다. 굉장히 핵심적인 역할을 담당한다고 볼 수 있다. 
-Suspense를 통해 비동기 동작을 선언적으로 작성할 수 있다는 장점이 있단 것은 알았지만 이런식으로 활용될 수 있을거라고는 상상하지 못했다. `if (isLoading)`을 `<Suspense>`로 바꾸는 것은 큰 변화가 아닌 것 같지만, 이 과정은 많은 개선점들을 가능하게 해준다.
+위에서도 언급했듯이 Streaming SSR은 Suspense 컴포넌트를 사용해 이루어진다. 지금까지 수차례 ‘작게 나눈다’고 언급했는데 바로 Suspense를 경계로 UI가 나뉘게 되는 것이다. 굉장히 핵심적인 역할을 담당한다고 볼 수 있다. 
+Suspense는 비동기 동작을 선언적으로 작성할 수 있게 하는 문법적 설탕 쯤으로 생각했었는데, 이런식으로 활용될 수 있을것이라고는 상상하지 못했다. `if (isLoading)`을 `<Suspense>`로 바꾸는 것은 큰 변화가 아닌 것 같지만, 이 과정이 여러 개선점들을 가능하게 해준다.
 <br /><br />
 
+## Streaming SSR 찍먹 가능할까요 😋?
+가능 한지 여부에 대해서 우선 답한다면 '**YES**' 다. 그러나 기존에는 Next.js나 Remix와 같이 SSR를 지원하는 프레임워크를 통해 Streaming SSR을 구현하기에는 어려움이 있었다. 따라서 직접 SSR을 위한 서버를 세팅해야 했고 클라이언트에서도 Suspense를 활용하기 위해 Suspense로 감싸진 컴포넌트 내부에서 의도적으로 promise를 throw 하는 동작을 추가해야 하는 번거로움이 있었다. 
+
+하지만 앞으로는 Next.js의 App Router를 이용해 Streaming SSR을 좀 더 간편하게 구현할 수 있을 것으로 보인다. Next.js의 Doc에서 이와 관련한 부분의 [글](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#streaming-with-suspense)을 참고하면 좋겠다. 또한 컴포넌트 내부에서 의도적으로 Promise를 throw 하는 방식도 React의 use라는 hook을 사용하거나 React Server Component에 async await를 붙여 비동기적으로 렌더링하는 방식 등으로 보다 간편하고 선언적인 형태로 바뀔 것이 예상된다. 단, [use hook](https://github.com/reactjs/rfcs/pull/229)은 아직 RFC에서 논의 중인 단계이고 Server Component 역시 stable한 상태가 아니기 때문에 현재는 실험적인 수준의 찍먹만이 가능할 것으로 보인다. (yummy~😋)
+<br /><br />
 
 #### 글을 마치며 주절주절
-사실 Streaming SSR에 대한 글을 쓰게 된건 Next.js의 App router를 뜯어보다가 흘러흘러 오게 된 것이다. 최근 Next.js와 React가 서로 앞서거니 뒷서거니 하며 발맞춰 기능을 업그레이드 하는 모습을 보면 약간 경이로운데 그럼과 동시에 궁금한 것은 이들이 그리는 큰 그림은 과연 어디까지 일까 하는 점이다.
+사실 Streaming SSR에 대한 글을 쓰게 된건 Next.js의 App router를 뜯어보다가 흘러흘러 오게 된 것이다. 최근 Next.js와 React가 서로 앞서거니 뒷서거니 하며 발맞춰 기능을 업그레이드 하는 모습을 보면 약간 경이로운데(...) 그럼과 동시에 궁금한 것은 이들이 그리는 큰 그림은 과연 어디까지 일까 하는 점이다.
 
-마치 나는 퍼즐 조각 몇 개를 받아들곤 100피스짜리 퍼즐인 줄 알고 우와 우와 하며 열심히 맞추고 있었는데, 알고보니 1000피스를 맞춰야 완성되는 퍼즐인 느낌이랄까? 과연 그들이 그리는 그림은 어떤 모습이고 언제부터 이런 그림을 그려왔던걸까 생각해보면 약간 아득해 지는 느낌이다^^.. 부지런히 설명서를 읽고 퍼즐을 맞춰야 큰 그림의 윤곽을 볼 수 있을 것 같다. 
+마치 나는 퍼즐 조각 몇 개를 받아들곤 100피스짜리 퍼즐인 줄 알고 우와- 우와- 하며 열심히 맞추고 있었는데, 알고보니 1000피스를 맞춰야 완성되는 퍼즐인 느낌이랄까? 과연 그들이 그리는 그림은 어떤 모습이고 언제부터 이런 그림을 그려왔던걸까 생각해보면 약간 아득해 지는 느낌이다^^.. 부지런히 설명서를 읽고 퍼즐을 맞춰야 그림의 윤곽을 볼 수 있을 것 같다. 
 
 #### 참고자료
 * [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37) 
