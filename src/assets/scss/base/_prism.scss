@@ -3,7 +3,6 @@
 code[class*="language-"],
 pre[class*="language-"] {
   // color: #ff7b72;
-  // color: #edeafc;
   color: #dbdee1;
   // font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
   font-family: Oxygen Mono, Menlo, Monaco, Consolas, Andale Mono, Ubuntu Mono, Courier New, monospace;
@@ -65,7 +64,6 @@ pre[class*="language-"]::selection {
 }
 
 .token.punctuation {
-  // color: #586e75;
   color: #dbdee1;
 }
 
@@ -102,7 +100,6 @@ pre[class*="language-"]::selection {
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  // color: #859900;
   color: #ff7b72;
 }
 

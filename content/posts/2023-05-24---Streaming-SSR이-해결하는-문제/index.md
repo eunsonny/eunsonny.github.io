@@ -7,7 +7,7 @@ slug: "/posts/The-problem-that-Streaming-SSR-solves"
 category: "Tech"
 description: "작게 쪼개볼게요"
 ---
-Next.js의 버전이 13.4에 접어들면서 App Router가 stable 상태로 변경되었다. 그렇다고 당장 프로덕션에 적용하기엔 조심스럽지만 이제 더 이상 외면하고 있을 수는 없을 것 같다. App Router를 받아들일 몸(?)과 마음의 준비를 해야 한다. Streaming SSR이 해결하는 문제에 대해서 말한다더니 왜 갑자기 Next.js의 App Router 이야기냐고 🙄? 바로 App Router를 통해 우리는 Streaming SSR에 편하고 빠르게 가까워질 것이기 때문이다. 그럼 각설하고 본론으로 들어가보자! 
+Next.js의 버전이 13.4에 접어들면서 App Router가 stable 상태로 변경되었다. 그렇다고 당장 프로덕션에 적용하기엔 조심스럽지만 이제 더 이상 외면하고 있을 수는 없을 것 같다. App Router를 받아들일 몸(?)과 마음의 준비를 해야 한다. Streaming SSR이 해결하는 문제에 대해서 말한다더니 왜 갑자기 Next.js의 App Router 이야기냐고 🙄? 바로 App Router를 통해 우리는 Streaming SSR에 편하고 빠르게 가까워질 수 있기 때문이다. 그럼 각설하고 본론으로 들어가보자! 
 ## CSR과 비교했을 때 SSR이 가진 장점
 
 SSR은 서버에서 매번 페이지를 HTML 형태로 완전히 렌더링한 후에 클라이언트로 전송한다. 따라서 자바스크립트의 파싱과 실행 절차 없이 첫 화면을 빠르게 그릴 수 있게 된다. 즉 초기 로딩 시 LCP(Largest Contentful Paint)가 빨라져 사용자들이 페이지의 주요 내용에 더 빨리 접근할 수 있게 해주고, 사용자 경험을 향상시킨다.
@@ -34,9 +34,9 @@ SSR은 서버에서 매번 페이지를 HTML 형태로 완전히 렌더링한 �
 
 짜잔- 이 문제를 해결하기 위해 등장한게 바로 Streaming SSR으로 기존에 페이지 단위로 준비하던 것을 작게 나눔으로써 해결한다. 즉 기존의 SSR은 **전체의 페이지를 최대한 빨리 준비해서 보여준다**의 방식이였다면, Streaming SSR은 **페이지를 부분으로 작게 쪼개어 준비되는 부분부터 보여준다**의 방식을 택한다. 
 
-- 서버에서 HTML을 스트리밍 형식으로 전달해야 한다. 기존에 우리는 Next.js와 같은 프레임 워크 없이 React SSR을 직접 구현할 떄 `renderToString` 메소드를 사용했다. 그러나 Html을 스트리밍 형식으로 전달하기 위해서는 `renderToString` 메소드를 대신해 [`renderToPipeableStream`](https://react.dev/reference/react-dom/server/renderToPipeableStream) 메소드를 사용해야 한다.
+- 서버에서 HTML을 스트리밍 형식으로 전달해야 한다. 이렇게 하기 위해서 전통적인 방식의 SSR을 구현할 떄 사용하던 `renderToString` 메소드를 대신해 [`renderToPipeableStream`](https://react.dev/reference/react-dom/server/renderToPipeableStream) 메소드를 사용해야 한다.
 
-- 클라이언트에서도 선택적으로 하이드레이션 한다. 이를 위해 클라이언트 단에서 [hydrateRoot로 바꿔주고](https://github.com/reactwg/react-18/discussions/5) 애플리케이션의 부분 부분을 `<Suspense>`로 감싸줘야 한다.
+- 클라이언트에서도 선택적으로 하이드레이션 한다. 이를 위해 클라이언트 단에서 createRoot를 [hydrateRoot](https://github.com/reactwg/react-18/discussions/5)로 바꿔주고 애플리케이션의 부분 부분을 `<Suspense>`로 감싸줘야 한다.
 
 ```tsx
 import { hydrateRoot } from 'react-dom/client';
@@ -76,14 +76,17 @@ hydrateRoot(
 
 ## 그래서 결과적으로 어떤게 개선되나요?
 
-기존 SSR의 단점으로 여겨지던 늦은 **TTFB(Time To First Byte, 페이지를 요청했을 때 서버에서 데이터의 첫번째 바이트가 도착하는 시점)** 를 당길 수 있게 된다. **FCP(First Contentful Paint, 페이지가 로드되기 시작하고 컨텐츠의 일부가 화면에 렌더링 될 때 까지의 시간)** 도 개선된다. 작은 단위로 쪼개어 진행되기 때문에 hydration 성능도 좋아진다. 결과적으로 사용자는 빠르게 페이지를 보게 되며, 서버 부하도 분산시킬 수 있게 된다. 
+* 기존 SSR의 단점으로 여겨지던 늦은 **TTFB(Time To First Byte, 페이지를 요청했을 때 서버에서 데이터의 첫번째 바이트가 도착하는 시점)** 를 당길 수 있게 된다. 
+* **FCP(First Contentful Paint, 페이지가 로드되기 시작하고 컨텐츠의 일부가 화면에 렌더링 될 때 까지의 시간)** 도 개선된다. 
+* 작은 단위로 쪼개어 진행되기 때문에 Hydration 성능도 좋아진다. 
+결과적으로 사용자는 빠르게 페이지를 보게 되며, 서버 부하도 분산시킬 수 있게 된다. 
 <br /><br />
 
 
 ## Stream with Suspense
 
-위에서도 언급했듯이 Streaming SSR은 Suspense 컴포넌트를 사용해 이루어진다. 지금까지 수차례 ‘작게 나눈다’고 언급했는데 바로 Suspense를 경계로 UI가 나뉘게 되는 것이다. 굉장히 핵심적인 역할을 담당한다고 볼 수 있다. 
-Suspense는 비동기 동작을 선언적으로 작성할 수 있게 하는 문법적 설탕 쯤으로 생각했었는데, 이런식으로 활용될 수 있을것이라고는 상상하지 못했다. `if (isLoading)`을 `<Suspense>`로 바꾸는 것은 큰 변화가 아닌 것 같지만, 이 과정이 여러 개선점들을 가능하게 해준다.
+Streaming SSR에서 Suspense는 굉장히 핵심적인 역할을 담당한다. 지금까지 수차례 ‘작게 나눈다’고 언급했는데 바로 Suspense를 경계로 UI가 나뉘게 되는 것이다.
+Suspense는 비동기 동작을 선언적으로 작성할 수 있게 하는 문법적 설탕 쯤으로 생각했었는데, 이런식으로 활용될 수 있을것이라고는 상상하지 못했다. `if (isLoading)`을 `<Suspense>`로 바꾸는 것은 큰 변화가 아닌 것 같지만, 이 과정이 여러 개선점들을 가능하게 해주는 것이다.
 <br /><br />
 
 ## Streaming SSR 찍먹 가능할까요 😋?
