@@ -5,7 +5,7 @@ template: "post"
 draft: false
 slug: "/posts/The-problem-that-Streaming-SSR-solves"
 category: "Tech"
-description: "작게 쪼개볼게요"
+description: "작게 나누면 더 쉬워져요"
 ---
 Next.js의 버전이 13.4에 접어들면서 App Router가 stable 상태로 변경되었다. 그렇다고 당장 프로덕션에 적용하기엔 조심스럽지만 이제 더 이상 외면하고 있을 수는 없을 것 같다. App Router를 받아들일 몸(?)과 마음의 준비를 해야 한다. Streaming SSR이 해결하는 문제에 대해서 말한다더니 왜 갑자기 Next.js의 App Router 이야기냐고 🙄? 바로 App Router를 통해 우리는 Streaming SSR에 편하고 빠르게 가까워질 수 있기 때문이다. 그럼 각설하고 본론으로 들어가보자! 
 ## CSR과 비교했을 때 SSR이 가진 장점
