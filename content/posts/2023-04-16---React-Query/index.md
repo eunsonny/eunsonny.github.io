@@ -2,7 +2,7 @@
 title: React Query를 왜 그리고 어떻게 써야할까?
 date: "2023-04-16"
 template: "post"
-draft: true
+draft: false
 slug: "/posts/Why-and-how-should-I-use-React-Query"
 category: "Tech"
 description: "우리 그냥 쓰진 말자구 😋"
