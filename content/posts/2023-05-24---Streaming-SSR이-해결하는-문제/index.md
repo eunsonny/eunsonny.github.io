@@ -90,9 +90,11 @@ Suspense는 비동기 동작을 선언적으로 작성할 수 있게 하는 문�
 <br /><br />
 
 ## Streaming SSR 찍먹 가능할까요 😋?
-가능 한지 여부에 대해서 우선 답한다면 '**YES**' 다. 그러나 기존에는 Next.js나 Remix와 같이 SSR를 지원하는 프레임워크를 통해 Streaming SSR을 구현하기에는 어려움이 있었다. 따라서 직접 SSR을 위한 서버를 세팅해야 했고 클라이언트에서도 Suspense를 활용하기 위해 Suspense로 감싸진 컴포넌트 내부에서 의도적으로 promise를 throw 하는 동작을 추가해야 하는 번거로움이 있었다. 
+가능한지 여부에 대해서 우선 답한다면 '**YES**' 다. 그러나 기존(Next.js App Router가 나오기 이전)에는 Next.js나 Remix와 같이 SSR를 지원하는 프레임워크를 통해 Streaming SSR을 구현하기에는 어려움이 있었다. 따라서 직접 SSR을 위한 서버를 세팅해야 했고 클라이언트에서도 Suspense를 활용하기 위해 Suspense로 감싸진 컴포넌트 내부에서 의도적으로 promise를 throw 하는 동작을 추가해야 하는 번거로움이 있었다. 
 
-하지만 앞으로는 Next.js의 App Router를 이용해 Streaming SSR을 좀 더 간편하게 구현할 수 있을 것으로 보인다. Next.js의 Doc에서 이와 관련한 부분의 [글](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#streaming-with-suspense)을 참고하면 좋겠다. 또한 컴포넌트 내부에서 의도적으로 Promise를 throw 하는 방식도 React의 use라는 hook을 사용하거나 React Server Component에 async await를 붙여 비동기적으로 렌더링하는 방식 등으로 보다 간편하고 선언적인 형태로 바뀔 것이 예상된다. 단, [use hook](https://github.com/reactjs/rfcs/pull/229)은 아직 RFC에서 논의 중인 단계이고 Server Component 역시 stable한 상태가 아니기 때문에 현재는 실험적인 수준의 찍먹만이 가능할 것으로 보인다. (yummy~😋)
+하지만 앞으로는 Next.js의 App Router를 이용해 Streaming SSR을 좀 더 간편하게 구현할 수 있을 것으로 보인다. Next.js의 Doc에서 이와 관련한 부분의 [이 글](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming#streaming-with-suspense)과 [이 글](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#async-and-await-in-server-components) 을 참고하면 좋겠다. App Router는 디폴트로 Server Component를 사용하고 있기 때문에 경계로 나누고 싶은 부분을 Suspense로 감싸주고 React Server Component에 async await를 붙여 비동기적으로 렌더링하기만 하면 Streaming SSR을 손 쉽게 맛 볼수 있다. (yummy~😋)
+
+또한 Client Component에서 React의 use라는 hook을 사용해 비동기적으로 렌더링 하는 방법도 있는데 [use hook](https://github.com/reactjs/rfcs/pull/229)은 아직 RFC에서 논의 중인 단계이기 때문에 실험적인 수준의 찍먹이 가능할 것으로 보인다. (Next.js [공식문서](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components)에서도 아직은 Client Component의 데이터 패칭에 있어서 SWR이나 React Query와 같은 라이브러리를 사용하기를 권장하고 있다.)
 <br /><br />
 
 #### 글을 마치며 주절주절
