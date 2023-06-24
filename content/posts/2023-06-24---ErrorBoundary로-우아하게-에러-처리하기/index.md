@@ -2,7 +2,7 @@
 title: ErrorBoundary로 우아하게 에러 처리하기
 date: "2023-06-24"
 template: "post"
-draft: true
+draft: false
 slug: "/posts/Handling-errors-gracefully-with-ErrorBoundary"
 category: "Tech"
 description: "최후의 방어전선 구축하기"
