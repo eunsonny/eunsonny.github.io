@@ -19,7 +19,7 @@ description: "최후의 방어전선 구축하기"
 
 ## 에러 바운더리를 사용하고자 한 이유
 
-에러 바운더리를 사용함으로써 얻을 수 있는 이점은 여러가지가 있지만 개인적으로 사용하고자 했던 가장 큰 이유는 **에러 관리 포인트를 최소화** 하고 싶었기 때문이다. 특히 본래의 ErrorBoundary는 데이터 페칭과 같은 비동기적 코드 에러를 캐치하지 못하지만 React Query의 defaultOptions에 `useErrorBoundary:true` 를 사용함으로써 서버 통신과 관련한 비동기적 에러도 ErrorBoundary에서 함께 핸들링 할 수 있다는 점에서 (리액트 쿼리의 도입과 함께) 이 점을 적극 활용하여 에러 관리를 할 수 있겠다고 생각했다.  
+에러 바운더리를 사용함으로써 얻을 수 있는 이점에는 여러가지가 있지만 적극적으로 에러 바운더리를 사용하고자 한 가장 큰 이유는 **에러 관리 포인트를 최소화** 하고 싶었기 때문이다. 특히 본래의 ErrorBoundary는 데이터 페칭과 같은 비동기적 코드 에러를 캐치하지 못하지만 React Query의 defaultOptions에 `useErrorBoundary:true` 를 사용함으로써 서버 통신과 관련한 비동기적 에러도 ErrorBoundary에서 함께 핸들링 할 수 있다는 점에서 (리액트 쿼리의 도입과 함께) 이 점을 적극 활용하여 중앙 집중식 에러 관리를 할 수 있겠다고 생각했다.  
 
 기존에는 아래의 코드와 같은 형태로 에러를 핸들링했다.
 
@@ -474,6 +474,18 @@ LocalErrorBoundary.displayName = 'LocalErrorBoundary'
 추가적으로 LocalErrorBoundary에서는 옵셔널하게 onError와 resetKeys라는 Props를 받을 수 있도록 하여 onError를 통해 에러 발생시에 취하고 싶은 추가적인 엑션을 설정하거나, resetKeys가 변경되면 에러가 리셋될 수 있도록 했다.
 <br />
 
+**실제 서비스에 적용된다면 어떤 모습일까?**
+
+서비스의 메뉴 목록 중에는 아래의 이미지에서 보여지듯 유저의 마일리지를 실시간으로 노출해주는 항목이 있다. 만약 어떠한 이유로 인해 마일리지를 값을 받아오는 API 통신에서 에러가 발생 했을 때 메뉴 전체가 대체UI로 노출된다면 유저는 어디로도 이동할 수 없는 진퇴양난의 상황에 빠지게 될 수도 있다😫. 하지만 이러한 경우에 에러가 발생할 수 있는 컴포넌트만 LocalErrorBoundary로 감싸준다면? 짜잔- 오른쪽의 화면처럼 에러가 발생한 마일리지 메뉴 항목만 대체 UI를 노출할 수 있다. 
+<br />
+
+![localErrorBoundary](/media/localErrorBoundary.png)
+
+이제 서버와 통신하는 비동기 코드를 일일히 try-catch로 감싸는 수고로움 없이 우아하게 에러를 다룰 수 있게 되었다. 
+
+사실 조금만 찾아보면 여러가지 편의 기능을 제공하는 ErrorBoundary 라이브러리들이 존재한다. [react-error-boundary](https://www.npmjs.com/package/react-error-boundary)도 있고, 토스에서 제공하는 라이브러리인 toss/slash에도 [@toss/error-boundary](https://slash.page/ko/libraries/react/error-boundary/src/ErrorBoundary.i18n)가 있다. 내가 작성한 `ErrorBoundary`도 해당 라이브러리들의 코드를 많이 참고했다. 라이브러리를 설치해 사용하면 보다 손쉽게 사용이 가능하지만 라이브러리의 코드를 뜯어보고 직접 만들어 사용해보면 내부동작을 이해하고 사용할 수 있어 공부가 되기도 하고 각자의 서비스에 맞게 커스텀이 가능하니, 이 글을 읽는 누군가도 가능한 라이브러리의 코드는 참고용으로 보고 직접 만들어보길 권장해본다😋
+<br />
+<br />
 
 #### 참고자료
 * [효율적인 프론트엔드 에러핸들링](https://jbee.io/react/error-declarative-handling-0/)
