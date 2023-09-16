@@ -1,4 +1,200 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Eunsonny's Blog]]></title><description><![CDATA[Eunsonny's Blog]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 24 Jul 2023 14:36:58 GMT</lastBuildDate><item><title><![CDATA[ErrorBoundary로 우아하게 에러 처리하기]]></title><description><![CDATA[최후의 방어전선 구축하기]]></description><link>https://eunsonny.github.io/posts/Handling-errors-gracefully-with-ErrorBoundary</link><guid isPermaLink="false">https://eunsonny.github.io/posts/Handling-errors-gracefully-with-ErrorBoundary</guid><pubDate>Sat, 24 Jun 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;에러-바운더리란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%97%90%EB%9F%AC-%EB%B0%94%EC%9A%B4%EB%8D%94%EB%A6%AC%EB%9E%80&quot; aria-label=&quot;에러 바운더리란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;에러 바운더리란?&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Eunsonny's Blog]]></title><description><![CDATA[Eunsonny's Blog]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 16 Sep 2023 09:52:24 GMT</lastBuildDate><item><title><![CDATA[컴포넌트 폴더구조 고민하기]]></title><description><![CDATA[여러분 프로젝트의 폴더구조는 안녕하신가요?]]></description><link>https://eunsonny.github.io/posts/nextjs-project-foldering</link><guid isPermaLink="false">https://eunsonny.github.io/posts/nextjs-project-foldering</guid><pubDate>Wed, 06 Sep 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;최근 회사에서 팀원들과 프로젝트의 폴더구조에 대해서 이야기하는 미팅을 여러차례 가졌다. 중점적으로 논의한 것은 &lt;code class=&quot;language-text&quot;&gt;컴포넌트를 어떠한 기준으로 폴더링 할 것인가&lt;/code&gt;였는데 프로젝트가 시간이 흘러 커지며 현재의 구조로는 여러가지 불편함을 갖게 되었기 때문이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b2f4f5386bef60a25a784696bea8a3dc/1134b/%ED%9A%8C%EC%9D%98_slack.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 25%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAFCAYAAABFA8wzAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA30lEQVQY04WQS0vDUBBG8ysEV03TPG7IO/WmpUmT3KRSd0q1IPhYZOHC/78/ci/SFgq6OJyZxQzfjDV9vvF8eCItKsIoZeGFOK442xXYjs9s7hl0rZkvgpMvsaaPI8eXR/rxgX64p1M71Lhn2O1pu9H0clWT5XfkpcQLInwRG1+iA2ism9sZgUipm57VumFTt9Rbxabpf+lOVOuGrJAUy8o4L8/WS/VFlu0Ixl7y/a4Y1BaRSuIkJ0oKkmxpHKclYZSZgb8wCR3bxVYD8WGiff1CVArf038Lrn7130Kd8AfcdJsev4aG7gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/b2f4f5386bef60a25a784696bea8a3dc/8ac56/%ED%9A%8C%EC%9D%98_slack.webp 240w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/d3be9/%ED%9A%8C%EC%9D%98_slack.webp 480w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/e46b2/%ED%9A%8C%EC%9D%98_slack.webp 960w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/f992d/%ED%9A%8C%EC%9D%98_slack.webp 1440w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/bb6b4/%ED%9A%8C%EC%9D%98_slack.webp 1470w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/b2f4f5386bef60a25a784696bea8a3dc/8ff5a/%ED%9A%8C%EC%9D%98_slack.png 240w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/e85cb/%ED%9A%8C%EC%9D%98_slack.png 480w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/d9199/%ED%9A%8C%EC%9D%98_slack.png 960w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/07a9c/%ED%9A%8C%EC%9D%98_slack.png 1440w,
+/static/b2f4f5386bef60a25a784696bea8a3dc/1134b/%ED%9A%8C%EC%9D%98_slack.png 1470w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/b2f4f5386bef60a25a784696bea8a3dc/d9199/%ED%9A%8C%EC%9D%98_slack.png&quot;
+            alt=&quot;스크린샷 2023-09-11 오후 10.56.23.png&quot;
+            title=&quot;스크린샷 2023-09-11 오후 10.56.23.png&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;현재-프로젝트-폴더구조의-문제점&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%98%84%EC%9E%AC-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0%EC%9D%98-%EB%AC%B8%EC%A0%9C%EC%A0%90&quot; aria-label=&quot;현재 프로젝트 폴더구조의 문제점 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;현재 프로젝트 폴더구조의 문제점&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;pages 폴더 하위에 &lt;code class=&quot;language-text&quot;&gt;Component.tsx&lt;/code&gt; 파일이 존재하여 컴포넌트 이름으로 라우팅이 가능하다(?)&lt;/p&gt;
+&lt;p&gt;메인 프로젝트의 태생은 Next.js가 아니라 CRA 프로젝트였고 시간이 지나면서 Next.js로 마이그레이션을 진행했다. Next.js를 사용해 본 사람은 잘 알겠지만 파일시스템 기반의 라우팅을 지원해 pages 폴더 하위의 폴더 또는 파일 구조에 따라서 라우팅이 가능하다. 그런데 이 프로젝트의 태생이 Next.js가 아니었던지라 기존에 pages 폴더 하위에 해당 페이지에서 사용하는 컴포넌트의 파일도 함께 위치하고 있었고 이로 인해 컴포넌트 파일도 path가 되어 라우팅이 가능한 기묘한 현상이 나타나게 되었다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;기준없이 뒤섞이고 비대해진 Components 폴더&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;도메인 로직을 갖지 않은 공통 컴포넌트들은 root 폴더 바로 밑의 components 폴더에 모아두었다. 아토믹 디자인 패턴을 일부? 차용하여 Components 폴더 밑에서 Atoms과 그 외의 컴포넌트로 분류하여 담아두었는데, 이 방법도 썩 효과적이진 못했다. Atoms의 조건에 해당하는 컴포넌트들은 그리 많지 않았기 때문에 그 외의 컴포넌트들이 모여있는 부분은 기준없이 뒤섞이고 비대해 졌다.&lt;/p&gt;
+&lt;h2 id=&quot;폴더구조를-개선하기-위한-여러가지-방법&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0%EB%A5%BC-%EA%B0%9C%EC%84%A0%ED%95%98%EA%B8%B0-%EC%9C%84%ED%95%9C-%EC%97%AC%EB%9F%AC%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95&quot; aria-label=&quot;폴더구조를 개선하기 위한 여러가지 방법 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;폴더구조를 개선하기 위한 여러가지 방법&lt;/h2&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d79b7c205c48ae0e9ab9ec5965fe1870/807a0/%EC%95%84%ED%8B%B0%ED%81%B4_slack.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 37.5%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAABYlAAAWJQFJUiTwAAABbUlEQVQoz2WS646bMBBGeZAqDWAgsEDMxVydhFv20qiq2n+V+v6vcSrMZpu2P45mJFvH34xsneqCVmWEYYwrDrjeA36E8CNcPzT1juuFG3740G9n1s/vI79+aCp9QXYjWXNGNhey9kKWVxSqJS8bsqL+IJUlsqhMf8yUqXlZm3tWojTV8pW0X0i7CanXOvIpOLITEbu9+Advw/bYOz62G7C/4/hYT7KkXm40y416vtG+fKOab6jpC7meyIv3lKpB5pVJtiZZk4kgwjHr+TO6FSeSbrhS6JlczxSn2Yyb9yPteWaYn5mvb4zTlfn6yjAuzMsLy/UV/xBji024ilesp1jS6AGpOj7Ljp3sP7Bliytb0kojq97sd32o6CfSokb4IY5YRQ/CMMmo+4GyPSPbgbS5cOxGgkJjl2ecXLPPeuxEYQcJdiQ3vOg/mREGcWYkSXXCTxUiKfFShXtItsvm20Smd0WA8457l4nDX8LfXO74S5OYdHUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/d79b7c205c48ae0e9ab9ec5965fe1870/8ac56/%EC%95%84%ED%8B%B0%ED%81%B4_slack.webp 240w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/d3be9/%EC%95%84%ED%8B%B0%ED%81%B4_slack.webp 480w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/e46b2/%EC%95%84%ED%8B%B0%ED%81%B4_slack.webp 960w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/f992d/%EC%95%84%ED%8B%B0%ED%81%B4_slack.webp 1440w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/60dd2/%EC%95%84%ED%8B%B0%ED%81%B4_slack.webp 1652w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/d79b7c205c48ae0e9ab9ec5965fe1870/8ff5a/%EC%95%84%ED%8B%B0%ED%81%B4_slack.png 240w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/e85cb/%EC%95%84%ED%8B%B0%ED%81%B4_slack.png 480w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/d9199/%EC%95%84%ED%8B%B0%ED%81%B4_slack.png 960w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/07a9c/%EC%95%84%ED%8B%B0%ED%81%B4_slack.png 1440w,
+/static/d79b7c205c48ae0e9ab9ec5965fe1870/807a0/%EC%95%84%ED%8B%B0%ED%81%B4_slack.png 1652w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/d79b7c205c48ae0e9ab9ec5965fe1870/d9199/%EC%95%84%ED%8B%B0%ED%81%B4_slack.png&quot;
+            alt=&quot;스크린샷 2023-09-11 오후 11.05.15.png&quot;
+            title=&quot;스크린샷 2023-09-11 오후 11.05.15.png&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;따라서 이러한 문제점을 개선하기 위해 팀원 들과 폴더구조 개선 방향에 대해 논의 하기로 했다. 회의에 앞서 어떤 방법이 좋을지 고민하면서 다음과 같은 글을 찾아 읽고, 팀원들에게 공유했다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://itchallenger.tistory.com/m/646&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;리액트 프로젝트의 결합도를 관리하는 방법&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://ahnheejong.name/articles/package-structure-with-the-principal-of-locality-in-mind/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;지역성의 원칙을 고려한 패키지 구조: 기능별로 나누기&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;공유한 아티클 중 특히 &lt;a href=&quot;https://ahnheejong.name/articles/package-structure-with-the-principal-of-locality-in-mind/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;이 글&lt;/a&gt;을 참고하여 기능별 혹은 도메인 별로 폴더구조를 가져가는 방안에 대해서 많은 이야기를 나누었고 팀원들 다수가 &lt;strong&gt;기능별 폴더링의 장점에 대해서는 공감하지만 현재 프로젝트에 개선 방법으로 도입하기 에는 어려움이 있다는 결론&lt;/strong&gt;에 다달았다.&lt;/p&gt;
+&lt;p&gt;우리가 어려움으로 꼽은 이유와 나눈 의견들은 다음과 같았다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;현재 서비스에서 ‘기능별’ 분류라는 것이 다소 모호하거나 주관적인 판단이 분류에 개입될 여지가 크다.
+&lt;ul&gt;
+&lt;li&gt;차량그룹등록 페이지 내의 보험정보 등록 컴포넌트는 차량그룹등록 기능으로 분류되어야 할까? 보험등록 기능으로 분류되어야 할까?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;새로운 프로젝트를 구성하는 것이라면 모르겠지만, 지금의 프로젝트에 기능별 분류를 도입한다면 현재 컴포넌트 폴더링 + 기능별 컴포넌트 폴더링이 혼재한 과도기(?)가 존재할 것이고 오히려 더 복잡해질 것 같다.&lt;/li&gt;
+&lt;li&gt;사실 ERP에 가까운 우리 서비스의 특성상 &lt;strong&gt;대부분의 페이지가 이미 기능별로 분류되어 있기 때문에 페이지별로 컴포넌트를 분류하는 것이 기준이 더 명확하며 응집도도 높은 분류&lt;/strong&gt;가 될 것이다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;페이지-기반의-컴포넌트-분류-폴더링하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%8E%98%EC%9D%B4%EC%A7%80-%EA%B8%B0%EB%B0%98%EC%9D%98-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%EB%B6%84%EB%A5%98-%ED%8F%B4%EB%8D%94%EB%A7%81%ED%95%98%EA%B8%B0&quot; aria-label=&quot;페이지 기반의 컴포넌트 분류 폴더링하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;페이지 기반의 컴포넌트 분류 폴더링하기&lt;/h2&gt;
+&lt;p&gt;따라서 현재 프로젝트에 도입이 더 수월하고 직관적인 기준의 &lt;code class=&quot;language-text&quot;&gt;페이지 기반 컴포넌트 폴더링&lt;/code&gt;을 도입 하기로 했다.&lt;/p&gt;
+&lt;h3 id=&quot;domaincomponents-구조&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#domaincomponents-%EA%B5%AC%EC%A1%B0&quot; aria-label=&quot;domaincomponents 구조 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;domainComponents 구조&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;├── components &lt;span class=&quot;token comment&quot;&gt;// common한 컴포넌트&lt;/span&gt;
+├── domainComponents   
+│   ├── contract   
+│   │   └── detail  &lt;span class=&quot;token comment&quot;&gt;// 페이지 &lt;/span&gt;
+│   │   │   ├── Table
+│   │   │   │   ├── Row
+│   │   │   │   │   ├── Row&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;tsx
+│   │   │   │   │   ├── Row&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;style&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   │   └── index&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   ├── Header
+│   │   │   │   │   ├── Header&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;tsx
+│   │   │   │   │   ├── Header&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;style&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   │   └── index&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   ├── useTable&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;tsx
+│   │   │   │   ├── Table&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;tsx 
+│   │   │   │   ├── Table&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;style&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   └── index&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts 
+│   │   │   ├── DatePicker
+│   │   │   │   ├── Hooks
+│   │   │   │   │   ├── useDate&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   │   └── useTime&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   ├── DatePicker&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;tsx 
+│   │   │   │   ├── DatePicker&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;style&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   │   └── index&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts 
+│   │   │   ├── detail&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;const&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   ├── detail&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;utils&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│   │   │   ├── detail&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;type&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ts
+│
+├── pages
+│   ├── contract
+│   │   └── detail
+│
+└── &lt;span class=&quot;token keyword&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;json&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&quot;1-domaincomponents-하위의-폴더구조는-pages-하위의-폴더구조를-따라간다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#1-domaincomponents-%ED%95%98%EC%9C%84%EC%9D%98-%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0%EB%8A%94-pages-%ED%95%98%EC%9C%84%EC%9D%98-%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0%EB%A5%BC-%EB%94%B0%EB%9D%BC%EA%B0%84%EB%8B%A4&quot; aria-label=&quot;1 domaincomponents 하위의 폴더구조는 pages 하위의 폴더구조를 따라간다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;1. domainComponents 하위의 폴더구조는 Pages 하위의 폴더구조를 따라간다.&lt;/h4&gt;
+&lt;p&gt;즉 domainComponents는 라우팅 구조에 따라서 폴더를 생성하고, 해당 페이지(폴더) 하위에 종속되는 컴포넌트들을 생성합니다.&lt;/p&gt;
+&lt;h4 id=&quot;2-컴포넌트-파일명은-컴포넌트이름tsx로-작성한다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#2-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-%ED%8C%8C%EC%9D%BC%EB%AA%85%EC%9D%80-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%9D%B4%EB%A6%84tsx%EB%A1%9C-%EC%9E%91%EC%84%B1%ED%95%9C%EB%8B%A4&quot; aria-label=&quot;2 컴포넌트 파일명은 컴포넌트이름tsx로 작성한다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;2. 컴포넌트 파일명은 컴포넌트이름.tsx로 작성한다.**&lt;/h4&gt;
+&lt;p&gt;Table 컴포넌트일 경우 Table 폴더를 만들고 그 밑에 Table.tsx 파일을 만들어 컴포넌트를 작성합니다. 스타일 파일은 Table.style.ts, 상수 파일은 Table.const.ts와 같이 작성합니다. 단 custom hook의 경우 use -.tsx 파일명으로 생성합니다.&lt;/p&gt;
+&lt;p&gt;custom hook의 파일명을 Table.hook.ts로 작성하지 않는 이유는 해당 컴포넌트에서 두 개의 custom hook을 사용하게 될 수 있기 때문입니다. 그리고 한 컴포넌트 내에서 두 개의 커스텀 훅을 사용할 경우, hooks 폴더를 생성하고 그 밑에 사용하는 여러 개의 커스텀훅을 넣어 놓습니다.&lt;/p&gt;
+&lt;h4 id=&quot;3-컴포넌트의-export는-indexts-파일에서-한다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#3-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%9D%98-export%EB%8A%94-indexts-%ED%8C%8C%EC%9D%BC%EC%97%90%EC%84%9C-%ED%95%9C%EB%8B%A4&quot; aria-label=&quot;3 컴포넌트의 export는 indexts 파일에서 한다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;3. 컴포넌트의 export는 index.ts 파일에서 한다.&lt;/h4&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// Table 폴더의 index.ts 파일&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;./Table&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&quot;const-type-util-등의-파일은-페이지-당-하나씩-생성한다&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#const-type-util-%EB%93%B1%EC%9D%98-%ED%8C%8C%EC%9D%BC%EC%9D%80-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%8B%B9-%ED%95%98%EB%82%98%EC%94%A9-%EC%83%9D%EC%84%B1%ED%95%9C%EB%8B%A4&quot; aria-label=&quot;const type util 등의 파일은 페이지 당 하나씩 생성한다 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;const, type, util 등의 파일은 ‘페이지’ 당 하나씩 생성한다.&lt;/h4&gt;
+&lt;p&gt;예시로 &lt;code class=&quot;language-text&quot;&gt;contract/detail&lt;/code&gt; 페이지에서 사용되는 &lt;code class=&quot;language-text&quot;&gt;const&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;type&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;util&lt;/code&gt; 등이 있다면 하위 컴포넌트 폴더가 아니라 페이지 폴더 하위에 &lt;code class=&quot;language-text&quot;&gt;detail.const.ts&lt;/code&gt;와 같이 파일을 만들어 작성합니다. 만약 두 개 이상의 페이지에서 사용되는 &lt;code class=&quot;language-text&quot;&gt;const&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;type&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;util&lt;/code&gt; 등이라면 root폴더 하위에 있는 공통의 &lt;code class=&quot;language-text&quot;&gt;constants&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;types&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;utils&lt;/code&gt; 폴더 밑에 파일을 생성하여 작성합니다.&lt;/p&gt;
+&lt;h3 id=&quot;domaincomponents라는-개선방안에서-여전히-아쉽거나-고민되는-점&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#domaincomponents%EB%9D%BC%EB%8A%94-%EA%B0%9C%EC%84%A0%EB%B0%A9%EC%95%88%EC%97%90%EC%84%9C-%EC%97%AC%EC%A0%84%ED%9E%88-%EC%95%84%EC%89%BD%EA%B1%B0%EB%82%98-%EA%B3%A0%EB%AF%BC%EB%90%98%EB%8A%94-%EC%A0%90&quot; aria-label=&quot;domaincomponents라는 개선방안에서 여전히 아쉽거나 고민되는 점 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;domainComponents라는 개선방안에서 여전히 아쉽거나 고민되는 점&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;domainComponents라는 폴더명은 과연 적절한 것일까?
+&lt;ul&gt;
+&lt;li&gt;domainComponents의 디테일한 구조를 정의 하면서 애매 하다고 느꼈던 점은 Component라는 이름의 폴더 하위에 const, hook, util 등의 파일이 위치하게 된다는 것이었다. 물론 해당 컴포넌트에 직접적으로 사용되는 파일만 위치하도록 하고 두 개 이상의 컴포넌트에서 사용하게 되면 common 영역으로 빼도록 규칙을 정했지만 그래도 여전히 남는 찝찝함이란… 🥲&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;페이지 기반의 컴포넌트 폴더링은 괜찮은 방법인걸까?
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;폴더링 방법에 정답이야 없지만 그래도 일반적으로 통용되는 방식의 범주에 있는지가 궁금해졌다. 이 궁금증은 재밌게도 &lt;a href=&quot;https://medium.com/musinsa-tech/journey-of-a-frontend-monorepo-8f5480b80661&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;모노레포 이렇게 좋은데 왜 안써요?&lt;/a&gt;라는 의외의 글에서 해소 되었는데 해당 글에서는 &lt;code class=&quot;language-text&quot;&gt;pages-modules&lt;/code&gt;라는 폴더 하위에 도메인 별로 분류하여 관리하는 것을 볼 수 있었다. components 뿐만 아니라 각종 모듈도 페이지 기준의 분류법을 적용한 것인데, 이 사례를 보면서 페이지 기반의 컴포넌트 폴더링이 나쁘지 않은 선택 이였다는 힌트를 얻을 수 있었고 나아가 컴포넌트 뿐만 아니라 다른 모듈들도 페이지 기준으로 분류하는 page-modules의 방법도 고려해 봄 직 하다는 생각이 들었다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;좋은-폴더구조란-어떤-것일까&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A2%8B%EC%9D%80-%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0%EB%9E%80-%EC%96%B4%EB%96%A4-%EA%B2%83%EC%9D%BC%EA%B9%8C&quot; aria-label=&quot;좋은 폴더구조란 어떤 것일까 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;좋은 폴더구조란 어떤 것일까?&lt;/h2&gt;
+&lt;p&gt;폴더구조는 프로젝트의 첫인상이다. 책으로 따지면 목차 같은 것인데, 이 목차가 잘 구성되어 있다면 한 눈에 책의 흐름이나 구조를 파악할 수 있다. 폴더구조도 마찬가지로 잘 정리되어 있다면 프로젝트의 아키텍처나 흐름을 단번에 파악할 수 있도록 해줄 것이며, 코드의 응집도를 높혀 수정이 용이하도록 할 것이다. 곱씹어 생각할 수록 참 기본적이지만 중요한 부분이라는 생각이 든다.&lt;/p&gt;
+&lt;p&gt;그렇다면 과연 좋은 폴더구조란 어떤 것일까? 정답은 없지만 이번에 고민해보며 몇 가지 중요하다고 생각한 점을 꼽아보자면 아래와 같다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;프로젝트의 아키텍처나 흐름을 파악하는데 도움을 주는 구조&lt;/li&gt;
+&lt;li&gt;연관성이 높은 것들끼리는 가까이 있어 응집도가 높은 구조&lt;/li&gt;
+&lt;li&gt;원하는 파일의 위치를 바로 예측하고 쉽게 찾아갈 수 있는 구조&lt;/li&gt;
+&lt;li&gt;일관성 있는 철학이 있는 구조 (파일을 작성할 때 A에 넣어야 하나, B에 넣어야 하나 고민하지 않을수 있도록)&lt;/li&gt;
+&lt;li&gt;가능하다면 depth가 너무 깊지 않은 구조&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;프로젝트-폴더구조에-대해서-다시금-고민해보면서-느낀-점&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%8F%B4%EB%8D%94%EA%B5%AC%EC%A1%B0%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EB%8B%A4%EC%8B%9C%EA%B8%88-%EA%B3%A0%EB%AF%BC%ED%95%B4%EB%B3%B4%EB%A9%B4%EC%84%9C-%EB%8A%90%EB%82%80-%EC%A0%90&quot; aria-label=&quot;프로젝트 폴더구조에 대해서 다시금 고민해보면서 느낀 점 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로젝트 폴더구조에 대해서 다시금 고민해보면서 느낀 점&lt;/h2&gt;
+&lt;p&gt;최근 폴더구조나 컴포넌트 구성에 대해 고민하다보면 프로젝트(서비스)는 끊임없이 변화하며 성장한다는 점에서 마치 유기체 같다는 생각을 하게된다. 곤충이 성장하기 위해 주기적으로 탈피를 하며 새로운 옷을 입 듯 프로젝트도 성장하며 그 규모와 특성에 따라 적절한 변화가 필요하다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://ahnheejong.name/articles/package-structure-with-the-principal-of-locality-in-mind/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;이 글&lt;/a&gt;에서 이야기 하듯 규모가 작은 프로젝트에서는 계층별 구조로도 충분할 수도 있고 성장해가면서 또 다른 구조가 필요할 수도 있다. 처음부터 프로젝트 구조를 잡을 때부터 대규모 프로젝트를 고려한 구조를 만들수도 있겠지만 어찌보면 그것이 오버엔지니어링일 수도 있는 것이고, 또 프로젝트 구조라는 것이 단순히 규모의 문제만은 아니기 때문에 참 어렵다. 🤔&lt;/p&gt;
+&lt;p&gt;프로젝트는 시간이 흐르며 다양한 변화를 맞이 하겠지만 폴더구조의 개선 혹은 변경은 비용이 상당히 많이 드는 일이라는 점에서 최대한 적은 변경으로 서비스를 확장해 나갈 수 있도록 미리 생각해보는 것이 필요하겠다. 그러니까 내가 고민해야 할 것은, 어떠한 프로젝트를 만났을 때 그 프로젝트의 규모나 특성 그리고 앞으로의 확장성을  고려하여 적절한 옷을 입힐 수 있도록 여러가지 구조를 고민해보고 Best practice를 찾는 것이 아닐까&lt;/p&gt;</content:encoded></item><item><title><![CDATA[ErrorBoundary로 우아하게 에러 처리하기]]></title><description><![CDATA[최후의 방어전선 구축하기]]></description><link>https://eunsonny.github.io/posts/Handling-errors-gracefully-with-ErrorBoundary</link><guid isPermaLink="false">https://eunsonny.github.io/posts/Handling-errors-gracefully-with-ErrorBoundary</guid><pubDate>Sat, 24 Jun 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;에러-바운더리란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%97%90%EB%9F%AC-%EB%B0%94%EC%9A%B4%EB%8D%94%EB%A6%AC%EB%9E%80&quot; aria-label=&quot;에러 바운더리란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;에러 바운더리란?&lt;/h2&gt;
 &lt;p&gt;에러 바운더리(Error Boundary)는 React에서 에러 처리를 담당하는 컴포넌트이다. 컴포넌트 트리의 일부를 격리하여 예기치 않은 에러로부터 애플리케이션을 보호하고 대체 UI를 렌더링할 수 있게 한다. 이를 통해 사용자 경험을 개선하고 애플리케이션 전체의 중단을 방지할 수 있다. 에러 바운더리는 React 16부터 도입되었으며, &lt;strong&gt;&lt;code class=&quot;language-text&quot;&gt;componentDidCatch&lt;/code&gt;&lt;/strong&gt; 메서드를 사용하여 에러 처리를 구현한다. 이를 활용하면 안정성과 유지 보수성을 향상시킬 수 있다.&lt;/p&gt;
 &lt;p&gt;단 에러 바운더리는 다음과 같은 에러는 캐치하지 못한다.&lt;/p&gt;
 &lt;ul&gt;
