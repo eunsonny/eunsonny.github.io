@@ -9,29 +9,42 @@
       @include margin-bottom(0.5);
     }
 
-    .title {
-      font-size: $typographic-base-font-size * 1.6875;
-      @include line-height(1.5);
-      @include margin-top(0);
-      @include margin-bottom(0.1);
+    .title_wrapper {
+      display: flex;
+      border: 1px solid red;
+      align-items: center;
+      // justify-content: center;
 
-      .link {
-        color: var(--color-typographic-base-font);
-
-        &:hover,
-        &:focus {
-          border-bottom: 1px solid $color-dark;
+      .title {
+        font-size: $typographic-base-font-size * 1.6875;
+        @include line-height(1.5);
+        @include margin(0, 0, 0, 0);
+        // @include margin-top(0);
+        // @include margin-bottom(0.1);
+  
+        .link {
           color: var(--color-typographic-base-font);
+  
+          &:hover,
+          &:focus {
+            border-bottom: 1px solid $color-dark;
+            color: var(--color-typographic-base-font);
+          }
         }
+      }
+  
+      .description {
+        font-size: $typographic-small-font-size;
+        font-weight: 400;
+        color: $color-gray-900;
+        @include line-height(1);
+        @include margin(0, 0, 0, 0);
+
+        // @include margin-top(0);
+        // @include margin-bottom(0.75);
       }
     }
 
-    .description {
-      font-size: $typographic-base-font-size;
-      @include line-height(1);
-      @include margin-top(0);
-      @include margin-bottom(0.75);
-    }
 
     .meta {
       .time {
