@@ -5,7 +5,7 @@
   @include margin-bottom(2);
 
   .inner {
-    @include padding(1, 0.75, 0);
+    @include padding(1, 0.75, 1, 0);
   }
 
   .title {
@@ -36,6 +36,16 @@
 @include breakpoint-md {
   .page {
     lost-column: 2/3;
+
+    .inner {
+      @include padding(1.5, 1, 0);
+    }
+  }
+}
+
+@include breakpoint-lg {
+  .page {
+    width: 770px;
 
     .inner {
       @include padding(1.5, 1, 0);

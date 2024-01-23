@@ -7,7 +7,7 @@ slug: "/posts/browser-router-hash-router"
 category: "Tech"
 tags:
   - "Router"
-description: "회사 어드민 프로젝트에 필터 기능을 구현하려고 코드를 뒤적이고 있었는데... 그런데 잠깐, 이 프로젝트는 왜 해시 라우터로 되어 있는거지?"
+description: "잠깐, 이 프로젝트는 왜 해시 라우터로 되어 있는거지?"
 ---
 
 ## Hash Router 너는 누구니?
