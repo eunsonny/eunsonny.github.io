@@ -1,7 +1,6 @@
 {
   "defaultSeverity": "error",
   "extends": "stylelint-config-recommended-scss",
-  "plugins": ["stylelint-order"],
   "rules": {
     "color-named": "never",
     "font-family-name-quotes": "always-where-required",

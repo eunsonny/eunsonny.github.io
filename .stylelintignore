@@ -2,4 +2,3 @@
 !*.css
 !*.scss
 /public/
-./src/components/Feed/Feed.module.scss
