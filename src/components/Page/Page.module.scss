@@ -45,10 +45,10 @@
 
 @include breakpoint-lg {
   .page {
-    width: 770px;
+    width: 760px;
 
     .inner {
-      @include padding(1.5, 1, 0);
+      @include padding(1.5, 1.5, 0, 1);
     }
   }
 }
