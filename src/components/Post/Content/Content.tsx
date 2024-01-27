@@ -10,7 +10,9 @@ interface Props {
 const Content: React.FC<Props> = ({ body, title }: Props) => (
   <div className={styles.content}>
     <h1 className={styles.title}>{title}</h1>
+    <div className={styles.divider} />
     <div className={styles.body} dangerouslySetInnerHTML={{ __html: body }} />
+    <div className={styles.divider} />
   </div>
 );
 

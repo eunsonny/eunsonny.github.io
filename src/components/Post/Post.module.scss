@@ -4,12 +4,12 @@
 .post {
   .content {
     @include margin-auto();
-    padding-top: 40px;
+    padding-top: 60px;
   }
 
   .footer {
     max-width: $layout-post-width;
-    @include padding(0, 0.5);
+    @include padding(3, 0.5);
     @include margin-auto();
   }
 
@@ -20,9 +20,8 @@
   }
 
   .buttons {
-    align-items: center;
     display: flex;
-    justify-content: center;
+    align-items: center;
     text-align: center;
     @include margin(1, 0, 0, 0);
 
@@ -30,11 +29,8 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      border-radius: 12px;
-      // border: none;
       @include margin(0, 0.5, 0, 0);
-      // width: 20px;
-      // height: 20px;
+      
       img {
         width: 22px;
         height: 22px;
@@ -52,9 +48,9 @@
 
 @include breakpoint-md {
   .post {
-    .footer {
-      @include padding-equal(0);
-    }
+    // .footer {
+    //   @include padding-equal(0);
+    // }
 
     .comments {
       @include padding-equal(0);

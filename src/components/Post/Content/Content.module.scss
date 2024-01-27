@@ -6,16 +6,26 @@
   max-width: $layout-post-single-width;
   @include padding(0, 0.5);
 
+  .divider {
+    height: 1px;
+    width: 100%;
+    background-color: $color-gray-9;
+    max-width: $layout-post-width;
+    margin: 0 auto;
+  }
+
   .title {
-    font-size: $typographic-base-font-size * 2;
+    // font-size: $typographic-base-font-size * 2;
+    // font-size: 42px;
     font-weight: 600;
     margin-left: auto;
     margin-right: auto;
+    margin: 0 auto 40px;
     max-width: $layout-post-width;
-    text-align: center;
+    // text-align: center;
     @include line-height(1.65);
     @include margin-top(1);
-    @include margin-bottom(0);
+    // @include margin-bottom(0);
   }
 
   .body {
@@ -62,38 +72,38 @@
   }
 }
 
-@include breakpoint-md {
-  .content {
-    @include padding-equal(0);
+// @include breakpoint-md {
+//   .content {
+//     @include padding-equal(0);
 
-    .title {
-      font-size: $typographic-base-font-size * 3;
-      @include line-height(2.25);
-      @include margin-top(2.25);
-      @include margin-bottom(1.5);
-    }
+//     .title {
+//       font-size: $typographic-base-font-size * 2;
+//       @include line-height(2.25);
+//       @include margin-top(2.25);
+//       @include margin-bottom(1.5);
+//     }
 
-    .body {
-      font-size: $typographic-base-font-size * 1.125;
-      @include line-height(1.125);
-      @include margin-bottom(1.125);
+//     .body {
+//       font-size: $typographic-base-font-size * 1.125;
+//       @include line-height(1.125);
+//       @include margin-bottom(1.125);
 
-      p {
-        font-size: $typographic-base-font-size * 1.125;
-        @include line-height(1.125);
-        @include margin-bottom(1.125);
-      }
+//       p {
+//         font-size: $typographic-base-font-size * 1.125;
+//         @include line-height(1.125);
+//         @include margin-bottom(1.125);
+//       }
 
-      blockquote {
-        p {
-          margin: 0;
-        }
-      }
+//       blockquote {
+//         p {
+//           margin: 0;
+//         }
+//       }
 
-      h2 > a {
-        visibility: unset;
-        @include padding-right(0.5);
-      }
-    }
-  }
-}
+//       h2 > a {
+//         visibility: unset;
+//         @include padding-right(0.5);
+//       }
+//     }
+//   }
+// }
