@@ -48,7 +48,7 @@
         }
     
         .description {
-          color: $color-gray-900;
+          color: $color-gray-6;
           font-size: $typographic-small-font-size;
           font-weight: normal;
           @include line-height(1);
@@ -61,7 +61,7 @@
   
         .time {
           // color: var(--color-typographic-base-font);
-          color: $color-gray-600;
+          color: $color-gray-6;
           font-size: $typographic-small-font-size;
           font-weight: 600;
           text-transform: uppercase;
@@ -96,7 +96,7 @@
   }
 
   .divider {
-    background-color: $color-gray-1000;
+    background-color: $color-gray-9;
     height: 1px;
     width: 100%;
 

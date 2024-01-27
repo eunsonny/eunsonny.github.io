@@ -3,8 +3,6 @@ import React from "react";
 import classNames from "classnames";
 import { Link } from "gatsby";
 
-import { PAGINATION } from "@/constants";
-
 import * as styles from "./Pagination.module.scss";
 
 type Props = {
@@ -36,7 +34,7 @@ const Pagination = ({
           to={hasPrevPage ? prevPagePath : "/"}
           className={prevClassName}
         >
-          {PAGINATION.PREV_PAGE}
+          <img src={"/icons/left-arrow.png"} className={styles.arrow} />
         </Link>
       </div>
       <div className={styles.next}>
@@ -45,7 +43,7 @@ const Pagination = ({
           to={hasNextPage ? nextPagePath : "/"}
           className={nextClassName}
         >
-          {PAGINATION.NEXT_PAGE}
+          <img src={"/icons/right-arrow.png"} className={styles.arrow} />
         </Link>
       </div>
     </div>
