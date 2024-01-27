@@ -9,7 +9,7 @@ description: "최후의 방어전선 구축하기"
 ---
 ## 에러 바운더리란?
 
-에러 바운더리(Error Boundary)는 React에서 에러 처리를 담당하는 컴포넌트이다. 컴포넌트 트리의 일부를 격리하여 예기치 않은 에러로부터 애플리케이션을 보호하고 대체 UI를 렌더링할 수 있게 한다. 이를 통해 사용자 경험을 개선하고 애플리케이션 전체의 중단을 방지할 수 있다. 에러 바운더리는 React 16부터 도입되었으며, **`componentDidCatch`** 메서드를 사용하여 에러 처리를 구현한다. 이를 활용하면 안정성과 유지 보수성을 향상시킬 수 있다.
+에러 바운더리(Error Boundary)는 React에서 에러 처리를 담당하는 컴포넌트이다. 컴포넌트 트리의 일부를 격리하여 예기치 않은 에러로부터 애플리케이션을 보호하고 대체 UI를 렌더링할 수 있게 한다. 이를 통해 사용자 경험을 개선하고 애플리케이션 전체의 중단을 방지할 수 있다. 에러 바운더리는 React 16부터 도입되었으며, `componentDidCatch` 메서드를 사용하여 에러 처리를 구현한다. 이를 활용하면 안정성과 유지 보수성을 향상시킬 수 있다.
 
 단 에러 바운더리는 다음과 같은 에러는 캐치하지 못한다. 
 - 이벤트 핸들러
@@ -30,7 +30,8 @@ async function getUser() {
     const response = await apiClient.get<User>(`URL`)
     return response
   } catch (error) {
-    // handle error  }
+    // handle error  
+  }
 }
 ```
 

@@ -32,20 +32,20 @@
     figure {
       @include margin-bottom(1);
 
-      blockquote {
-        font-style: italic;
-        text-align: center;
-        @include margin-top(0);
-        @include padding(1, 0);
+      // blockquote {
+      //   font-style: italic;
+      //   text-align: center;
+      //   @include margin-top(0);
+      //   @include padding(1, 0);
 
-        p {
-          font-size: $typographic-base-font-size * 1.6817;
-          max-width: $layout-post-width;
-          @include margin-top(0);
-          // @include margin-bottom(1);
-          @include line-height(1.5);
-        }
-      }
+      //   p {
+      //     font-size: $typographic-base-font-size * 1.6817;
+      //     max-width: $layout-post-width;
+      //     @include margin-top(0);
+      //     // @include margin-bottom(1);
+      //     @include line-height(1.5);
+      //   }
+      // }
     }
 
     a {

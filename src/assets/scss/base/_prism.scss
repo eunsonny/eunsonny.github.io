@@ -2,13 +2,12 @@
 
 code[class*="language-"],
 pre[class*="language-"] {
-  // color: #ff7b72;
-  color: #dbdee1;
+  color: var(--color-prism-base);
   // font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
   font-family: Oxygen Mono, Menlo, Monaco, Consolas, Andale Mono, Ubuntu Mono, Courier New, monospace;
   font-size: 14px;
   // font-size: 1em;
-  font-weight: 600;
+  // font-weight: 600;
   -ms-hyphens: none;
   -moz-hyphens: none;
   -webkit-hyphens: none;
@@ -26,10 +25,10 @@ pre[class*="language-"] {
 }
 
 pre[class*="language-"] {
-  border-radius: 0.3em;
+  border-radius: 0.6em;
   margin: 0.5em 0;
   overflow: auto;
-  padding: 1em;
+  padding: 1.5em;
 }
 
 :not(pre) > code[class*="language-"],
@@ -39,7 +38,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"] {
   border-radius: 0.4em;
-  padding: 0.2em 0.4em;
+  padding: 0.2em 0.2em;
 }
 
 code[class*="language-"] ::-moz-selection,
@@ -64,7 +63,7 @@ pre[class*="language-"]::selection {
 }
 
 .token.punctuation {
-  color: #dbdee1;
+  color: var(--color-prism-punctuation);
 }
 
 .namespace {
@@ -74,11 +73,14 @@ pre[class*="language-"]::selection {
 .token.boolean,
 .token.constant,
 .token.deleted,
-.token.number,
 .token.property,
 .token.symbol,
 .token.tag {
-  color: #a5d6ff;
+  color: var(--color-prism-tag);
+}
+
+.token.number{
+  color: #F78C6C;
 }
 
 .token.attr-name,
@@ -86,9 +88,12 @@ pre[class*="language-"]::selection {
 .token.char,
 .token.inserted,
 .token.selector,
-.token.string,
 .token.url {
   color: #79c0ff;
+}
+
+.token.string {
+ color: var(--color-prism-string);
 }
 
 .token.entity {
@@ -100,14 +105,14 @@ pre[class*="language-"]::selection {
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  color: #ff7b72;
+  color: var(--color-prism-keyword)
 }
 
 .token.class-name {
-  color: #7EE787;
+  color: #F78C6C;
 }
 .token.function {
-  color:#d2a8ff;
+  color: var(--color-prism-function);
 }
 
 .token.regex,
@@ -123,4 +128,8 @@ pre[class*="language-"]::selection {
 
 .token.italic {
   font-style: italic;
+}
+
+.token.operator {
+  color: var(--color-prism-operator);
 }

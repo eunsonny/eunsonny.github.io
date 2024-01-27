@@ -132,10 +132,13 @@ p {
 }
 
 blockquote {
+  width: calc($layout-post-width - 76px);
+  // background-color: var(--color-page-background);
   background-color: var(--color-prism-background);
   border-left: 4px solid $color-blue;
   font-style: italic;
   padding: 12px 20px;
+  // border: 1px solid red;
 
   p {
     margin: 0;

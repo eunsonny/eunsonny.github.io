@@ -7,7 +7,15 @@
   --color-white: #{$color-white};
   --color-primary: #{$color-blue};
   --color-secondary: #{$color-orange};
-  --color-prism-background: #{$color-dark-paper};
+  --color-prism-background: #131311;
+  // --color-prism-base: #{$color-white};
+  --color-prism-base: #e9e9dd;
+  --color-prism-punctuation: #ffcb8b;
+  --color-prism-keyword: #c792ea;
+  --color-prism-function: #82AAFF;
+  --color-prism-operator: #7fdbca;
+  --color-prism-string: #ffcb8b;
+  --color-prism-tag: #a5d6ff;
   --color-typographic-base-font: #{$color-white};
   --color-typographic-link-p-font: #{$color-blue};
   --color-typographic-link-s-font: #{$color-orange};
