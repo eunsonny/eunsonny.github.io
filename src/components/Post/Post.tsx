@@ -24,7 +24,10 @@ const Post: React.FC<Props> = ({ post }: Props) => {
   return (
     <div className={styles.post}>
       <div className={styles.buttons}>
-        <Button className={styles.buttonArticles} title="All Posts" to="/" />
+        <Button className={styles.buttonArticles} to="/">
+          <img src={"/icons/up-right-arrow-white.png"} />
+          <span>All Posts</span>
+        </Button>
         <ThemeSwitcher />
       </div>
 
