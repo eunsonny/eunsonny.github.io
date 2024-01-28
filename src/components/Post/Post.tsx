@@ -25,7 +25,7 @@ const Post: React.FC<Props> = ({ post }: Props) => {
     <div className={styles.post}>
       <div className={styles.buttons}>
         <Button className={styles.buttonArticles} to="/">
-          <img src={"/icons/up-right-arrow-white.png"} />
+          <img src={"/icons/up-right-arrow.png"} />
           <span>All Posts</span>
         </Button>
         <ThemeSwitcher />
