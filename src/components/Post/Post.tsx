@@ -1,7 +1,9 @@
 import React from "react";
 
 import { Button } from "@/components/Button";
+import { Image } from "@/components/Image";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
+import { useSiteMetadata } from "@/hooks";
 import type { Node } from "@/types";
 
 import { Author } from "./Author";
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const Post: React.FC<Props> = ({ post }: Props) => {
+  const { icons } = useSiteMetadata();
   const { html } = post;
   const { tagSlugs, slug } = post.fields;
   const { tags, title, date } = post.frontmatter;
@@ -25,7 +28,7 @@ const Post: React.FC<Props> = ({ post }: Props) => {
     <div className={styles.post}>
       <div className={styles.buttons}>
         <Button className={styles.buttonArticles} to="/">
-          <img src={"/icons/up-right-arrow.png"} />
+          <Image path={icons.upRightArrow} alt={"모든 포스트"} />
           <span>All Posts</span>
         </Button>
         <ThemeSwitcher />

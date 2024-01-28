@@ -17,6 +17,11 @@
       "path": "/pages/about"
     }
   ],
+  "icons": {
+    "leftArrow": "/icons/left-arrow.png",
+    "rightArrow": "/icons/right-arrow.png",
+    "upRightArrow": "/icons/up-right-arrow.png"
+  },
   "author": {
     "name": "Eunsonny",
     "photo": "/photo.jpg",

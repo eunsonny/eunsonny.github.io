@@ -3,6 +3,9 @@ import React from "react";
 import classNames from "classnames";
 import { Link } from "gatsby";
 
+import { Image } from "@/components/Image";
+import { useSiteMetadata } from "@/hooks";
+
 import * as styles from "./Pagination.module.scss";
 
 type Props = {
@@ -18,6 +21,8 @@ const Pagination = ({
   hasNextPage,
   hasPrevPage,
 }: Props) => {
+  const { icons } = useSiteMetadata();
+
   const prevClassName = classNames(styles.previousLink, {
     [styles.disable]: !hasPrevPage,
   });
@@ -34,7 +39,7 @@ const Pagination = ({
           to={hasPrevPage ? prevPagePath : "/"}
           className={prevClassName}
         >
-          <img src={"/icons/left-arrow.png"} className={styles.arrow} />
+          <Image alt={"이전"} path={icons.leftArrow} className={styles.arrow} />
         </Link>
       </div>
       <div className={styles.next}>
@@ -43,7 +48,11 @@ const Pagination = ({
           to={hasNextPage ? nextPagePath : "/"}
           className={nextClassName}
         >
-          <img src={"/icons/right-arrow.png"} className={styles.arrow} />
+          <Image
+            alt={"다음"}
+            path={icons.rightArrow}
+            className={styles.arrow}
+          />
         </Link>
       </div>
     </div>

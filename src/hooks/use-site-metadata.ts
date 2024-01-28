@@ -6,6 +6,11 @@ const useSiteMetadata = () => {
       query SiteMetaData {
         site {
           siteMetadata {
+            icons {
+              leftArrow
+              rightArrow
+              upRightArrow
+            }
             author {
               bio
               name
