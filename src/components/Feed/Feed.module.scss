@@ -52,10 +52,12 @@
           font-weight: normal;
           @include line-height(1);
           @include margin(0, 0, 0, 0);
+          display: none;
         }
       }
   
       .meta {
+        display: none;
         width: 160px;
   
         .time {
@@ -101,6 +103,61 @@
 
     &:last-child {
       background-color: none;
+    }
+  }
+}
+
+// @include breakpoint-xs {
+//   .feed {
+//     .item {
+//       .link {
+//         .title_wrapper {
+//           .description {
+//             color: red;
+//             display: inline;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+@include breakpoint-sm {
+  .feed {
+    .item {
+      .link {
+        .meta {
+          display: inline;
+        }
+      }
+    }
+  }
+}
+
+// @include breakpoint-md {
+//   .feed {
+//     .item {
+//       .link {
+//         .title_wrapper {
+//           .description {
+//             // display: inline;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+
+@include breakpoint-lg {
+  .feed {
+    .item {
+      .link {
+        .title_wrapper {
+          .description {
+            display: inline;
+          }
+        }
+      }
     }
   }
 }
