@@ -1,0 +1,519 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 4.25.6"/><meta name="description" content="패키지 매니저 전환기" data-gatsby-head="true"/><meta name="twitter:card" content="summary_large_image" data-gatsby-head="true"/><meta name="twitter:title" content="Yarn Classic에서 Pnpm으로 with TurboRepo - Eunsonny&#x27;s Blog" data-gatsby-head="true"/><meta name="twitter:description" content="패키지 매니저 전환기" data-gatsby-head="true"/><meta name="og:title" content="Yarn Classic에서 Pnpm으로 with TurboRepo - Eunsonny&#x27;s Blog" data-gatsby-head="true"/><meta name="og:type" content="website" data-gatsby-head="true"/><meta name="og:description" content="패키지 매니저 전환기" data-gatsby-head="true"/><meta name="theme-color" content="hsl(31, 92%, 62%)"/><style data-href="/styles.4ba91179a12c8e47473e.css" data-identity="gatsby-global-css">@import url(https://fonts.googleapis.com/css2?family=Fira+Code&display=swap);@import url(https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css);@font-face{font-display:var(--fontsource-display,swap);font-family:Oxygen Mono;font-style:normal;font-weight:400;src:url(/static/oxygen-mono-latin-ext-400-normal-275d4df6c91418ae1903028c19c95fb6.woff2) format("woff2"),url(/static/oxygen-mono-latin-ext-400-normal-9f82795cef2c82002ba709898acea384.woff) format("woff");unicode-range:u+0100-02af,u+0300-0301,u+0303-0304,u+0308-0309,u+0323,u+0329,u+1e??,u+2020,u+20a0-20ab,u+20ad-20cf,u+2113,u+2c60-2c7f,u+a720-a7ff}@font-face{font-display:var(--fontsource-display,swap);font-family:Oxygen Mono;font-style:normal;font-weight:400;src:url(/static/oxygen-mono-latin-400-normal-fcda75ae13b6af3dbf1c4b046d756f8f.woff2) format("woff2"),url(/static/oxygen-mono-latin-400-normal-c632619fe6d2c1466057220aafe6c044.woff) format("woff");unicode-range:u+00??,u+0131,u+0152-0153,u+02bb-02bc,u+02c6,u+02da,u+02dc,u+0300-0301,u+0303-0304,u+0308-0309,u+0323,u+0329,u+2000-206f,u+2074,u+20ac,u+2122,u+2191,u+2193,u+2212,u+2215,u+feff,u+fffd}:after,:before,:root{--color-white:#fdfdfc;--color-primary:#00b5f5;--color-secondary:#f7a145;--color-prism-background:#f4f4f3;--color-prism-base:#bc5454;--color-prism-punctuation:#636366;--color-prism-keyword:#994cc3;--color-prism-function:#4876d6;--color-prism-operator:#0c969b;--color-prism-string:#636366;--color-prism-tag:#ec5f67;--color-typographic-base-font:#1c1c1e;--color-typographic-link-p-font:#00b5f5;--color-typographic-link-s-font:#f7a145;--color-page-border:#c7c7cc;--color-page-background:#fdfdfc;--color-sidebar-border:#c7c7cc;--color-sidebar-border-fade:#fdfdfc;--color-contacts-border:#c7c7cc;--color-button-border:#c7c7cc;--color-button-color:#1c1c1e;--color-theme-switcher:#3f485a;--color-theme-switcher-hover:#00b5f5}.dark :after,.dark :before,:root.dark{--color-white:#fdfdfc;--color-primary:#00b5f5;--color-secondary:#f7a145;--color-prism-background:#131311;--color-prism-base:#c7e3cf;--color-prism-punctuation:#ffcb8b;--color-prism-keyword:#c792ea;--color-prism-function:#82aaff;--color-prism-operator:#7fdbca;--color-prism-string:#ffcb8b;--color-prism-tag:#a5d6ff;--color-typographic-base-font:#fdfdfc;--color-typographic-link-p-font:#00b5f5;--color-typographic-link-s-font:#f7a145;--color-page-border:#3f485a;--color-page-background:#1c1c1e;--color-sidebar-border:#3f485a;--color-sidebar-border-fade:#1c1c1e;--color-contacts-border:#3f485a;--color-button-border:#3f485a;--color-button-color:#fdfdfc;--color-theme-switcher:#c7c7cc;--color-theme-switcher-hover:#00b5f5}html{font-size:100}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background:var(--color-page-background);color:var(--color-typographic-base-font);font-size:15px;line-height:1.625;margin:0 0 0 calc(100vw - 100%);text-rendering:optimizelegibility}body,h1,h2,h3,h4,h5,h6{font-family:Pretendard Variable,pretendard,-apple-system,blinkmacsystemfont,system-ui,roboto,Helvetica Neue,Segoe UI,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,sans-serif}h1,h2,h3,h4,h5,h6{font-weight:600}h1{font-size:30px;line-height:52px;margin-bottom:26px;margin-top:104px}h2{font-size:25.3125px;line-height:39px}h2,h3{margin-bottom:13px;margin-top:52px}h3{font-size:20.625px;line-height:26px}h4{font-size:18px;margin-top:39px}h4,h5{line-height:26px;margin-bottom:13px}h5,h6{font-size:15px;margin-top:65px}h6{line-height:26px;margin-bottom:13px}img{max-width:100%}hr,img{border:0;display:block}hr{background-image:linear-gradient(180deg,transparent 1px,transparent 11px,#1c1c1e 0,#1c1c1e 15px,transparent 0,transparent 26px);background-size:100% 26px;color:var(--color-typographic-base-font);height:26px;margin:52px auto;width:100px}a{color:var(--color-typographic-link-p-font);text-decoration:none}a:active,a:focus,a:hover{color:var(--color-typographic-link-s-font)}b,strong{font-weight:800}ul{list-style:square;margin-bottom:26px;padding-left:52px}ul li{line-height:26px;margin-bottom:4px;padding:0 5px}p{margin-bottom:26px}blockquote{background-color:var(--color-prism-background);border-left:4px solid #00b5f5;font-style:italic;padding:12px 20px;width:724px}blockquote p{margin:0}figure{display:block;height:auto;width:100%}figcaption{color:var(--color-typographic-base-font);font-size:13px;font-style:italic;line-height:19.5px;margin-bottom:0;margin-top:6.5px;text-align:center}@media screen and (min-width:685px){figure.float-left,figure.float-right{max-width:310px;padding:0 26px}.float-right{float:right}.float-left{float:left}}code[class*=language-],pre[class*=language-]{word-wrap:normal;color:var(--color-prism-base);font-family:Oxygen Mono,Menlo,Monaco,Consolas,Andale Mono,Ubuntu Mono,Courier New,monospace;font-size:14px;-webkit-hyphens:none;hyphens:none;letter-spacing:.01em;line-height:1.5;-o-tab-size:4;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}pre[class*=language-]{border-radius:.6em;margin:.5em 0;overflow:auto;padding:1.5em}:not(pre)>code[class*=language-],pre[class*=language-]{background-color:var(--color-prism-background)}:not(pre)>code[class*=language-]{border-radius:.4em;padding:.2em}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#073642}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#93a1a1}.token.punctuation{color:var(--color-prism-punctuation)}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.property,.token.symbol,.token.tag{color:var(--color-prism-tag)}.token.number{color:#f78c6c}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.url{color:#79c0ff}.token.string{color:var(--color-prism-string)}.token.entity{background:#eee8d5;color:#657b83;cursor:help}.token.atrule,.token.attr-value,.token.keyword{color:var(--color-prism-keyword)}.token.class-name{color:#f78c6c}.token.function{color:var(--color-prism-function)}.token.important,.token.regex,.token.variable{color:#cb4b16}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.operator{color:var(--color-prism-operator)}.Feed-module--feed--a6204 .Feed-module--item--c7a63{margin:4px 0;padding:0 20px}.Feed-module--feed--a6204 .Feed-module--item--c7a63:focus,.Feed-module--feed--a6204 .Feed-module--item--c7a63:hover{background-color:rgba(72,72,74,.05);border-radius:12px}.Feed-module--feed--a6204 .Feed-module--item--c7a63:last-child{margin-bottom:13px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b{all:unset;align-items:center;cursor:pointer;display:flex;width:100%}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411{align-items:center;display:flex;gap:8px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--title--f252f{font-size:15px;font-weight:500;line-height:39px;margin:0}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--title--f252f .Feed-module--link--6123b{color:var(--color-typographic-base-font)}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--description--57348{color:#aeaeb2;display:none;font-size:13px;font-weight:400;line-height:26px;margin:0}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2{display:none;width:160px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--time--72864{color:#aeaeb2;font-size:13px;font-weight:600;text-transform:uppercase}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--category--59f58 .Feed-module--link--6123b{color:var(--color-secondary);font-size:13px;font-weight:600;text-transform:uppercase}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--category--59f58 .Feed-module--link--6123b:focus,.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--category--59f58 .Feed-module--link--6123b:hover{color:#00b5f5}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--more--51a4e{color:var(--color-primary);font-size:15px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--more--51a4e:focus,.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--more--51a4e:hover{border-bottom:1px solid #00b5f5;color:var(--color-primary)}.Feed-module--feed--a6204 .Feed-module--divider--81a18{background-color:#f2f2f7;height:1px;width:100%}.Feed-module--feed--a6204 .Feed-module--divider--81a18:last-child{background-color:none}@media screen and (min-width:685px){.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2{display:inline}}@media screen and (min-width:1100px){.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--description--57348{display:inline}}.Layout-module--layout--2c933{margin-left:auto;margin-right:auto;margin-top:40px;max-width:1100px}.Layout-module--layout--2c933:before{content:"";display:table}.Layout-module--layout--2c933:after{clear:both;content:"";display:table}.Page-module--page--24e03{margin-bottom:52px}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:26px 19.5px 26px 0}.Page-module--page--24e03 .Page-module--title--90338{font-size:37.5px;font-weight:600;line-height:52px;margin-bottom:37.7px;margin-top:0}.Page-module--page--24e03 .Page-module--body--561c4{font-size:15px;line-height:26px;margin:0 0 26px}@media screen and (min-width:685px){.Page-module--page--24e03{width:calc(58.275% - 12.5px)}.Page-module--page--24e03:nth-child(1n){clear:none;float:left;margin-right:30px}.Page-module--page--24e03:last-child{margin-right:0}.Page-module--page--24e03:nth-child(12n){float:right;margin-right:0}.Page-module--page--24e03:nth-child(12n+1){clear:both}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:32.5px 19.5px 0}}@media screen and (min-width:960px){.Page-module--page--24e03{width:calc(66.6% - 10px)}.Page-module--page--24e03:nth-child(1n){clear:none;float:left;margin-right:30px}.Page-module--page--24e03:last-child{margin-right:0}.Page-module--page--24e03:nth-child(3n){float:right;margin-right:0}.Page-module--page--24e03:nth-child(3n+1){clear:both}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:39px 26px 0}}@media screen and (min-width:1100px){.Page-module--page--24e03{width:760px}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:39px 39px 0 26px}}.Pagination-module--pagination--d61cb{display:flex;justify-content:space-between;margin-top:60px;padding:0 12px}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b{text-align:left}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d{color:var(--color-secondary);font-size:26px;font-weight:700}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d:focus,.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d:hover{color:var(--color-primary)}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d.Pagination-module--disable--7e105{color:#3f485a;pointer-events:none}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8{text-align:right}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff{color:var(--color-secondary);font-size:26px;font-weight:700}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff:focus,.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff:hover{color:var(--color-primary)}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff.Pagination-module--disable--7e105{color:#3f485a;pointer-events:none}.Pagination-module--pagination--d61cb .Pagination-module--arrow--6b6c5{background-color:#c7c7cc;border-radius:50%;box-shadow:0 3px 3px rgba(0,0,0,.2);width:40px}.Pagination-module--pagination--d61cb .Pagination-module--arrow--6b6c5:hover{background-color:#aeaeb2}.Button-module--button--b1113{border-radius:12px;display:inline-block;font-size:15px;font-weight:400;height:40px;line-height:40px;margin-left:auto;margin-right:auto;padding:0 12px;text-align:center;text-decoration:none}.Button-module--button--b1113,.Button-module--button--b1113:focus,.Button-module--button--b1113:hover{color:var(--color-button-color)}.ThemeSwitcher-module--themeSwitcher--8a77f{--color:var(--color-theme-switcher)}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--button--7cb7b{align-items:center;background:transparent;border:0;cursor:pointer;display:flex;justify-content:center;outline:0}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--button--7cb7b svg{stroke:var(--color);pointer-events:none;transition:stroke .4s}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--button--7cb7b:hover{--color:var(--color-theme-switcher-hover)}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--moon--10537{stroke-dasharray:0 1px;opacity:0;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--sun--2163a{stroke-dasharray:1px 1px;opacity:1;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.ThemeSwitcher-module--themeSwitcher--8a77f.ThemeSwitcher-module--dark--6db0c .ThemeSwitcher-module--moon--10537{stroke-dasharray:1px 1px;opacity:1}.ThemeSwitcher-module--themeSwitcher--8a77f.ThemeSwitcher-module--dark--6db0c .ThemeSwitcher-module--sun--2163a{stroke-dasharray:0 1px;opacity:0}.Author-module--author--cbd31 .Author-module--photo--9787b{background-clip:padding-box;border-radius:50%;display:inline-block;height:75px;margin-bottom:0;width:75px}.Author-module--author--cbd31 .Author-module--photo--9787b img{border-radius:50%}.Author-module--author--cbd31 .Author-module--title--cf7e5{font-size:16.875px;font-weight:600;line-height:29.25px;margin:0}.Author-module--author--cbd31 .Author-module--title--cf7e5 .Author-module--link--09c17,.Author-module--author--cbd31 .Author-module--title--cf7e5 .Author-module--link--09c17:focus,.Author-module--author--cbd31 .Author-module--title--cf7e5 .Author-module--link--09c17:hover{color:var(--color-typographic-base-font)}.Author-module--author--cbd31 .Author-module--subtitle--86ec5{color:#7f8ba4;line-height:26px;margin-bottom:26px}.Author-module--author--cbd31 .Author-module--titleContainer--4f576{align-items:center;display:flex;justify-content:space-between;margin:13px 0}.Icon-module--icon--1d7da{fill:currentcolor;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;speak:none;stroke:currentcolor;stroke-width:0;display:inline-block;font-style:normal;font-variant:normal;font-weight:400;height:1em;line-height:1em;text-align:center;text-transform:none;width:1em}.Contacts-module--contacts--09178{margin-bottom:26px}.Contacts-module--contacts--09178 .Contacts-module--list--9670b{display:flex;gap:4px;list-style:none;padding:0}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0{align-content:center;align-items:center;border-radius:12px;display:flex;height:40px;justify-content:center;line-height:40px;padding:0;text-align:center;width:40px}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0:focus,.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0:hover{background-color:#f2f2f7}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0:nth-child(3n+1){margin-left:0}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0 .Contacts-module--link--de1e0{border:0;color:var(--color-typographic-base-font);cursor:pointer;display:flex}.Copyright-module--copyright--2c602{color:#7f8ba4;font-size:13px}.Menu-module--menu--113a9{margin-bottom:26px}.Menu-module--menu--113a9 .Menu-module--list--e1ae3{list-style:none;margin:0;padding:0}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679{margin:13px 0;padding:0}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02{border:0;color:var(--color-typographic-base-font);font-size:15px;font-weight:400}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02:focus,.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02:hover{border-bottom:1px solid #00b5f5;color:#00b5f5}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02.Menu-module--active--6cb74{border-bottom:1px solid var(--color-typographic-base-font);color:var(--color-typographic-base-font);font-weight:600}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:26px 19.5px 0;position:relative}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0:after{background:var(--color-sidebar-border);background:linear-gradient(to bottom,var(--color-sidebar-border) 0,var(--color-sidebar-border) 48%,var(--color-sidebar-border-fade) 100%)}@media screen and (min-width:685px){.Sidebar-module--sidebar--1bfa1{width:calc(41.625% - 17.5px)}.Sidebar-module--sidebar--1bfa1:nth-child(1n){clear:none;float:left;margin-right:30px}.Sidebar-module--sidebar--1bfa1:last-child{margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(12n){float:right;margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(12n+1){clear:both}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:32.5px 19.5px 0}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0:after{bottom:0;content:"";height:540px;position:absolute;right:-10px;top:30px;width:1px}}@media screen and (min-width:960px){.Sidebar-module--sidebar--1bfa1{width:calc(33.3% - 20px)}.Sidebar-module--sidebar--1bfa1:nth-child(1n){clear:none;float:left;margin-right:30px}.Sidebar-module--sidebar--1bfa1:last-child{margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(3n){float:right;margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(3n+1){clear:both}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:39px}}@media screen and (min-width:1100px){.Sidebar-module--sidebar--1bfa1{width:310px}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:39px}}.Content-module--content--80d58{margin:0 auto;max-width:945px;padding:0 13px}.Content-module--content--80d58 .Content-module--divider--ba397{background-color:#f2f2f7;height:1px;margin:0 auto;max-width:800px;width:100%}.Content-module--content--80d58 .Content-module--title--09504{font-weight:600;line-height:42.9px;margin:26px auto 40px;max-width:800px}.Content-module--content--80d58 .Content-module--body--726c2 figure{margin-bottom:26px}.Content-module--content--80d58 .Content-module--body--726c2 a{text-decoration:underline}.Content-module--content--80d58 .Content-module--body--726c2 *{margin-left:auto;margin-right:auto;max-width:800px}.Content-module--content--80d58 .Content-module--body--726c2 h2>a{visibility:hidden}.Content-module--content--80d58 .Content-module--body--726c2 h2>a>svg{fill:var(--color-typographic-base-font)}.Content-module--content--80d58 .Content-module--body--726c2 img{max-width:100%}.Post-module--post--3a994 .Post-module--content--3c6e5{margin:0 auto;padding-top:60px}.Post-module--post--3a994 .Post-module--footer--f8705{margin:0 auto;max-width:800px;padding:78px 13px}.Post-module--post--3a994 .Post-module--comments--d3b99{margin:0 auto;max-width:800px;padding:0 13px}.Post-module--post--3a994 .Post-module--buttons--2972d{align-items:center;display:flex;margin:26px 0 0;text-align:center}.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a{align-items:center;display:flex;gap:4px;margin:0 13px 0 0}.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a img{background-color:#aeaeb2;border-radius:8px;height:22px;width:22px}.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a:focus,.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a:hover{background-color:#f4f4f3}@media screen and (min-width:960px){.Post-module--post--3a994 .Post-module--comments--d3b99{padding:0}.Post-module--post--3a994 .Post-module--buttons--2972d{left:30px;margin:0 13px 0 0;max-width:none;position:fixed;top:30px}}</style><title data-gatsby-head="true">Yarn Classic에서 Pnpm으로 with TurboRepo - Eunsonny&#x27;s Blog</title><link rel="alternate" type="application/rss+xml" title="Eunsonny&#x27;s Blog" href="/rss.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.googletagmanager.com"/><link rel="dns-prefetch" href="https://www.googletagmanager.com"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-73379983-2"></script><script>
+      
+      
+      if(true) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer && window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-73379983-2', {"send_page_view":false});
+      }
+      </script><link rel="sitemap" type="application/xml" href="/sitemap/sitemap-index.xml"/><link rel="icon" href="/favicon-32x32.png?v=f3d825d4ed7aba0a74cde53886aebb16" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script></head><body><script>
+          void function() {
+            var cachedMode;
+
+            try {
+              var preferredTheme = JSON.parse(localStorage.getItem('diesel:theme-atom'));
+
+              if (preferredTheme && preferredTheme.mode) {
+                cachedMode = preferredTheme.mode;
+              }
+            } catch (err) { }
+
+            function setTheme(newTheme) {
+              document.documentElement.className = newTheme;
+            }
+
+            var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+            setTheme(cachedMode || (darkQuery.matches ? 'dark' : 'light'));
+          }()
+        </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="Layout-module--layout--2c933"><div class="Post-module--post--3a994"><div class="Post-module--buttons--2972d"><a class="Button-module--button--b1113 Post-module--buttonArticles--d793a" href="/"><div data-gatsby-image-wrapper="" class="gatsby-image-wrapper gatsby-image-wrapper-constrained"><div style="max-width:128px;display:block"><img alt="" role="presentation" aria-hidden="true" src="data:image/svg+xml;charset=utf-8,%3Csvg height=&#x27;128&#x27; width=&#x27;128&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27; version=&#x27;1.1&#x27;%3E%3C/svg%3E" style="max-width:100%;display:block;position:static"/></div><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#080808;position:absolute;top:0;left:0;bottom:0;right:0"></div><picture><source type="image/avif" data-srcset="/static/13016f38b519c316167f463123975519/b6d61/up-right-arrow.avif 32w,/static/13016f38b519c316167f463123975519/2e71d/up-right-arrow.avif 64w,/static/13016f38b519c316167f463123975519/3c49f/up-right-arrow.avif 128w" sizes="(min-width: 128px) 128px, 100vw"/><source type="image/webp" data-srcset="/static/13016f38b519c316167f463123975519/ef6ff/up-right-arrow.webp 32w,/static/13016f38b519c316167f463123975519/8257c/up-right-arrow.webp 64w,/static/13016f38b519c316167f463123975519/6766a/up-right-arrow.webp 128w" sizes="(min-width: 128px) 128px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 128px) 128px, 100vw" decoding="async" loading="lazy" data-src="/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png" data-srcset="/static/13016f38b519c316167f463123975519/914ee/up-right-arrow.png 32w,/static/13016f38b519c316167f463123975519/1c9ce/up-right-arrow.png 64w,/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png 128w" alt="모든 포스트"/></picture><noscript><picture><source type="image/avif" srcSet="/static/13016f38b519c316167f463123975519/b6d61/up-right-arrow.avif 32w,/static/13016f38b519c316167f463123975519/2e71d/up-right-arrow.avif 64w,/static/13016f38b519c316167f463123975519/3c49f/up-right-arrow.avif 128w" sizes="(min-width: 128px) 128px, 100vw"/><source type="image/webp" srcSet="/static/13016f38b519c316167f463123975519/ef6ff/up-right-arrow.webp 32w,/static/13016f38b519c316167f463123975519/8257c/up-right-arrow.webp 64w,/static/13016f38b519c316167f463123975519/6766a/up-right-arrow.webp 128w" sizes="(min-width: 128px) 128px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 128px) 128px, 100vw" decoding="async" loading="lazy" src="/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png" srcSet="/static/13016f38b519c316167f463123975519/914ee/up-right-arrow.png 32w,/static/13016f38b519c316167f463123975519/1c9ce/up-right-arrow.png 64w,/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png 128w" alt="모든 포스트"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div><span>All Posts</span></a></div><div class="Post-module--content--3c6e5"><div class="Content-module--content--80d58"><h1 class="Content-module--title--09504">Yarn Classic에서 Pnpm으로 with TurboRepo</h1><div class="Content-module--divider--ba397"></div><div class="Content-module--body--726c2"><blockquote>
+<p>해당 글은 동일한 내용으로 <a href="https://medium.com/wantedjobs/yarn-classic%EC%97%90%EC%84%9C-pnpm%EC%9C%BC%EB%A1%9C-%EC%A0%84%ED%99%98%ED%95%98%EA%B8%B0-with-turborepo-7c0c37cb3f9e" target="_blank" rel="nofollow noopener noreferrer">회사 블로그</a>에 기고 되었습니다.</p>
+</blockquote>
+<h2 id="yarn-classic이-가진-문제" style="position:relative;"><a href="#yarn-classic%EC%9D%B4-%EA%B0%80%EC%A7%84-%EB%AC%B8%EC%A0%9C" aria-label="yarn classic이 가진 문제 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Yarn Classic이 가진 문제</h2>
+<p>원티드스페이스 프로젝트는 Turbo Repo를 사용한 모노레포 구조에 패키지 매니저로는 Yarn Classic을 사용하고 있었습니다. Yarn Classic이란 Yarn 1.x 버전을 지칭 하는데요. 성능면에서 다소 느릴 뿐만 아니라 의존성 중복 저장 문제를 호이스팅을 통해 해결하기 때문에 유령 의존성 현상을 야기 할 수 있다는 단점이 존재합니다.</p>
+<p>특히 모노레포 구조에서는 하나의 레포지토리에서 여러 프로젝트의 의존성을 관리해야 하기 때문에 프로젝트가 서로 다른 프로젝트의 의존성에 의존하는 등 더 빈번하고 크리티컬한 유령 의존성 현상이 발생할 수 있습니다. 실제로 원스 프로젝트에서도 <a href="https://www.npmjs.com/package/depcheck" target="_blank" rel="nofollow noopener noreferrer">depcheck</a>를 통해 확인한 결과 다양한 유령 의존성이 존재함을 알 수 있었습니다.</p>
+<h3 id="유령-의존성-현상이란" style="position:relative;"><a href="#%EC%9C%A0%EB%A0%B9-%EC%9D%98%EC%A1%B4%EC%84%B1-%ED%98%84%EC%83%81%EC%9D%B4%EB%9E%80" aria-label="유령 의존성 현상이란 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>유령 의존성 현상이란</h3>
+<p>과연 이 유령 의존성 현상이란 무엇이며 왜 문제가 되는 것 일까요? 한 번 짚고 넘어가겠습니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/071c0fe047ef735845e6762c7d1a89af/8b640/hoisting.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 45.416666666666664%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABzUlEQVQoz32S22rUUBSG8yTijXe+jBc+hNciaC+sJ/QBvJOiIF5IKVSweFeRgbaItDBlxjJNJjOTNJPDNOdJJqedT5I5YEH8N2uzN+v//7X2QaoB6prZ3ENPfKwswZ77CFGxTNVtNEgWMVfeFWYaYS4iJr7JPA03vAZSXVU0S39wgrb3Cn3vNUH/x5K0Ml0paHb+uMt49yWTz9vYx7sUtbhpuOanlyco7x6i7jwi631fuyCEaKMWS2ExlRl/2mb44Qnpr6+bYuuTSJbm8/Owj23NMf0I042JFwW6rpGkKXEUk+fZpkCSgRnCcJZjxVVrJlbF2g6P9ke8fdCh1zHxQhPD0IijEFmWcRynJWVJgT60cWcB00BhYJzi+jNs2yGKIsIwxPd9qkogWYnCqXlAUExRzk3kc4MiL1uzprsGZ4caz+8f0PlywXv3Hk/lO4zCM7SRwdQ08NxrFPmSPEuRvllv2Brc5sj5yO6zC3YeH+OYHv3fPSzLag2rUrRdlkVFLhIWVUQlyvZe0yxHs3x0O0A1XKSaZlTtrLpdxkEXQfXX49b8D03ecq5RRxOCcI60FqRlxAv1LlvKLaLSWZHFjb/4r2jgeS6jkUqWLfgDlFugPjUToPkAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/071c0fe047ef735845e6762c7d1a89af/8ac56/hoisting.webp 240w,
+/static/071c0fe047ef735845e6762c7d1a89af/d3be9/hoisting.webp 480w,
+/static/071c0fe047ef735845e6762c7d1a89af/e46b2/hoisting.webp 960w,
+/static/071c0fe047ef735845e6762c7d1a89af/f992d/hoisting.webp 1440w,
+/static/071c0fe047ef735845e6762c7d1a89af/7017d/hoisting.webp 1454w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/071c0fe047ef735845e6762c7d1a89af/8ff5a/hoisting.png 240w,
+/static/071c0fe047ef735845e6762c7d1a89af/e85cb/hoisting.png 480w,
+/static/071c0fe047ef735845e6762c7d1a89af/d9199/hoisting.png 960w,
+/static/071c0fe047ef735845e6762c7d1a89af/07a9c/hoisting.png 1440w,
+/static/071c0fe047ef735845e6762c7d1a89af/8b640/hoisting.png 1454w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/071c0fe047ef735845e6762c7d1a89af/d9199/hoisting.png"
+            alt="https://classic.yarnpkg.com/blog/2018/02/15/nohoist/"
+            title="https://classic.yarnpkg.com/blog/2018/02/15/nohoist/"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>왼쪽과 같은 의존성 트리를 가진 프로젝트가 있다고 가정해 보겠습니다. 왼쪽 트리에서 <strong>[A (1.0)]</strong> 과 <strong>[B (1.0)]</strong> 을 두 번 설치 하는 것은 디스크 공간 측면에서 비효율적입니다. 따라서 Npm(ver 3~), Yarn Classic은 호이스팅 &#x26; 병합을 통해 오른쪽 트리와 같이 평탄화(flat) 된 종속성 트리로 모양을 바꿉니다. (놀랍게도 Npm ver 2 까지는 모든 의존성을 중복 설치했다고 합니다.) 이를 통해 디스크 공간을 절약하고 트리 경로 깊이 내려가지 않아도 최상위에서 원하는 의존성을 탐색할 수 있게 되므로 보다 효율적입니다.</p>
+<p>그러나 이로 인해 프로젝트에서 직접 의존하고 있지 않은 패키지(위의 이미지 상에서는 [B (1.0)]에 해당)를 암묵적으로 참조하게 되는 경우가 발생합니다. 이것이 바로 유령 의존성 현상입니다. 이처럼 유령 의존성 현상이 발생하면 어떠한 의존성 파일을 지웠을 때 암묵적으로 참조 했던 패키지도 삭제될 수 있는 등 의존성 트리의 유효성을 보증 받기 어렵습니다.</p>
+<h2 id="why-pnpm" style="position:relative;"><a href="#why-pnpm" aria-label="why pnpm permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Why Pnpm?</h2>
+<p>앞서 언급한 문제점을 해결할 수 있는 방법으로는 크게 두 가지가 있습니다. 바로 Yarn Berry와 Pnpm 입니다. Yarn Berry 에서는 Plug’n’Play 전략을 통해 종속성 중복 저장 문제를 해결하며 호이스팅을 사용하지 않는 <code class="language-text">nohoist</code>가 기본 값입니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/bf5603ebacd4925c3266c6a8ab8405f0/80cfc/turborepo-pnp.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 28.750000000000004%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAAA/UlEQVQY00XQW3KFIBAEUPe/xuQjCigib1EIQqccb5mPUz3FmxmWVeOba3yNEuNiMeudLCYRd1zEpgq71yff+sIWMtjqodwJHSuGzXgwISGEwLwsUEpBSol1VViVgtYa26bhvUcIAc57WGspnXMwxtC64B1dPKTSIJWmCa0f9wHGWHLX94ac80ehLKWgtfYCOsLZMJwVUNpimhjGj59xAmOcxibGIcQMzgW4EGBc0LiYF4QQiQ8BMQZqw3CU/nzBbNiUhFEK3jtyv/pICegNvV1v9vbkddVHreitwt9fDueF1SbsZ0FMGSFmpF/g+EilI+aGPbc3//V/pVMP/wBW3cs2T/RNLAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/bf5603ebacd4925c3266c6a8ab8405f0/8ac56/turborepo-pnp.webp 240w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/d3be9/turborepo-pnp.webp 480w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/e46b2/turborepo-pnp.webp 960w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/f992d/turborepo-pnp.webp 1440w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/5540a/turborepo-pnp.webp 1844w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/bf5603ebacd4925c3266c6a8ab8405f0/8ff5a/turborepo-pnp.png 240w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/e85cb/turborepo-pnp.png 480w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/d9199/turborepo-pnp.png 960w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/07a9c/turborepo-pnp.png 1440w,
+/static/bf5603ebacd4925c3266c6a8ab8405f0/80cfc/turborepo-pnp.png 1844w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/bf5603ebacd4925c3266c6a8ab8405f0/d9199/turborepo-pnp.png"
+            alt="https://github.com/vercel/turbo/issues/693#issuecomment-1278886166"
+            title="https://github.com/vercel/turbo/issues/693#issuecomment-1278886166"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>그러나 원티드스페이스 프로젝트는 Turbo Repo로 구성 되어 있고 Turbo Repo에서는 Yarn Berry의 PnP를 지원하지 않기 때문에 실질적인 선택지는 Pnpm 하나 뿐 이였습니다. 하지만 Pnpm은 Npm 또는 Yarn Classic과 비교 했을 때 더 좋은 성능과 보안을 제공 하므로 객관적으로도 매력적인 옵션이라고 생각합니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/fac09b61cb47b5beb19da1182c192064/93582/benchmark.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 106.25%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAACXBIWXMAABYlAAAWJQFJUiTwAAACTUlEQVQ4y6WUXU/UQBSG92cSr7zx3p9gvDFGjXjnhbfGxHhjSGBZPhKUZGEVypdAAInswnbbbrdQ+t3OPGamXbKQYExpctJ35pzz5syZd05DSon6goHN5dk21vCUnb5P9zLlX58Acikp9L/EQggaY8IizRBXIfgx2dAlsQfkoxHpcEhsW2SuSz5yiSxL7yWOw3X/QpvaCwcmSRTSkKIgySUXu6usvZpi8+0UzqdnuK153NYc7vwcw+YsbqupTeP5OUatpjYVo/Fii9z3VYXlEXa7Ds+bG6yd7CIyFzlxvPvw3bU+cpam9Ac2+2tLHPfsG2dRFCAlUghEhZUprPbu+jRWhGmaEscRPdNkxTgi8LwqUZQVVM2erGLc90nfGDdU0UGc0TWWMT68wNnau0msRSiERBY5W6fnzPw4JPAihDciT5J6hFIKrSNzv4Mx/Yit909xmrOkA7MMrHrz/xVWTuOPxeuZVVaNDsnVFUpO9SqsdHi+12b9zWPsrx/xFhbIr/2ahFXgr57NrNEhzMJSNnUvRenQuw45/bnE8V4HK0FfUu1bVjrMsgzT6rN0cIxh+qUO6xLGUcTQu6S706bXN6v39ABCWT2n3sDk22+XTDyQMIkj4kxgH6xz8n0ax++XiUVN2eR5rt+t6Vg02ytsHx4h46R+hVROe7/NzrsndL98Jtjc0BNZT5F7COUd30QPy8CNswEvF9v0g/iWDicHxTjx1jycWCvcUJIp8pwoKUjVaCsKkiTRptpRjrdYY2VBEBBFkd5TWJmKDcNQ47/mzVYE5R8pogAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/fac09b61cb47b5beb19da1182c192064/8ac56/benchmark.webp 240w,
+/static/fac09b61cb47b5beb19da1182c192064/d3be9/benchmark.webp 480w,
+/static/fac09b61cb47b5beb19da1182c192064/e46b2/benchmark.webp 960w,
+/static/fac09b61cb47b5beb19da1182c192064/f992d/benchmark.webp 1440w,
+/static/fac09b61cb47b5beb19da1182c192064/bc816/benchmark.webp 1524w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/fac09b61cb47b5beb19da1182c192064/8ff5a/benchmark.png 240w,
+/static/fac09b61cb47b5beb19da1182c192064/e85cb/benchmark.png 480w,
+/static/fac09b61cb47b5beb19da1182c192064/d9199/benchmark.png 960w,
+/static/fac09b61cb47b5beb19da1182c192064/07a9c/benchmark.png 1440w,
+/static/fac09b61cb47b5beb19da1182c192064/93582/benchmark.png 1524w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/fac09b61cb47b5beb19da1182c192064/d9199/benchmark.png"
+            alt="https://pnpm.io/benchmarks"
+            title="https://pnpm.io/benchmarks"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>또한 Pnpm은 Npm과 사용법이 비슷하며 마이그레이션 과정이 단순하다는 점도 장점이라 생각되었습니다.</p>
+<p><strong>결론적으로 Pnpm을 선택한 이유를 정리해보자면 다음과 같습니다.</strong></p>
+<ul>
+<li>유령 의존성 문제를 해결하면서 현재 사용하고 있는 Turbo Repo와의 궁합이 가장 좋은 조합</li>
+<li>기존에 사용하던 Yarn Classic과 비교해 설치와 실행이 빠르고 더 나은 보안성을 제공함</li>
+<li>Npm과 사용법이 비슷하며 (Yarn Berry와 비교하여) 마이그레이션 과정이 단순함</li>
+</ul>
+<h3 id="pnpm이-종속성-중복-저장-문제를-해결하는-방법" style="position:relative;"><a href="#pnpm%EC%9D%B4-%EC%A2%85%EC%86%8D%EC%84%B1-%EC%A4%91%EB%B3%B5-%EC%A0%80%EC%9E%A5-%EB%AC%B8%EC%A0%9C%EB%A5%BC-%ED%95%B4%EA%B2%B0%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95" aria-label="pnpm이 종속성 중복 저장 문제를 해결하는 방법 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pnpm이 종속성 중복 저장 문제를 해결하는 방법</h3>
+<p>그렇다면 Pnpm은 어떤 방법으로 종속성 중복 저장 문제를 해결하고 유령 의존성을 없애는 것 일까요? Pnpm은 호이스팅 대신 <a href="https://pnpm.io/next/symlinked-node-modules-structure" target="_blank" rel="nofollow noopener noreferrer">Content-addressable Store</a> 방식을 통해 중복 의존성 저장 문제를 해결합니다. 전역 스토어에 종속성을 설치한 다음 심볼릭 링크와 하드링크를 사용하여 디렉터리 구조를 구성하는 방식인데요 좀 더 자세히 살펴보자면 다음과 같습니다.</p>
+<p>처음 Pnpm은 <code class="language-text">&lt;home dir>/.pnpm-store</code>에 종속성을 설치합니다. 이곳이 전역 스토어 이며 모든 종속성 버전은 해당 폴더에 물리적으로 한번만 저장 됩니다.</p>
+<p>그런 다음 프로젝트에서 필요한 패키지를 프로젝트의 최상위 <code class="language-text">node_modules/.pnpm</code> 경로에 <a href="https://pnpm.io/faq#why-does-my-node_modules-folder-use-disk-space-if-packages-are-stored-in-a-global-store" target="_blank" rel="nofollow noopener noreferrer">하드링크</a>합니다. 여기서 말하는 필요한 패키지란 <code class="language-text">package.json</code>에 나열되어 프로젝트에서 직접적으로 의존하는 의존성 뿐만 아니라 의존성의 의존성까지 포함합니다. 이렇게 필요한 모든 종속성은 <code class="language-text">node_modules/.pnpm</code>디렉터리 아래에 평탄화 되어 위치합니다. 이후 <code class="language-text">node_modules</code>의 최상위 종속성(프로젝트에서 직접적으로 의존하는 패키지를 의미합니다.)과 의존성의 의존성들을 평탄화 되지 않은 형태로 중첩되어(nested) 존재하며<code class="language-text">node_modules/.pnpm</code>에 위치한 것들과 Symbolic Link로 연결됩니다.</p>
+<p>예시로 <code class="language-text">demo-foo@ 1.0.1</code> 과 <code class="language-text">demo-baz@ 1.0.0</code>에 의존성을 가지는 <code class="language-text">node_modules</code>의 구조를 그려본다면 다음과 같습니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 679px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6adab39ad40422e047187c415018f43b/1b747/pnpm-dependency-tree.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 70.41666666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABv0lEQVQ4y4VT2ZKCQBBzPfDACxCY4RIEOUT9/7/rrUSHcqtcfUjNMAzpTtKM1putHPxAXO8gfhDKyl7LfLGUxXLF1exf8e7MYLTbO5IXJ7nebhIq9YfwP3wktOaPLuIklbI6S103cq5r0VEsM2s+YDqzuL52/5bQyEJnSkfStC0JQ6Vlu9tLEIaEjiKe2evN5w4NWRQncswLabtOqvOZvuJjWALiveNyv1zZ3wmt+YIPURxL23YECmy2O/EOPoHAUOSbx6NXudkxl667PCUrdui4HjvDFDiuy4/gJZqYWQuuj/3jbPAQkorTiZLrpmG3uIB3GC2QGwv2joH7xGOPewPheDLloSFEAAgjzTK59L3c7nfpr1c+K61pCYCwUDxJUqogIYzGRcyjSRlkkAcfscIWAOOD4j/AeMo9n8cTvhtCgZw0zRgISDGHKAQgFFT3gOceIZmg/CCQIFS0Y2SGFOyQDDKMDS4cfF+SNOOwd5cLrUAhhPNKCAyEtr2WNDvSu+JUMtVjnvNXhGcg6vsrizRNK2VZsWheFLSmrCpxPY+ymTIkQQIqYIV0rFpHQzBKaX5kOsGIoTuEA7kYfDObv3xHUsVET5AdAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/6adab39ad40422e047187c415018f43b/8ac56/pnpm-dependency-tree.webp 240w,
+/static/6adab39ad40422e047187c415018f43b/d3be9/pnpm-dependency-tree.webp 480w,
+/static/6adab39ad40422e047187c415018f43b/8fbda/pnpm-dependency-tree.webp 679w"
+              sizes="(max-width: 679px) 100vw, 679px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/6adab39ad40422e047187c415018f43b/8ff5a/pnpm-dependency-tree.png 240w,
+/static/6adab39ad40422e047187c415018f43b/e85cb/pnpm-dependency-tree.png 480w,
+/static/6adab39ad40422e047187c415018f43b/1b747/pnpm-dependency-tree.png 679w"
+            sizes="(max-width: 679px) 100vw, 679px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/6adab39ad40422e047187c415018f43b/1b747/pnpm-dependency-tree.png"
+            alt="pnpm-dependency-tree"
+            title="pnpm-dependency-tree"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>아직도 감이 안오신다면 다음은 프로젝트 구조에서 심볼릭 링크와 하드 링크가 어떻게 구성되는지 더 잘 이해할 수 있도록 도와주는 이미지입니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 684px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/e282a6400e52669f3fc40155025eef19/2c288/pnpm-work.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 47.91666666666667%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsTAAALEwEAmpwYAAABnklEQVQoz22SPZMTMQyG9///GSoqigMKhiEcDUdCkeQgcdbfluz1euleRk72CAzFO/JI1iPJ1kDTjFVcG0wgnLTDWXsELsi1db/Y+7v/im/xgdeEeXmRCamDbcq4JIaKBMcF693/aYUOPs+IZYb2sUOoNgRijC7ApoLIhEAJx9HARkKkgsQFR2XxeXvEl90zdODeSO9Q0wzHFcp46JC6U4LaE84mwDgHqw5wRuOn0nDGw1uP7eGMh80W7x53ONuIsgIFFnLFeOuQBVgbLi5CmQDPE6Z5gYsKhrjHprbgaX/Cqzcf8PrtBspFlHYDGq7weYIyDjpEcJ27aKowUbr0UDbgZBR8lk+aUVrD9+cRD5tveP+4uwFbzxvKLB/SMC1Lr7ICxZfK1J9BgD+0BRHDh4hEhP3J4OPXPT49HTAG+gNcAfcSmMDF5rb0YjKmvJP4Jfm6LrXrmnPNHUjGuxPXisiMi/XwlJE4w4YESwydIi7OwybqoHQDipVp5DzU5Rf+1vKyNvIck1QuFblOSGygjO0r5iJdC8XU10lsygW/AWMc9DCSjtKoAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/e282a6400e52669f3fc40155025eef19/8ac56/pnpm-work.webp 240w,
+/static/e282a6400e52669f3fc40155025eef19/d3be9/pnpm-work.webp 480w,
+/static/e282a6400e52669f3fc40155025eef19/e213b/pnpm-work.webp 684w"
+              sizes="(max-width: 684px) 100vw, 684px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/e282a6400e52669f3fc40155025eef19/8ff5a/pnpm-work.png 240w,
+/static/e282a6400e52669f3fc40155025eef19/e85cb/pnpm-work.png 480w,
+/static/e282a6400e52669f3fc40155025eef19/2c288/pnpm-work.png 684w"
+            sizes="(max-width: 684px) 100vw, 684px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/e282a6400e52669f3fc40155025eef19/2c288/pnpm-work.png"
+            alt="pnpm-work"
+            title="pnpm-work"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>결과적으로 모든 종속성은 전역 스토어에 물리적으로 한번만 저장되어 단일한 진실 공급원(**Single Source Of Truth)**를 구성하고 이를 통해 디스크 공간을 크게 절약합니다. 또한 <code class="language-text">node_modules/.pnpm</code>디렉터리 아래에 하드링크된 의존성들을 평탄화 하여 위치 시킴으로써 유령 의존성 문제와 <a href="https://rushjs.io/pages/advanced/npm_doppelgangers/" target="_blank" rel="nofollow noopener noreferrer">Npm 도플갱어 문제</a>를 해결합니다.</p>
+<h2 id="pnpm-도입-과정" style="position:relative;"><a href="#pnpm-%EB%8F%84%EC%9E%85-%EA%B3%BC%EC%A0%95" aria-label="pnpm 도입 과정 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pnpm 도입 과정</h2>
+<p>자 그럼 실질적인 Pnpm 도입 과정에 대해서 설명하겠습니다. 원스 프로젝트는 Turbo Repo로 구성한 모노레포에 Pnpm을 도입하였으므로 이를 참고해주세요!</p>
+<ol>
+<li>
+<p><code class="language-text">npm install -g pnpm</code> 을 통해 Pnpm을 전역으로 설치 합니다.</p>
+</li>
+<li>
+<p>Pnpm의 workspace 기능을 사용하면 모노레포를 지원할 수 있습니다. 모노레포 프로젝트의 루트에 <a href="https://pnpm.io/pnpm-workspace_yaml" target="_blank" rel="nofollow noopener noreferrer">pnpm-workspace.yaml</a> 파일을 생성하고 workspace를 선언합니다.</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token literal-property property">packages</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token string">"docs"</span> <span class="token operator">-</span> <span class="token string">"apps/*"</span> <span class="token operator">-</span> <span class="token string">"packages/*"</span><span class="token punctuation">;</span></code></pre></div>
+</li>
+<li>
+<p>App에서 workspace package들을 별칭으로 참조할 수 있도록 apps 내부 프로젝트의 package.json 파일을 수정합니다.</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token comment">// root/apps/dashboard/package.json</span>
+
+<span class="token punctuation">{</span>
+	<span class="token string-property property">"dependencies"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">"@wantedspace-inc/api"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"@wantedspace-inc/constants"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"@wantedspace-inc/css"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"@wantedspace-inc/hooks"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"@wantedspace-inc/icons"</span><span class="token operator">:</span> <span class="token string">"workspace:*"</span><span class="token punctuation">,</span>
+      <span class="token operator">...</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre></div>
+</li>
+<li>
+<p>프로젝트의 루트에 <code class="language-text">.npmrc</code> 파일을 생성하여 추가적인 설정을 해줄 수 있습니다.</p>
+<p><code class="language-text">.npmrc</code>에서 <code class="language-text">node-linker=hoisted</code> 옵션을 사용하면 Yarn Classic과 같은 방식으로, <code class="language-text">node-linker=pnp</code>로 사용하면 Plug’n’Play 방식으로 사용할 수 있습니다. 다만 저는 추가적인 세팅이 필요하지 않아 <code class="language-text">.npmrc</code> 파일을 생성하지 않았습니다.</p>
+</li>
+<li>
+<p>모든 <code class="language-text">node_modules</code>와 캐시를 삭제하고 <code class="language-text">pnpm install</code> 명령어를 통해 의존성들을 재설치 한 뒤 로컬에서 App이 잘 실행되는지 확인합니다. 기존에 유령 의존성 문제가 존재하지 않았다면 프로젝트가 로컬에서 잘 실행이 되었겠지만 저의 상황은 그렇지 못했습니다. 유령 의존성으로 인한 각종 에러메세지와 만나게 되었습니다.</p>
+</li>
+<li>
+<p>프로젝트 내에 존재하는 유령 의존성을 좀 더 쉽고 빠르게 찾기 위해 <a href="https://www.npmjs.com/package/depcheck" target="_blank" rel="nofollow noopener noreferrer">depcheck</a>를 이용했습니다. <code class="language-text">depcheck</code>는 프로젝트의 종속성들을 분석하여 불필요한 종속성, 유령 의존성 등을 찾아주는 툴 입니다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/f4b8b43fbc97e75bfb037060131d9efa/74d4a/depcheck.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 74.58333333333333%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAABYElEQVQ4y62TWW+DMBCEOZVTUSAJYHPZHCH0pf//10012xq1VVURtQ8jE7A/z+5svNbOGKdXmO4FSvcodA9rJlT1gFxZKN2hUBZZ3vwq7jd2gpemCUqtEMcRPM/7uy6XC4yxUEojDCP4QYBAFMoahiF8318B89/3pWmKsixhjEHXdajrWp6ptm3l2263Ww7yUPBx6Y8X0SEhhN3vdwzDgGma8Hg8RH3fy/umaaC1xvl8xvF4xOl0+nLRoiRJZCOBhHGlCMjzHFmWoSgK2UMRttlsBBbH8c8OeZglWmsFSsjhcEAURdJDiiWuCuV2u4kj1y9X9jzP4sy5IXQV8Hq9LjCCxnEUt7yIsM8hrAIy5aqqlpLZ0/1+L67cyvK32+16h0yZLhkC0/uHwTYSDJ3ytxsJOmQwTwE5VwRx3ujQ9c3paYfsIWEsmaGwjxwbglcn+x3IsXF/NT4zaQ4xS34W+AZLx1PJ+o8OVAAAAABJRU5ErkJggg=='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/f4b8b43fbc97e75bfb037060131d9efa/8ac56/depcheck.webp 240w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/d3be9/depcheck.webp 480w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/e46b2/depcheck.webp 960w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/f992d/depcheck.webp 1440w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/882b9/depcheck.webp 1920w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/93fa3/depcheck.webp 2422w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/f4b8b43fbc97e75bfb037060131d9efa/8ff5a/depcheck.png 240w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/e85cb/depcheck.png 480w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/d9199/depcheck.png 960w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/07a9c/depcheck.png 1440w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/29114/depcheck.png 1920w,
+/static/f4b8b43fbc97e75bfb037060131d9efa/74d4a/depcheck.png 2422w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/f4b8b43fbc97e75bfb037060131d9efa/d9199/depcheck.png"
+            alt="depcheck"
+            title="depcheck"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>의존성 분석 결과를 참고하여 유령 의존성은 설치하거나 적절한 의존성을 사용할 수 있도록 수정해주고 불필요한 의존성은 삭제합니다.</p>
+</li>
+<li>
+<p>Resolution 등 의존성과 관련해 설정한 것들이 있다면 이 역시 Pnpm 환경에서 적용될 수 있도록 잘 이관해줍니다.</p>
+</li>
+<li>
+<p>원스 프로젝트는 Amplify Preview를 스테이징 환경으로 사용 하는데요. 여기서 약간의 문제가 있었습니다. Pnpm은 심볼릭 링크를 지원하지 않는 환경에서는 동작하지 않습니다. 따라서 lambda와 같은 서버리스 호스팅 환경이나 Electron App에서는 사용할 수 없습니다. 관련한 이슈를 <a href="https://github.com/orgs/nodejs/discussions/37509" target="_blank" rel="nofollow noopener noreferrer">여기</a>에서 확인할 수 있으며 Pnpm 공식문서에서는 다음과 같은 경우 <a href="https://pnpm.io/npmrc#node-linker" target="_blank" rel="nofollow noopener noreferrer">node-linker=hoisted 옵션을 사용해 해결</a>할 것을 권장합니다. AWS에서도 <a href="https://docs.aws.amazon.com/ko_kr/amplify/latest/userguide/monorepo-configuration.html#turborepo-pnpm-monorepo-configuration" target="_blank" rel="nofollow noopener noreferrer">Turborepo 및 pnpm 모노레포 앱 구성</a>과 관하여 같은 해결책을 제안합니다.</p>
+<p>그러나 <code class="language-text">node-linker=hoisted</code> 옵션을 사용한다는 것은 호이스팅을 이용해 중복 종속성을 해결한다는 뜻이고 이는 Pnpm으로 전환한 의미가 퇴색된다고 생각했습니다. 뿐만 아니라 실제 프로덕션 빌드 시에는 Github Action를 사용하고 있었기 때문에 <code class="language-text">node-linker=hoisted</code>를 사용하지 않고도 정상적으로 배포가 가능한 상황이였습니다.</p>
+<p>따라서 프로젝트 루트에 <code class="language-text">.npmrc</code>를 생성해 호이스팅 설정을 하는 대신 Amplify 빌드 설정에 <code class="language-text">echo "node-linker=hoisted" > .npmrc</code> 명령어를 추가했습니다. Amplify 빌드 설정을 담고 있는<code class="language-text">amplify.yml</code>의 전체 내용은 다음과 같습니다.</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token literal-property property">version</span><span class="token operator">:</span> <span class="token number">1</span>
+<span class="token literal-property property">applications</span><span class="token operator">:</span>
+  <span class="token operator">-</span> frontend<span class="token operator">:</span>
+      <span class="token literal-property property">phases</span><span class="token operator">:</span>
+        <span class="token literal-property property">preBuild</span><span class="token operator">:</span>
+          <span class="token literal-property property">commands</span><span class="token operator">:</span>
+            <span class="token operator">-</span> npm install <span class="token operator">-</span>g pnpm
+            <span class="token operator">-</span> cd <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">/</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">/</span>
+            <span class="token operator">-</span> echo <span class="token string">"$PWD"</span>
+            <span class="token operator">-</span> echo <span class="token string">"node-linker=hoisted"</span> <span class="token operator">></span> <span class="token punctuation">.</span>npmrc
+            <span class="token operator">-</span> pnpm install <span class="token operator">--</span>no<span class="token operator">-</span>frozen<span class="token operator">-</span>lockfile
+        <span class="token literal-property property">build</span><span class="token operator">:</span>
+          <span class="token literal-property property">commands</span><span class="token operator">:</span>
+            <span class="token operator">-</span> echo <span class="token string">"$PWD"</span>
+            <span class="token operator">-</span> <span class="token keyword">if</span> <span class="token punctuation">[</span> $<span class="token constant">NODE_ENV_VARIABLES</span> <span class="token operator">=</span> <span class="token string">".env.development"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> then cat <span class="token string">"./$AMPLIFY_MONOREPO_APP_ROOT/$NODE_ENV_VARIABLES"</span> <span class="token operator">></span> <span class="token string">"./$AMPLIFY_MONOREPO_APP_ROOT/.env.production"</span><span class="token punctuation">;</span> fi
+            <span class="token operator">-</span> pnpm run <span class="token string">"build:$AMPLIFY_MONOREPO_APP"</span>
+      <span class="token literal-property property">artifacts</span><span class="token operator">:</span>
+        <span class="token literal-property property">baseDirectory</span><span class="token operator">:</span> build
+        <span class="token literal-property property">files</span><span class="token operator">:</span>
+          <span class="token operator">-</span> <span class="token string">'**/*'</span>
+      <span class="token literal-property property">cache</span><span class="token operator">:</span>
+        <span class="token literal-property property">paths</span><span class="token operator">:</span>
+          <span class="token operator">-</span> node_modules<span class="token comment">/**/</span><span class="token operator">*</span>
+    <span class="token literal-property property">appRoot</span><span class="token operator">:</span> apps<span class="token operator">/</span>dashboard</code></pre></div>
+<p>Amplify Preview 에서 정상적으로 잘 빌드 되는 것을 확인할 수 있었습니다.</p>
+</li>
+<li>
+<p>이후 프로덕션 빌드를 수행하는 Github Action에서 Pnpm install cache를 사용할 수 있도록 workflow를 변경하였습니다. <a href="https://github.com/pnpm/action-setup" target="_blank" rel="nofollow noopener noreferrer">pnpm/action-setup</a> 플러그인 레포지토리에 사용방법이 친절하게 나와 있으며 코드는 다음과 같습니다.</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token operator">-</span> name<span class="token operator">:</span> Install pnpm
+  <span class="token literal-property property">uses</span><span class="token operator">:</span> pnpm<span class="token operator">/</span>action<span class="token operator">-</span>setup@v2
+  <span class="token keyword">with</span><span class="token operator">:</span>
+    <span class="token literal-property property">version</span><span class="token operator">:</span> <span class="token number">8</span>
+    <span class="token literal-property property">run_install</span><span class="token operator">:</span> <span class="token boolean">false</span>
+
+<span class="token operator">-</span> name<span class="token operator">:</span> Get pnpm store directory
+  <span class="token literal-property property">id</span><span class="token operator">:</span> pnpm<span class="token operator">-</span>store<span class="token operator">-</span>dir<span class="token operator">-</span>path
+  <span class="token literal-property property">shell</span><span class="token operator">:</span> bash
+  <span class="token literal-property property">run</span><span class="token operator">:</span> <span class="token operator">|</span>
+    echo <span class="token string">"STORE_PATH=$(pnpm store path --silent)"</span> <span class="token operator">>></span> $<span class="token constant">GITHUB_ENV</span>
+
+<span class="token operator">-</span> name<span class="token operator">:</span> Setup pnpm cache
+  <span class="token literal-property property">uses</span><span class="token operator">:</span> actions<span class="token operator">/</span>cache@v3
+  <span class="token literal-property property">id</span><span class="token operator">:</span> pnpm<span class="token operator">-</span>cache
+  <span class="token keyword">with</span><span class="token operator">:</span>
+    <span class="token literal-property property">path</span><span class="token operator">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> env<span class="token punctuation">.</span><span class="token constant">STORE_PATH</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+    <span class="token literal-property property">key</span><span class="token operator">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> runner<span class="token punctuation">.</span>os <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">-</span>pnpm<span class="token operator">-</span>$<span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token function">hashFiles</span><span class="token punctuation">(</span><span class="token string">'**/pnpm-lock.yaml'</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+    restore<span class="token operator">-</span>keys<span class="token operator">:</span> <span class="token operator">|</span>
+      $<span class="token punctuation">{</span><span class="token punctuation">{</span> runner<span class="token punctuation">.</span>os <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">-</span>pnpm<span class="token operator">-</span>store<span class="token operator">-</span>
+
+<span class="token operator">-</span> name<span class="token operator">:</span> Install dependencies
+  <span class="token literal-property property">run</span><span class="token operator">:</span> pnpm install <span class="token operator">--</span>no<span class="token operator">-</span>frozen<span class="token operator">-</span>lockfile</code></pre></div>
+</li>
+</ol>
+<h2 id="도입-후-결과" style="position:relative;"><a href="#%EB%8F%84%EC%9E%85-%ED%9B%84-%EA%B2%B0%EA%B3%BC" aria-label="도입 후 결과 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>도입 후 결과</h2>
+<p>이 후 얼마간의 테스트 기간을 거쳐 프로덕션 배포를 성공적으로 진행하였습니다.</p>
+<p>Pnpm 마이그레이션 이전과 이후의 <code class="language-text">node_modules</code> 크기를 비교해 보았을 때 다소 늘어난 것을 확인할 수 있었는데요. 유령 의존성을 직접 의존할 수 있도록 설치한 점, 모노레포 내 프로젝트에서 같은 라이브러리의 서로 다른 버전 사용하는 점 등이 영향을 미쳤을 것으로 예상되어 관련한 최적화 작업을 진행할 계획입니다.</p>
+<p>모노레포 내의 A 프로젝트에서는 React 17을 B 프로젝트에서는 React 18을 사용한다고 가정할 경우, <code class="language-text">node_modules/.pnpm</code>에는 React 17과 18이 모두 나열되고 공간을 차지하게 되어 디스크 공간 측면에서 비효율적입니다. 따라서 가능하다면 프로젝트에서 공통으로 사용하는 의존성들은 같은 버전으로 맞춰주는 것이 이상적인데요. 이 경우 <a href="https://jamiemason.github.io/syncpack/" target="_blank" rel="nofollow noopener noreferrer">syncpack</a>을 사용하면 각 프로젝트에서 일치 하지 않는 의존성 버전을 분석해주고 autofix 기능도 제공해주니 사용을 고려해볼 수 있겠습니다.</p>
+<p>또한 속도 면에서는 Amplify Preview에서는 의존성 설치 시간이 Done in 74.52s → Done in 25.1s 정도로 약 3배 정도 단축 되었으며, Github action에서는 평균적으로 45~50초 정도 걸리던 설치 시간이 25-30초 정도로 줄어드는 등 개선이 이뤄진 것을 확인할 수 있었습니다.</p>
+<p>추가적으로 Pnpm과 직접적 연관이 있는 것은 아니나 Turbo Repo를 사용하면서 빌드 툴로 Github Action을 사용하고 있다면 Vercel의 Remote Cache를 사용하지 않아도 <a href="https://turbo.build/repo/docs/ci/github-actions#caching-with-github-actionscache" target="_blank" rel="nofollow noopener noreferrer">github actions/cache를 사용하여 CI 단계별 캐싱</a>을 적용해 빌드 속도를 개선할 수 있는 여지도 있습니다. 참고 사항으로 언급해두겠습니다.</p>
+<p>마지막으로 저는 과거 다른 프로젝트에서 Yarn Classic → Yarn Berry(PnP)으로 전환한 경험이 있는데요. 당시 <code class="language-text">node_module</code>을 사용하지 않고 의존성을 <code class="language-text">.zip</code> 포맷으로 저장하는 Yarn Berry PnP의 특성상 IDE에서 zip 파일로 된 종속성을 읽어올 수 있도록 추가적인 세팅이나 extension을 설치하는 과정이 다소 번거롭게 느껴졌었습니다. 이에 반해 Pnpm으로 변환하는 과정은 보다 단순하여 편리하다는 생각이 들었습니다.</p>
+<p>또한 Pnpm을 통해 모노레포 환경에서 엄격한 의존성 관리가 가능하게 되어, 특히 Turbo Repo를 사용하고 있다면 적극 추천하는 선택지이며 Turbo Repo를 사용하지 않더라도 한 번 쯤 도입을 고려해볼만한 매력적인 기술인 것 같습니다.</p>
+<br />
+<br />
+<h3 id="별책부록" style="position:relative;"><a href="#%EB%B3%84%EC%B1%85%EB%B6%80%EB%A1%9D" aria-label="별책부록 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>별책부록</h3>
+<p>위에 내용까지가 회사 블로그에 기고한 내용이고 이 곳에는 나만의 별책부록을 작성해본다. 이 글을 작성하기 위해서 각종 자료와 공식문서를 꼼꼼히 찾아 읽고 Pnpm뿐만 아니라 YarnBerry와 Yarn, Npm까지 패키지 매니저의 동작방식에 대해서 더 잘 이해할 수 있게 되었다. 역시 글로 정리하면서 더 많이 배운다.</p>
+<p>패키지 매니저를 비교한 글들을 읽다보면 Npm(Ver 3-), Yarn Classic에서 평탄화된 <code class="language-text">node_modules</code>라는 말이 자주 등장하는데, Pnpm 관련 글을 읽으면서도 자꾸 평탄화 언급이 나와서 처음에는 무슨 차이인지 다소 햇갈렸다. 하지만 핵심만 살펴보자면 다음과 같다.</p>
+<p>Npm과 Yarn Classic은 <code class="language-text">node_modules</code>를 직접적인(물리적인) 저장소로 사용하며 이를 효율적으로 사용하기 위해 <code class="language-text">node_modules</code>’<strong>를</strong>’ 평탄화 한다. 그러나 Yarn Berry나 Pnpm은 <code class="language-text">node_modules</code>를 직접적인 저장소로 사용하지 않고 따로 저장소를 둔다. Yarn Berry나 Pnpm은 저장소를 따로 둔 대신 중첩된 <code class="language-text">node_modules</code>를 가진다 대신 저장소를 평탄화 하는데 이것이 핵심이다. 좀 더 정확히 말하자면 Yarn Berry P’n’P에서는 <code class="language-text">node_modules</code> 자체를 없애고 <code class="language-text">.pnp.cjs</code>로 대체하는데 <code class="language-text">.pnp.cjs</code> 파일에 중첩된 형태의 의존성 트리를 기술해놓는다. 그리고 Yarn Berry는 인터페이스 링커를 Pnpm은 하드링크와 심볼링 링크를 이용해 저장소와 <code class="language-text">node_modules</code>를 연결해서 사용하는 것이다.</p>
+<p>따라서 마지막으로 링커에 대해 설명하고 이 글을 마무리 하려고 한다.</p>
+<h4 id="링커란" style="position:relative;"><a href="#%EB%A7%81%EC%BB%A4%EB%9E%80" aria-label="링커란 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>링커란?</h4>
+<p>링커는 서로 다른 소프트웨어 컴포넌트나 시스템 간의 인터페이스를 연결하는 역할을 하는 소프트웨어나 도구를 가리킵니다.</p>
+<p>하드링크와 심볼릭 링크(심볼릭 링크를 흔히 “심볼릭 링크” 또는 “소프트링크”라고 부릅니다)는 파일 시스템에서 파일이나 디렉토리를 참조하는 두 가지 주요 방법입니다. 이러한 링크는 운영 체제의 파일 관리에서 중요한 역할을 하며, 사용자가 파일이나 디렉토리에 대한 다양한 경로나 이름으로 접근할 수 있게 해줍니다. 하드링크와 심볼릭 링크는 기능적으로 다르며, 각각의 특성을 아래에서 설명합니다.</p>
+<p><strong>하드링크</strong></p>
+<ul>
+<li>하드링크는 파일의 실제 위치를 가리키는 포인터입니다. 하드링크를 생성하면, 원본 파일과 같은 파일 시스템 내의 데이터 블록을 참조하는 새로운 디렉토리 엔트리가 만들어집니다.</li>
+<li>하드링크는 원본 파일과 동일한 파일 시스템 내에 있어야 합니다.</li>
+<li>하드링크를 통해 파일에 접근하면, 원본 파일이 삭제되어도 링크를 통해 여전히 데이터에 접근할 수 있습니다. 파일 시스템은 모든 하드링크가 삭제될 때까지 파일의 데이터를 유지합니다.</li>
+<li>하드링크는 파일의 내용에 대한 다른 “이름” 또는 “경로”를 제공하지만, 원본 파일과 완전히 동일한 권한과 속성을 가집니다.</li>
+<li>디렉토리에 대한 하드링크를 만드는 것은 대부분의 운영 체제에서 허용되지 않습니다.</li>
+</ul>
+<p><strong>심볼릭 링크 (소프트링크)</strong></p>
+<ul>
+<li>심볼릭 링크는 다른 파일이나 디렉토리를 가리키는 파일입니다. 이는 원본 파일의 경로를 저장하는 별도의 파일로, 원본 파일이나 디렉토리의 “단축 경로” 또는 “참조” 역할을 합니다.</li>
+<li>심볼릭 링크는 다른 파일 시스템에 있는 파일이나 디렉토리를 가리킬 수 있습니다.</li>
+<li>원본 파일이 삭제되면 심볼릭 링크는 더 이상 유효하지 않은 참조(종종 “끊어진 링크”라고 함)가 됩니다.</li>
+<li>심볼릭 링크는 원본 파일과는 독립적인 권한과 속성을 가질 수 있으며, 파일의 실제 내용 대신 경로 정보만을 포함합니다.</li>
+<li>심볼릭 링크는 파일뿐만 아니라 디렉토리에도 사용될 수 있습니다.</li>
+</ul>
+<p>하드링크와 심볼릭 링크는 용도에 따라 선택하여 사용할 수 있습니다. 예를 들어, 데이터의 중복을 방지하면서 여러 위치에서 동일한 파일에 접근해야 할 때 하드링크를 사용할 수 있습니다. 반면, 다른 파일 시스템에 있는 파일이나 디렉토리에 대한 참조가 필요할 때는 심볼릭 링크가 더 적합할 수 있습니다.</p>
+<br />
+<h3 id="참고자료" style="position:relative;"><a href="#%EC%B0%B8%EA%B3%A0%EC%9E%90%EB%A3%8C" aria-label="참고자료 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>참고자료</h3>
+<ul>
+<li><a href="https://classic.yarnpkg.com/blog/2018/02/15/nohoist/" target="_blank" rel="nofollow noopener noreferrer">nohoist in Workspaces</a></li>
+<li><a href="https://blog.logrocket.com/javascript-package-managers-compared/" target="_blank" rel="nofollow noopener noreferrer">JavaScript package managers compared: npm, Yarn, or pnpm? - LogRocket Blog</a></li>
+<li><a href="https://www.jonathancreamer.com/inside-the-pain-of-monorepos-and-hoisting/" target="_blank" rel="nofollow noopener noreferrer">Inside the pain of monorepos and hoisting</a></li>
+<li><a href="https://blog.bitsrc.io/how-to-easily-manage-dependencies-in-a-js-monorepo-6216bd6621ea" target="_blank" rel="nofollow noopener noreferrer">How to Easily Manage Dependencies in a JS Monorepo</a></li>
+<li><a href="https://dev.to/chlorine/how-does-pnpm-work-5mh" target="_blank" rel="nofollow noopener noreferrer">How does pnpm work</a></li>
+<li><a href="https://adamcoster.com/blog/pnpm-config" target="_blank" rel="nofollow noopener noreferrer">Configure pnpm for the best possible developer experience | Adam Coster</a></li>
+<li><a href="https://divriots.com/blog/switching-to-pnpm/" target="_blank" rel="nofollow noopener noreferrer">A story of how we migrated to pnpm - ‹div›RIOTS</a></li>
+</ul></div><div class="Content-module--divider--ba397"></div></div></div><div class="Post-module--footer--f8705"></div><div class="Post-module--comments--d3b99"></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/from-yarn-classic-to-pnpm-with-turborepo";window.___webpackCompilationHash="3dbc233abe8461ca0b77";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-fafab8d558583a3efef7.js"],"app":["/app-3668ed5d9a2714a27b96.js"],"component---cache-caches-gatsby-plugin-offline-app-shell-js":["/component---cache-caches-gatsby-plugin-offline-app-shell-js-0c915c7b1bdb5eac4fdf.js"],"component---src-templates-categories-template-categories-template-tsx":["/component---src-templates-categories-template-categories-template-tsx-476aba622553283a555d.js"],"component---src-templates-category-template-category-template-tsx":["/component---src-templates-category-template-category-template-tsx-032b63b4d5d095c71cc1.js"],"component---src-templates-index-template-index-template-tsx":["/component---src-templates-index-template-index-template-tsx-deb6cf97aa8e7689158f.js"],"component---src-templates-not-found-template-not-found-template-tsx":["/component---src-templates-not-found-template-not-found-template-tsx-65cdb511419717d20404.js"],"component---src-templates-page-template-page-template-tsx":["/component---src-templates-page-template-page-template-tsx-6c008beccbce9ce80004.js"],"component---src-templates-post-template-post-template-tsx":["/component---src-templates-post-template-post-template-tsx-d37099553777ac392837.js"],"component---src-templates-tag-template-tag-template-tsx":["/component---src-templates-tag-template-tag-template-tsx-232b7a571ebcd3b07bb4.js"],"component---src-templates-tags-template-tags-template-tsx":["/component---src-templates-tags-template-tags-template-tsx-0350bbb7b72c9ccfd87b.js"]};/*]]>*/</script><script src="/polyfill-fafab8d558583a3efef7.js" nomodule=""></script><script src="/app-3668ed5d9a2714a27b96.js" async=""></script><script src="/framework-481a1b6416c14416b2fb.js" async=""></script><script src="/webpack-runtime-23878f88713ff85c5d9d.js" async=""></script></body></html>
