@@ -24,6 +24,10 @@ pre[class*="language-"] {
   word-wrap: normal;
 }
 
+code[class*="language-json"] {
+  color: var(--color-prism-string);
+}
+
 pre[class*="language-"] {
   border-radius: 0.6em;
   margin: 0.5em 0;

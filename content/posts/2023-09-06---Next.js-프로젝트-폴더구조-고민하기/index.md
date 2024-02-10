@@ -47,7 +47,7 @@ description: "여러분 프로젝트의 폴더구조는 안녕하신가요?"
 
 ### domainComponents 구조
 
-```jsx
+```json
 ├── components // common한 컴포넌트
 ├── domainComponents   
 │   ├── contract   
@@ -78,7 +78,7 @@ description: "여러분 프로젝트의 폴더구조는 안녕하신가요?"
 │
 ├── pages
 │   ├── contract
-│   │   └── detail
+│      └── detail
 │
 └── package.json
 ```
