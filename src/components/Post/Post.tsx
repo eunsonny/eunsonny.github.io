@@ -39,15 +39,16 @@ const Post: React.FC<Props> = ({ post }: Props) => {
       </div>
 
       <div className={styles.footer}>
+        <Comments />
         {/* <span>맨 위로 올라가기</span> */}
         {/* <Meta date={date} /> */}
         {/* {tags && tagSlugs && <Tags tags={tags} tagSlugs={tagSlugs} />} */}
         {/* <Author /> */}
       </div>
 
-      <div className={styles.comments}>
+      {/* <div className={styles.comments}>
         <Comments postSlug={slug} postTitle={post.frontmatter.title} />
-      </div>
+      </div> */}
     </div>
   );
 };
