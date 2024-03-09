@@ -34,16 +34,19 @@ const Feed: React.FC<Props> = ({ edges }: Props) => (
                   "en-US",
                   {
                     year: "numeric",
-                    month: "long",
+                    month: "short",
                   },
                 )}
               </time>
               {/* <span className={styles.divider} />
-          <span className={styles.category}>
-            <Link to={edge.node.fields.categorySlug} className={styles.link}>
-              {edge.node.frontmatter.category}
-            </Link>
-          </span> */}
+              <span className={styles.category}>
+                <Link
+                  to={edge.node.fields.categorySlug}
+                  className={styles.link}
+                >
+                  {edge.node.frontmatter.category}
+                </Link>
+              </span> */}
             </div>
 
             <div className={styles.title_wrapper}>
