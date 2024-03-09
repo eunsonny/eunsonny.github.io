@@ -5,16 +5,13 @@
 .dark *:after,
 .dark *:before {
   --color-white: #{$color-white};
-  --color-primary: #{$color-blue};
+  --color-primary1: #{$color-green1};
+  --color-primary2: #{$color-green2};
   --color-secondary: #{$color-orange};
   --color-prism-background: #131311;
-  // --color-prism-base: #{$color-white};
-  // --color-prism-base: #e9e9dd;
-  // --color-prism-base: #e0cada;
-  // --color-prism-base: #d78a74;
-  // --color-prism-base: #f5ebb8;
-  // --color-prism-base: #cae0d0;
-  --color-prism-base: #c7e3cf;
+  --color-prism-text-background: #323432;
+  // --color-prism-base: #c7e3cf; 
+  --color-prism-base: #c3f7e8;
   --color-prism-punctuation: #ffcb8b;
   --color-prism-keyword: #c792ea;
   --color-prism-function: #82AAFF;
@@ -22,7 +19,7 @@
   --color-prism-string: #ffcb8b;
   --color-prism-tag: #a5d6ff;
   --color-typographic-base-font: #{$color-white};
-  --color-typographic-link-p-font: #{$color-blue};
+  --color-typographic-link-p-font: #{$color-green1};
   --color-typographic-link-s-font: #{$color-orange};
   --color-page-border: #{$color-dark-cloud};
   --color-page-background: #{$color-dark};

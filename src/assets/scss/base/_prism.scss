@@ -22,7 +22,9 @@ pre[class*="language-"] {
   word-break: normal;
   word-spacing: normal;
   word-wrap: normal;
+  font-weight: 500;
 }
+
 
 code[class*="language-json"] {
   color: var(--color-prism-string);
@@ -35,7 +37,11 @@ pre[class*="language-"] {
   padding: 1.5em;
 }
 
-:not(pre) > code[class*="language-"],
+:not(pre) > code[class*="language-text"] {
+  font-weight: 500;
+  background-color: var(--color-prism-text-background);
+}
+
 pre[class*="language-"] {
   background-color: var(--color-prism-background);
 }

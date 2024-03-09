@@ -5,9 +5,11 @@
 :after,
 :before {
   --color-white: #{$color-white};
-  --color-primary: #{$color-blue};
+  --color-primary1: #{$color-green3};
+  --color-primary2: #{$color-green4};
   --color-secondary: #{$color-orange};
   --color-prism-background: #f4f4f3;
+  --color-prism-text-background: #f4f4f3;
   // --color-prism-base: #bc5454;
   --color-prism-base: #ef5350;
   --color-prism-punctuation: #{$color-gray-4};
@@ -17,7 +19,7 @@
   --color-prism-string: #{$color-gray-4};
   --color-prism-tag: #ec5f67;
   --color-typographic-base-font: #{$color-dark};
-  --color-typographic-link-p-font: #{$color-blue};
+  --color-typographic-link-p-font: #{$color-green3};
   --color-typographic-link-s-font: #{$color-orange};
   --color-page-border: #{$color-white-cloud};
   --color-page-background: #{$color-white};
