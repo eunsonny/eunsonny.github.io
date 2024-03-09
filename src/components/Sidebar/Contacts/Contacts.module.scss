@@ -24,7 +24,7 @@
 
       &:hover,
       &:focus {
-         background-color: $color-gray-9;
+        background-color: var(--color-hover-background);
       }
 
       &:nth-child(3n + 1) {

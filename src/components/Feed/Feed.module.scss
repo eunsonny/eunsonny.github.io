@@ -8,7 +8,7 @@
   
     &:hover ,
     &:focus {
-      background-color: rgba(72, 72, 74, 0.05);
+      background-color: var(--color-hover-background);
       border-radius: 12px;
     }
 
@@ -84,13 +84,13 @@
       }
   
       .more {
-        color: var(--color-primary);
+        color: var(--color-primary1);
         font-size: $typographic-base-font-size;
   
         &:hover,
         &:focus {
           border-bottom: 1px solid $color-blue;
-          color: var(--color-primary);
+          color: var(--color-primary1);
         }
       }
     }
