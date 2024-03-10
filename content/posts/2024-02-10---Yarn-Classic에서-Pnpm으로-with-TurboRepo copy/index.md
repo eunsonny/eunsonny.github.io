@@ -1,6 +1,6 @@
 ---
 title: useSyncExternalStore로 Hydration 불일치 해결하기
-date: "2024-02-10"
+date: "2024-03-10"
 template: "post"
 draft: true
 slug: "/posts/avoiding-hydration-mismatches-with-useSyncExternalStore"
