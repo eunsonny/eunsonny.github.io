@@ -5,7 +5,7 @@ template: "post"
 draft: false
 slug: "/posts/deep-dive-tree-shaking"
 category: "Tech"
-description: "번역"
+description: "Deep Dive Tree Shaking"
 ---
 
 ## TL;DR
