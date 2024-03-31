@@ -5,7 +5,7 @@ template: "post"
 draft: false
 slug: "/posts/tree-shaking-monorepo-packages"
 category: "Tech"
-description: "모노레포의 Packages 트리쉐이킹 하기"
+description: "습득한 지식 활용해보기"
 tags:
   - "Tree-Shaking"
   - "트리쉐이킹"
