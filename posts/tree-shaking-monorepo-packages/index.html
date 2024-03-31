@@ -1,0 +1,480 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="ie=edge"/><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/><meta name="generator" content="Gatsby 4.25.6"/><meta name="description" content="습득한 지식 활용해보기" data-gatsby-head="true"/><meta name="twitter:card" content="summary_large_image" data-gatsby-head="true"/><meta name="twitter:title" content="모노레포 Packages Tree-Shaking 하기 - Eunsonny&#x27;s Blog" data-gatsby-head="true"/><meta name="twitter:description" content="습득한 지식 활용해보기" data-gatsby-head="true"/><meta name="og:title" content="모노레포 Packages Tree-Shaking 하기 - Eunsonny&#x27;s Blog" data-gatsby-head="true"/><meta name="og:type" content="website" data-gatsby-head="true"/><meta name="og:description" content="습득한 지식 활용해보기" data-gatsby-head="true"/><meta name="theme-color" content="hsl(31, 92%, 62%)"/><style data-href="/styles.afb0999313190e6bc596.css" data-identity="gatsby-global-css">@import url(https://fonts.googleapis.com/css2?family=Fira+Code&display=swap);@import url(https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css);@font-face{font-display:var(--fontsource-display,swap);font-family:Oxygen Mono;font-style:normal;font-weight:400;src:url(/static/oxygen-mono-latin-ext-400-normal-275d4df6c91418ae1903028c19c95fb6.woff2) format("woff2"),url(/static/oxygen-mono-latin-ext-400-normal-9f82795cef2c82002ba709898acea384.woff) format("woff");unicode-range:u+0100-02af,u+0300-0301,u+0303-0304,u+0308-0309,u+0323,u+0329,u+1e??,u+2020,u+20a0-20ab,u+20ad-20cf,u+2113,u+2c60-2c7f,u+a720-a7ff}@font-face{font-display:var(--fontsource-display,swap);font-family:Oxygen Mono;font-style:normal;font-weight:400;src:url(/static/oxygen-mono-latin-400-normal-fcda75ae13b6af3dbf1c4b046d756f8f.woff2) format("woff2"),url(/static/oxygen-mono-latin-400-normal-c632619fe6d2c1466057220aafe6c044.woff) format("woff");unicode-range:u+00??,u+0131,u+0152-0153,u+02bb-02bc,u+02c6,u+02da,u+02dc,u+0300-0301,u+0303-0304,u+0308-0309,u+0323,u+0329,u+2000-206f,u+2074,u+20ac,u+2122,u+2191,u+2193,u+2212,u+2215,u+feff,u+fffd}:after,:before,:root{--color-white:#fdfdfc;--color-primary1:#12b886;--color-primary2:#20c997;--color-secondary:#f7a145;--color-prism-background:#f4f4f3;--color-prism-text-background:#f4f4f3;--color-prism-base:#ef5350;--color-prism-punctuation:#636366;--color-prism-keyword:#994cc3;--color-prism-function:#4876d6;--color-prism-operator:#0c969b;--color-prism-string:#636366;--color-prism-tag:#ec5f67;--color-typographic-base-font:#1c1c1e;--color-typographic-link-p-font:#12b886;--color-typographic-link-s-font:#f7a145;--color-page-border:#c7c7cc;--color-page-background:#fdfdfc;--color-sidebar-border:#c7c7cc;--color-sidebar-border-fade:#fdfdfc;--color-contacts-border:#c7c7cc;--color-button-border:#c7c7cc;--color-button-color:#1c1c1e;--color-theme-switcher:#3f485a;--color-theme-switcher-hover:#00b5f5;--color-hover-background:rgba(72,72,74,.05)}.dark :after,.dark :before,:root.dark{--color-white:#fdfdfc;--color-primary1:#96f2d7;--color-primary2:#63e6be;--color-secondary:#f7a145;--color-prism-background:#131311;--color-prism-text-background:#323432;--color-prism-base:#c3f7e8;--color-prism-punctuation:#ffcb8b;--color-prism-keyword:#c792ea;--color-prism-function:#82aaff;--color-prism-operator:#7fdbca;--color-prism-string:#ffcb8b;--color-prism-tag:#a5d6ff;--color-typographic-base-font:#fdfdfc;--color-typographic-link-p-font:#96f2d7;--color-typographic-link-s-font:#f7a145;--color-page-border:#3f485a;--color-page-background:#1c1c1e;--color-sidebar-border:#3f485a;--color-sidebar-border-fade:#1c1c1e;--color-contacts-border:#3f485a;--color-button-border:#3f485a;--color-button-color:#fdfdfc;--color-theme-switcher:#c7c7cc;--color-theme-switcher-hover:#00b5f5;--color-hover-background:#323432}html{font-size:100}body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;background:var(--color-page-background);color:var(--color-typographic-base-font);font-size:15px;line-height:1.625;margin:0 0 0 calc(100vw - 100%);text-rendering:optimizelegibility}body,h1,h2,h3,h4,h5,h6{font-family:Pretendard Variable,pretendard,-apple-system,blinkmacsystemfont,system-ui,roboto,Helvetica Neue,Segoe UI,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,sans-serif}h1,h2,h3,h4,h5,h6{font-weight:600}h1{font-size:30px;line-height:52px;margin-bottom:26px;margin-top:104px}h2{font-size:25.3125px;line-height:39px}h2,h3{margin-bottom:13px;margin-top:52px}h3{font-size:20.625px;line-height:26px}h4{font-size:18px;margin-top:39px}h4,h5{line-height:26px;margin-bottom:13px}h5,h6{font-size:15px;margin-top:65px}h6{line-height:26px;margin-bottom:13px}img{max-width:100%}hr,img{border:0;display:block}hr{background-image:linear-gradient(180deg,transparent 1px,transparent 11px,#1c1c1e 0,#1c1c1e 15px,transparent 0,transparent 26px);background-size:100% 26px;color:var(--color-typographic-base-font);height:26px;margin:52px auto;width:100px}a{color:var(--color-typographic-link-p-font);text-decoration:none}a:active,a:focus,a:hover{color:var(--color-typographic-link-s-font)}b,strong{font-weight:800}ul{list-style:square;margin-bottom:26px;padding-left:52px}ul li{line-height:26px;margin-bottom:4px;padding:0 5px}p{margin-bottom:26px}blockquote{background-color:var(--color-prism-background);border-left:4px solid var(--color-primary2);font-style:italic;padding:12px 20px;width:724px}blockquote p{margin:0}figure{display:block;height:auto;width:100%}figcaption{color:var(--color-typographic-base-font);font-size:13px;font-style:italic;line-height:19.5px;margin-bottom:0;margin-top:6.5px;text-align:center}@media screen and (min-width:685px){figure.float-left,figure.float-right{max-width:310px;padding:0 26px}.float-right{float:right}.float-left{float:left}}code[class*=language-],pre[class*=language-]{word-wrap:normal;color:var(--color-prism-base);font-family:Oxygen Mono,Menlo,Monaco,Consolas,Andale Mono,Ubuntu Mono,Courier New,monospace;font-size:14px;font-weight:500;-webkit-hyphens:none;hyphens:none;letter-spacing:.01em;line-height:1.5;-o-tab-size:4;tab-size:4;text-align:left;white-space:pre;word-break:normal;word-spacing:normal}code[class*=language-json]{color:var(--color-prism-string)}pre[class*=language-]{border-radius:.6em;margin:.5em 0;overflow:auto;padding:1.5em}:not(pre)>code[class*=language-text]{background-color:var(--color-prism-text-background);font-weight:500}pre[class*=language-]{background-color:var(--color-prism-background)}:not(pre)>code[class*=language-]{border-radius:.4em;padding:.2em}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#073642}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#93a1a1}.token.punctuation{color:var(--color-prism-punctuation)}.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.property,.token.symbol,.token.tag{color:var(--color-prism-tag)}.token.number{color:#f78c6c}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.url{color:#79c0ff}.token.string{color:var(--color-prism-string)}.token.entity{background:#eee8d5;color:#657b83;cursor:help}.token.atrule,.token.attr-value,.token.keyword{color:var(--color-prism-keyword)}.token.class-name{color:#f78c6c}.token.function{color:var(--color-prism-function)}.token.important,.token.regex,.token.variable{color:#cb4b16}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.operator{color:var(--color-prism-operator)}.Feed-module--feed--a6204 .Feed-module--item--c7a63{margin:4px 0;padding:0 20px}.Feed-module--feed--a6204 .Feed-module--item--c7a63:focus,.Feed-module--feed--a6204 .Feed-module--item--c7a63:hover{background-color:var(--color-hover-background);border-radius:12px}.Feed-module--feed--a6204 .Feed-module--item--c7a63:last-child{margin-bottom:13px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b{all:unset;align-items:center;cursor:pointer;display:flex;width:100%}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411{align-items:center;display:flex;gap:8px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--title--f252f{font-size:15px;font-weight:500;line-height:39px;margin:0}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--title--f252f .Feed-module--link--6123b{color:var(--color-typographic-base-font)}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--description--57348{color:#aeaeb2;display:none;font-size:13px;font-weight:400;line-height:26px;margin:0}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2{display:none;width:140px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--time--72864{color:#aeaeb2;font-size:13px;font-weight:600;text-transform:uppercase}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--category--59f58 .Feed-module--link--6123b{color:var(--color-secondary);font-size:13px;font-weight:600;text-transform:uppercase}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--category--59f58 .Feed-module--link--6123b:focus,.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2 .Feed-module--category--59f58 .Feed-module--link--6123b:hover{color:#00b5f5}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--more--51a4e{color:var(--color-primary1);font-size:15px}.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--more--51a4e:focus,.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--more--51a4e:hover{border-bottom:1px solid #00b5f5;color:var(--color-primary1)}.Feed-module--feed--a6204 .Feed-module--divider--81a18{background-color:#f2f2f7;height:1px;width:100%}.Feed-module--feed--a6204 .Feed-module--divider--81a18:last-child{background-color:none}@media screen and (min-width:685px){.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--meta--250c2{display:inline}}@media screen and (min-width:1100px){.Feed-module--feed--a6204 .Feed-module--item--c7a63 .Feed-module--link--6123b .Feed-module--title_wrapper--1e411 .Feed-module--description--57348{display:inline}}.Layout-module--layout--2c933{margin-left:auto;margin-right:auto;margin-top:40px;max-width:1100px}.Layout-module--layout--2c933:before{content:"";display:table}.Layout-module--layout--2c933:after{clear:both;content:"";display:table}.Page-module--page--24e03{margin-bottom:52px}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:26px 19.5px 26px 0}.Page-module--page--24e03 .Page-module--title--90338{font-size:37.5px;font-weight:600;line-height:52px;margin-bottom:37.7px;margin-top:0}.Page-module--page--24e03 .Page-module--body--561c4{font-size:15px;line-height:26px;margin:0 0 26px}@media screen and (min-width:685px){.Page-module--page--24e03{width:calc(58.275% - 12.5px)}.Page-module--page--24e03:nth-child(1n){clear:none;float:left;margin-right:30px}.Page-module--page--24e03:last-child{margin-right:0}.Page-module--page--24e03:nth-child(12n){float:right;margin-right:0}.Page-module--page--24e03:nth-child(12n+1){clear:both}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:32.5px 19.5px 0}}@media screen and (min-width:960px){.Page-module--page--24e03{width:calc(66.6% - 10px)}.Page-module--page--24e03:nth-child(1n){clear:none;float:left;margin-right:30px}.Page-module--page--24e03:last-child{margin-right:0}.Page-module--page--24e03:nth-child(3n){float:right;margin-right:0}.Page-module--page--24e03:nth-child(3n+1){clear:both}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:39px 26px 0}}@media screen and (min-width:1100px){.Page-module--page--24e03{width:760px}.Page-module--page--24e03 .Page-module--inner--4b31d{padding:39px 39px 0 26px}}.Pagination-module--pagination--d61cb{display:flex;justify-content:space-between;margin-top:60px;padding:0 12px}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b{text-align:left}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d{color:var(--color-secondary);font-size:26px;font-weight:700}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d:focus,.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d:hover{color:var(--color-primary)}.Pagination-module--pagination--d61cb .Pagination-module--previous--4a76b .Pagination-module--previousLink--5590d.Pagination-module--disable--7e105{color:#3f485a;pointer-events:none}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8{text-align:right}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff{color:var(--color-secondary);font-size:26px;font-weight:700}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff:focus,.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff:hover{color:var(--color-primary)}.Pagination-module--pagination--d61cb .Pagination-module--next--1cab8 .Pagination-module--nextLink--532ff.Pagination-module--disable--7e105{color:#3f485a;pointer-events:none}.Pagination-module--pagination--d61cb .Pagination-module--arrow--6b6c5{background-color:#c7c7cc;border-radius:50%;box-shadow:0 3px 3px rgba(0,0,0,.2);width:40px}.Pagination-module--pagination--d61cb .Pagination-module--arrow--6b6c5:hover{background-color:#aeaeb2}.Button-module--button--b1113{border-radius:12px;display:inline-block;font-size:15px;font-weight:400;height:40px;line-height:40px;margin-left:auto;margin-right:auto;padding:0 12px;text-align:center;text-decoration:none}.Button-module--button--b1113,.Button-module--button--b1113:focus,.Button-module--button--b1113:hover{color:var(--color-button-color)}.ThemeSwitcher-module--themeSwitcher--8a77f{--color:var(--color-theme-switcher)}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--button--7cb7b{align-items:center;background:transparent;border:0;cursor:pointer;display:flex;justify-content:center;outline:0}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--button--7cb7b svg{stroke:var(--color);pointer-events:none;transition:stroke .4s}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--button--7cb7b:hover{--color:var(--color-theme-switcher-hover)}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--moon--10537{stroke-dasharray:0 1px;opacity:0;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.ThemeSwitcher-module--themeSwitcher--8a77f .ThemeSwitcher-module--sun--2163a{stroke-dasharray:1px 1px;opacity:1;transition:stroke-dasharray .2s ease-in,opacity .4s ease-in}.ThemeSwitcher-module--themeSwitcher--8a77f.ThemeSwitcher-module--dark--6db0c .ThemeSwitcher-module--moon--10537{stroke-dasharray:1px 1px;opacity:1}.ThemeSwitcher-module--themeSwitcher--8a77f.ThemeSwitcher-module--dark--6db0c .ThemeSwitcher-module--sun--2163a{stroke-dasharray:0 1px;opacity:0}.Author-module--author--cbd31 .Author-module--photo--9787b{background-clip:padding-box;border-radius:50%;display:inline-block;height:75px;margin-bottom:0;width:75px}.Author-module--author--cbd31 .Author-module--photo--9787b img{border-radius:50%}.Author-module--author--cbd31 .Author-module--title--cf7e5{font-size:16.875px;font-weight:600;line-height:29.25px;margin:0}.Author-module--author--cbd31 .Author-module--title--cf7e5 .Author-module--link--09c17,.Author-module--author--cbd31 .Author-module--title--cf7e5 .Author-module--link--09c17:focus,.Author-module--author--cbd31 .Author-module--title--cf7e5 .Author-module--link--09c17:hover{color:var(--color-typographic-base-font)}.Author-module--author--cbd31 .Author-module--subtitle--86ec5{color:#7f8ba4;line-height:26px;margin-bottom:26px}.Author-module--author--cbd31 .Author-module--titleContainer--4f576{align-items:center;display:flex;justify-content:space-between;margin:13px 0}.Icon-module--icon--1d7da{fill:currentcolor;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;speak:none;stroke:currentcolor;stroke-width:0;display:inline-block;font-style:normal;font-variant:normal;font-weight:400;height:1em;line-height:1em;text-align:center;text-transform:none;width:1em}.Contacts-module--contacts--09178{margin-bottom:26px}.Contacts-module--contacts--09178 .Contacts-module--list--9670b{display:flex;gap:4px;list-style:none;padding:0}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0{align-content:center;align-items:center;border-radius:12px;display:flex;height:40px;justify-content:center;line-height:40px;padding:0;text-align:center;width:40px}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0:focus,.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0:hover{background-color:var(--color-hover-background)}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0:nth-child(3n+1){margin-left:0}.Contacts-module--contacts--09178 .Contacts-module--list--9670b .Contacts-module--item--f9cb0 .Contacts-module--link--de1e0{border:0;color:var(--color-typographic-base-font);cursor:pointer;display:flex}.Copyright-module--copyright--2c602{color:#7f8ba4;font-size:13px}.Menu-module--menu--113a9{margin-bottom:26px}.Menu-module--menu--113a9 .Menu-module--list--e1ae3{list-style:none;margin:0;padding:0}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679{margin:13px 0;padding:0}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02{border:0;color:var(--color-typographic-base-font);font-size:15px;font-weight:400}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02:focus,.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02:hover{border-bottom:1px solid #00b5f5;color:#00b5f5}.Menu-module--menu--113a9 .Menu-module--list--e1ae3 .Menu-module--item--8b679 .Menu-module--link--a6f02.Menu-module--active--6cb74{border-bottom:1px solid var(--color-typographic-base-font);color:var(--color-typographic-base-font);font-weight:600}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:26px 19.5px 0;position:relative}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0:after{background:var(--color-sidebar-border);background:linear-gradient(to bottom,var(--color-sidebar-border) 0,var(--color-sidebar-border) 48%,var(--color-sidebar-border-fade) 100%)}@media screen and (min-width:685px){.Sidebar-module--sidebar--1bfa1{width:calc(41.625% - 17.5px)}.Sidebar-module--sidebar--1bfa1:nth-child(1n){clear:none;float:left;margin-right:30px}.Sidebar-module--sidebar--1bfa1:last-child{margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(12n){float:right;margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(12n+1){clear:both}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:32.5px 19.5px 0}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0:after{bottom:0;content:"";height:540px;position:absolute;right:-10px;top:30px;width:1px}}@media screen and (min-width:960px){.Sidebar-module--sidebar--1bfa1{width:calc(33.3% - 20px)}.Sidebar-module--sidebar--1bfa1:nth-child(1n){clear:none;float:left;margin-right:30px}.Sidebar-module--sidebar--1bfa1:last-child{margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(3n){float:right;margin-right:0}.Sidebar-module--sidebar--1bfa1:nth-child(3n+1){clear:both}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:39px}}@media screen and (min-width:1100px){.Sidebar-module--sidebar--1bfa1{width:310px}.Sidebar-module--sidebar--1bfa1 .Sidebar-module--inner--344d0{padding:39px}}.Content-module--content--80d58{margin:0 auto;max-width:945px;padding:0 13px}.Content-module--content--80d58 .Content-module--divider--ba397{background-color:#f2f2f7;height:1px;margin:0 auto;max-width:800px;width:100%}.Content-module--content--80d58 .Content-module--title--09504{font-weight:600;line-height:42.9px;margin:26px auto 40px;max-width:800px}.Content-module--content--80d58 .Content-module--body--726c2 figure{margin-bottom:26px}.Content-module--content--80d58 .Content-module--body--726c2 a{text-decoration:underline}.Content-module--content--80d58 .Content-module--body--726c2 *{margin-left:auto;margin-right:auto;max-width:800px}.Content-module--content--80d58 .Content-module--body--726c2 h2>a{visibility:hidden}.Content-module--content--80d58 .Content-module--body--726c2 h2>a>svg{fill:var(--color-typographic-base-font)}.Content-module--content--80d58 .Content-module--body--726c2 img{max-width:100%}.Post-module--post--3a994 .Post-module--content--3c6e5{margin:0 auto;padding-top:60px}.Post-module--post--3a994 .Post-module--footer--f8705{margin:0 auto;max-width:800px;padding:78px 13px}.Post-module--post--3a994 .Post-module--comments--d3b99{margin:0 auto;max-width:800px;padding:0 13px}.Post-module--post--3a994 .Post-module--buttons--2972d{align-items:center;display:flex;margin:26px 0 0;text-align:center}.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a{align-items:center;display:flex;gap:4px;margin:0 13px 0 0}.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a img{background-color:#aeaeb2;border-radius:8px;height:22px;width:22px}.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a:focus,.Post-module--post--3a994 .Post-module--buttons--2972d .Post-module--buttonArticles--d793a:hover{background-color:var(--color-hover-background)}@media screen and (min-width:960px){.Post-module--post--3a994 .Post-module--comments--d3b99{padding:0}.Post-module--post--3a994 .Post-module--buttons--2972d{left:30px;margin:0 13px 0 0;max-width:none;position:fixed;top:30px}}</style><title data-gatsby-head="true">모노레포 Packages Tree-Shaking 하기 - Eunsonny&#x27;s Blog</title><link rel="alternate" type="application/rss+xml" title="Eunsonny&#x27;s Blog" href="/rss.xml"/><style type="text/css">
+    .anchor.before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      padding-right: 4px;
+    }
+    .anchor.after {
+      display: inline-block;
+      padding-left: 4px;
+    }
+    h1 .anchor svg,
+    h2 .anchor svg,
+    h3 .anchor svg,
+    h4 .anchor svg,
+    h5 .anchor svg,
+    h6 .anchor svg {
+      visibility: hidden;
+    }
+    h1:hover .anchor svg,
+    h2:hover .anchor svg,
+    h3:hover .anchor svg,
+    h4:hover .anchor svg,
+    h5:hover .anchor svg,
+    h6:hover .anchor svg,
+    h1 .anchor:focus svg,
+    h2 .anchor:focus svg,
+    h3 .anchor:focus svg,
+    h4 .anchor:focus svg,
+    h5 .anchor:focus svg,
+    h6 .anchor:focus svg {
+      visibility: visible;
+    }
+  </style><script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var hash = window.decodeURI(location.hash.replace('#', ''))
+      if (hash !== '') {
+        var element = document.getElementById(hash)
+        if (element) {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+          var clientTop = document.documentElement.clientTop || document.body.clientTop || 0
+          var offset = element.getBoundingClientRect().top + scrollTop - clientTop
+          // Wait for the browser to finish rendering before scrolling.
+          setTimeout((function() {
+            window.scrollTo(0, offset - 0)
+          }), 0)
+        }
+      }
+    })
+  </script><link rel="preconnect" href="https://www.googletagmanager.com"/><link rel="dns-prefetch" href="https://www.googletagmanager.com"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-73379983-2"></script><script>
+      
+      
+      if(true) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer && window.dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-73379983-2', {"send_page_view":false});
+      }
+      </script><link rel="sitemap" type="application/xml" href="/sitemap/sitemap-index.xml"/><link rel="icon" href="/favicon-32x32.png?v=f3d825d4ed7aba0a74cde53886aebb16" type="image/png"/><link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous"/><link rel="apple-touch-icon" sizes="48x48" href="/icons/icon-48x48.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="96x96" href="/icons/icon-96x96.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="256x256" href="/icons/icon-256x256.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="384x384" href="/icons/icon-384x384.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png?v=f3d825d4ed7aba0a74cde53886aebb16"/><style>.gatsby-image-wrapper{position:relative;overflow:hidden}.gatsby-image-wrapper picture.object-fit-polyfill{position:static!important}.gatsby-image-wrapper img{bottom:0;height:100%;left:0;margin:0;max-width:none;padding:0;position:absolute;right:0;top:0;width:100%;object-fit:cover}.gatsby-image-wrapper [data-main-image]{opacity:0;transform:translateZ(0);transition:opacity .25s linear;will-change:opacity}.gatsby-image-wrapper-constrained{display:inline-block;vertical-align:top}</style><noscript><style>.gatsby-image-wrapper noscript [data-main-image]{opacity:1!important}.gatsby-image-wrapper [data-placeholder-image]{opacity:0!important}</style></noscript><script type="module">const e="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;e&&document.body.addEventListener("load",(function(e){const t=e.target;if(void 0===t.dataset.mainImage)return;if(void 0===t.dataset.gatsbyImageSsr)return;let a=null,n=t;for(;null===a&&n;)void 0!==n.parentNode.dataset.gatsbyImageWrapper&&(a=n.parentNode),n=n.parentNode;const o=a.querySelector("[data-placeholder-image]"),r=new Image;r.src=t.currentSrc,r.decode().catch((()=>{})).then((()=>{t.style.opacity=1,o&&(o.style.opacity=0,o.style.transition="opacity 500ms linear")}))}),!0);</script></head><body><script>
+          void function() {
+            var cachedMode;
+
+            try {
+              var preferredTheme = JSON.parse(localStorage.getItem('diesel:theme-atom'));
+
+              if (preferredTheme && preferredTheme.mode) {
+                cachedMode = preferredTheme.mode;
+              }
+            } catch (err) { }
+
+            function setTheme(newTheme) {
+              document.documentElement.className = newTheme;
+            }
+
+            var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+            setTheme(cachedMode || (darkQuery.matches ? 'dark' : 'light'));
+          }()
+        </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div class="Layout-module--layout--2c933"><div class="Post-module--post--3a994"><div class="Post-module--buttons--2972d"><a class="Button-module--button--b1113 Post-module--buttonArticles--d793a" href="/"><div data-gatsby-image-wrapper="" class="gatsby-image-wrapper gatsby-image-wrapper-constrained"><div style="max-width:128px;display:block"><img alt="" role="presentation" aria-hidden="true" src="data:image/svg+xml;charset=utf-8,%3Csvg height=&#x27;128&#x27; width=&#x27;128&#x27; xmlns=&#x27;http://www.w3.org/2000/svg&#x27; version=&#x27;1.1&#x27;%3E%3C/svg%3E" style="max-width:100%;display:block;position:static"/></div><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#080808;position:absolute;top:0;left:0;bottom:0;right:0"></div><picture><source type="image/avif" data-srcset="/static/13016f38b519c316167f463123975519/b6d61/up-right-arrow.avif 32w,/static/13016f38b519c316167f463123975519/2e71d/up-right-arrow.avif 64w,/static/13016f38b519c316167f463123975519/3c49f/up-right-arrow.avif 128w" sizes="(min-width: 128px) 128px, 100vw"/><source type="image/webp" data-srcset="/static/13016f38b519c316167f463123975519/ef6ff/up-right-arrow.webp 32w,/static/13016f38b519c316167f463123975519/8257c/up-right-arrow.webp 64w,/static/13016f38b519c316167f463123975519/6766a/up-right-arrow.webp 128w" sizes="(min-width: 128px) 128px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 128px) 128px, 100vw" decoding="async" loading="lazy" data-src="/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png" data-srcset="/static/13016f38b519c316167f463123975519/914ee/up-right-arrow.png 32w,/static/13016f38b519c316167f463123975519/1c9ce/up-right-arrow.png 64w,/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png 128w" alt="모든 포스트"/></picture><noscript><picture><source type="image/avif" srcSet="/static/13016f38b519c316167f463123975519/b6d61/up-right-arrow.avif 32w,/static/13016f38b519c316167f463123975519/2e71d/up-right-arrow.avif 64w,/static/13016f38b519c316167f463123975519/3c49f/up-right-arrow.avif 128w" sizes="(min-width: 128px) 128px, 100vw"/><source type="image/webp" srcSet="/static/13016f38b519c316167f463123975519/ef6ff/up-right-arrow.webp 32w,/static/13016f38b519c316167f463123975519/8257c/up-right-arrow.webp 64w,/static/13016f38b519c316167f463123975519/6766a/up-right-arrow.webp 128w" sizes="(min-width: 128px) 128px, 100vw"/><img data-gatsby-image-ssr="" data-main-image="" style="opacity:0" sizes="(min-width: 128px) 128px, 100vw" decoding="async" loading="lazy" src="/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png" srcSet="/static/13016f38b519c316167f463123975519/914ee/up-right-arrow.png 32w,/static/13016f38b519c316167f463123975519/1c9ce/up-right-arrow.png 64w,/static/13016f38b519c316167f463123975519/bf8e1/up-right-arrow.png 128w" alt="모든 포스트"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div><span>All Posts</span></a></div><div class="Post-module--content--3c6e5"><div class="Content-module--content--80d58"><h1 class="Content-module--title--09504">모노레포 Packages Tree-Shaking 하기</h1><div class="Content-module--divider--ba397"></div><div class="Content-module--body--726c2"><p>지난 글에서 트리쉐이킹의 원리와 동작에 대해서 알아본 이후 나는 이를 이용해서 회사 레포의 Packages를 트리쉐이킹 할 계획을 세웠다. 그리고 이 글에서는 그 과정과 결과에 대해 공유해보고자 한다.</p>
+<h2 id="프로젝트의-구조와-조건-사항" style="position:relative;"><a href="#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EA%B5%AC%EC%A1%B0%EC%99%80-%EC%A1%B0%EA%B1%B4-%EC%82%AC%ED%95%AD" aria-label="프로젝트의 구조와 조건 사항 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>프로젝트의 구조와 조건 사항</h2>
+<p>우선 어떤 상황에서 트리쉐이킹을 시도했는지 그 상황과 조건에 대해 설명해야 할 것 같다. 프로젝트의 구조는 Turbo Repo로 설정된 모노레포 구조로 <code class="language-text">apps</code>/<code class="language-text">docs</code>/<code class="language-text">packages</code> 이렇게 세 개의 워크스페이스를 갖고 있다. <code class="language-text">apps</code> 하위에는 <strong>Dashboard</strong>(웹) 와 <strong>mobile</strong>(웹 앱) 두 개의 레포가 존재하고, <code class="language-text">packages</code>의 하위에는 ui, css, hooks, types 등 대시보드와 모바일에서 공통적으로 사용되는 요소들이 패키지로 묶여있는 형태다.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">├── apps
+│   ├── dashboard
+│   └── mobile
+├── docs
+└── packages
+    ├── ui
+    ├── css
+    ├── hooks
+    ├── types
+    ├── tsconfig  // 실제로는 더 많은 패키지들이 존재
+    └── sortable-tree</code></pre></div>
+<p><strong>dashboard</strong>와 <strong>mobile</strong> 레포는 Vite로 번들링 되고 있으며 <code class="language-text">vite.config</code> 파일에 트리쉐이킹을 위한 추가적인 옵션을 지정하지는 않았다. 또한 <strong>packages</strong> 워크 스페이스 하위의 패키지들은 <code class="language-text">sortable-tree</code>를 제외하고는 모두 패키지 자체적으로 번들러를 사용하여 빌드하지 않는 패키지이며, 대시보드와 모바일에서는 다음과 같은 형태로 패키지들에 의존하고 있다.</p>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">// apps/dashboard/package.json
+
+ "dependencies": {
+    "@companyname-inc/api": "workspace:*",
+    "@companyname-inc/constants": "workspace:*",
+    "@companyname-inc/css": "workspace:*",
+    "@companyname-inc/hooks": "workspace:*",
+    "@companyname-inc/icons": "workspace:*",
+    "@companyname-inc/lib": "workspace:*",
+    "@companyname-inc/sortable-tree": "workspace:*",
+	   ....</code></pre></div>
+<h2 id="as-is" style="position:relative;"><a href="#as-is" aria-label="as is permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AS-IS</h2>
+<p>일단 <strong>dashboard</strong> 와 <code class="language-text">packages/ui</code>를 기준으로 트리 쉐이킹이 되고 있는지, 즉 <strong>dashboard</strong>를 빌드했을 때 <code class="language-text">packages/ui</code>의 모든 코드가 함께 번들링 되는 것이 아니라 <strong>dashboard</strong>에서 사용하는 <code class="language-text">packages/ui</code>의 코드만 번들링 되는지를 확인하기로 했다. 결과를 보다 명확하게 확인하기 위해서 <code class="language-text">packages/ui</code> 안에 <code class="language-text">TestButton</code>를 작성하고 export 한 뒤, dashboard에서는 <code class="language-text">TestButton</code>를 사용하지 않은 상태로 (import 하지 않음) 확인을 진행했다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACE0lEQVQoz22SzWsTURTF5+9RiwsTIVgQqkItSBdZuBHcVF0IfiBIP9KZeW/ezMQORJHWmrbaiOgi1pqkaZLJTBK1bUSbr7pQU+re/+KU+zKpsbj4cc99zD1z7ptRSu9zyKczKK1v4MduE912B79abXRbHfxstNDcrqPxeRt1r4od18fvve84aHdw0N47otts4c/+PoT2CEprNYVmKoV26hW+Lb+Q7K706pfkMrYWFuE+fgJ3IYna0kuUny2hNP8c7nxSQrrwdBFbK6vQ7kxByU7NIDMdQ1Fj2Iip2FR1eFygpHMUVB1Vw0Q6piMancDFS1cRiVzBmdAoQuHLCIV7NUycJcagFHSOvM5QFhZIl7hAxbThGabUNcvGO5VjdOwahs9HERke/8u5cZw6fQEnhkZwcmhEVqWoM+Q1hjIZMAPlwLDf+8KCKyykVUPyZlqTvA14PTmL1MMZrM0yPLh+GwqtSoaUyOVCGvmBIfVkSNRMwkZFmLJ+tHp8suOoCguNRALs1n0odFebOocnLJlu0LCfkKAXev0tAt3DQpEZ2JlzoN64B0V+gGDNwYT0cHkg4aDx8bOCxlGfc6DdHDD0g48i1wwM+yt7A8h0x85ovu70DRmXvwjdA5n7hil1hQa50dNBT7iMH2lJMPfVcaCT4TozscYEMsLGB24hY9jImXFkhS11VsT/IfefnuZ8J4HJibs4BCt7U+XmvWodAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/25f30ae8a8c19e025f0eade7cbf96d70/8ac56/no-tree-shaking.webp 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d3be9/no-tree-shaking.webp 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e46b2/no-tree-shaking.webp 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f992d/no-tree-shaking.webp 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/882b9/no-tree-shaking.webp 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f9142/no-tree-shaking.webp 2936w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/25f30ae8a8c19e025f0eade7cbf96d70/8ff5a/no-tree-shaking.png 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e85cb/no-tree-shaking.png 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/07a9c/no-tree-shaking.png 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/29114/no-tree-shaking.png 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png 2936w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png"
+            alt="no-tree-shaking"
+            title="no-tree-shaking"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p><a href="https://github.com/KusStar/vite-bundle-visualizer#readme" target="_blank" rel="nofollow noopener noreferrer">vite-bundle-visualizer</a>를 이용해 번들링 한 결과물을 확인했다. <strong>dashboard</strong>에서 <code class="language-text">TestButton</code> 컴포넌트를 사용하지 않았음에도 불구하고 결과물에 <code class="language-text">TestButton</code>이 포함된 것을 확인할 수 있다. 즉 <code class="language-text">packages/ui</code><strong>가 트리쉐이킹 되지 않고 있음</strong>을 확인할 수 있었다.</p>
+<h2 id="packages-트리쉐이킹-시도하기-to-be-tree-shaking" style="position:relative;"><a href="#packages-%ED%8A%B8%EB%A6%AC%EC%89%90%EC%9D%B4%ED%82%B9-%EC%8B%9C%EB%8F%84%ED%95%98%EA%B8%B0-to-be-tree-shaking" aria-label="packages 트리쉐이킹 시도하기 to be tree shaking permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Packages 트리쉐이킹 시도하기 (TO-BE Tree Shaking)</h2>
+<h3 id="가설-1-packagesui의-packagejson에-type-module-옵션-추가하기" style="position:relative;"><a href="#%EA%B0%80%EC%84%A4-1-packagesui%EC%9D%98-packagejson%EC%97%90-type-module-%EC%98%B5%EC%85%98-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0" aria-label="가설 1 packagesui의 packagejson에 type module 옵션 추가하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>가설 1) packages/ui의 package.json에 type: ‘module’ 옵션 추가하기</h3>
+<p>앞선 글을 통해 ESM으로 작성된 코드를 번들러로 번들링 할 경우 기본적으로 트리쉐이킹이 수행된다는 것을 알게 되었기 때문에 생각한 가설이다. <code class="language-text">package.json</code>에 <code class="language-text">type: 'module</code>’ 을 추가 한다는 것은 해당 레포지토리의 <code class="language-text">.js</code> 확장자 파일은 ESM으로 작성된 파일이라는 것을 의미한다.</p>
+<p>따라서 <code class="language-text">packages/ui</code>의 <code class="language-text">package.json</code>에 <code class="language-text">type: 'module'</code>을 추가하고 빌드를 진행했다. 여기서 빌드한 것은 <code class="language-text">packages/ui</code>를 의존성으로 가지고 있는 <strong>dashboard</strong>를 빌드한 것이며, 앞서 언급 하였듯 <code class="language-text">packages/ui</code>는 자체적인 번들러로 빌드 하지 않는 패키지이다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACE0lEQVQoz22SzWsTURTF5+9RiwsTIVgQqkItSBdZuBHcVF0IfiBIP9KZeW/ezMQORJHWmrbaiOgi1pqkaZLJTBK1bUSbr7pQU+re/+KU+zKpsbj4cc99zD1z7ptRSu9zyKczKK1v4MduE912B79abXRbHfxstNDcrqPxeRt1r4od18fvve84aHdw0N47otts4c/+PoT2CEprNYVmKoV26hW+Lb+Q7K706pfkMrYWFuE+fgJ3IYna0kuUny2hNP8c7nxSQrrwdBFbK6vQ7kxByU7NIDMdQ1Fj2Iip2FR1eFygpHMUVB1Vw0Q6piMancDFS1cRiVzBmdAoQuHLCIV7NUycJcagFHSOvM5QFhZIl7hAxbThGabUNcvGO5VjdOwahs9HERke/8u5cZw6fQEnhkZwcmhEVqWoM+Q1hjIZMAPlwLDf+8KCKyykVUPyZlqTvA14PTmL1MMZrM0yPLh+GwqtSoaUyOVCGvmBIfVkSNRMwkZFmLJ+tHp8suOoCguNRALs1n0odFebOocnLJlu0LCfkKAXev0tAt3DQpEZ2JlzoN64B0V+gGDNwYT0cHkg4aDx8bOCxlGfc6DdHDD0g48i1wwM+yt7A8h0x85ovu70DRmXvwjdA5n7hil1hQa50dNBT7iMH2lJMPfVcaCT4TozscYEMsLGB24hY9jImXFkhS11VsT/IfefnuZ8J4HJibs4BCt7U+XmvWodAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/25f30ae8a8c19e025f0eade7cbf96d70/8ac56/no-tree-shaking.webp 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d3be9/no-tree-shaking.webp 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e46b2/no-tree-shaking.webp 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f992d/no-tree-shaking.webp 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/882b9/no-tree-shaking.webp 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f9142/no-tree-shaking.webp 2936w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/25f30ae8a8c19e025f0eade7cbf96d70/8ff5a/no-tree-shaking.png 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e85cb/no-tree-shaking.png 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/07a9c/no-tree-shaking.png 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/29114/no-tree-shaking.png 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png 2936w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png"
+            alt="no-tree-shaking"
+            title="no-tree-shaking"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p><code class="language-text">type: 'module'</code>을 추가하지 않은 것과 차이가 없이 여전히 트리쉐이킹이 수행되지 않았다. 아마도 <code class="language-text">packages/ui</code> 자체적으로 번들러를 두고 번들링 하는 것이 아니기 때문에 <code class="language-text">type: 'module'</code> 옵션의 영향도가 없었을 것으로 추측했다. (사실 보통 레포지토리에서 cjm 형태로 코드를 작성하고 package.json에 <code class="language-text">type:module</code>을 추가한 뒤 번들링하면 작성한 코드가 ESM의 문법에 맞지 않기 때문에 에러가 발생하는데 그 에러가 발생하지 않는 것 부터 뭔가 이상하다는 생각은 들었다 🤫)</p>
+<p><code class="language-text">packages.json</code>에 <code class="language-text">type:module</code> 을 추가하는 방법이 아니라 <code class="language-text">packages/ui</code> 의 js 파일의 확장자를 <code class="language-text">mjs</code>로 바꾸고 내부 코드를 ESM 형식으로 변경 했다면 트리쉐이킹이 잘 되었을 수도 있으나 이 방법을 적용하기엔 공수가 너무 커서 일단 여기서 1번 가설은 확인을 마쳤다.</p>
+<h3 id="가설-2-packagesui의-packagejson에-sideeffects-false-옵션-추가하기" style="position:relative;"><a href="#%EA%B0%80%EC%84%A4-2-packagesui%EC%9D%98-packagejson%EC%97%90-sideeffects-false-%EC%98%B5%EC%85%98-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0" aria-label="가설 2 packagesui의 packagejson에 sideeffects false 옵션 추가하기 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>가설 2) packages/ui의 package.json에 sideEffects: false 옵션 추가하기</h3>
+<p>Vite나 Rollup의 공식문서에는 <code class="language-text">package.json</code>에 <code class="language-text">sideEffects: false</code> 옵션을 추가했을 때, 특히 의존성 패키지의 <code class="language-text">package.json</code>에 <code class="language-text">sideEffect:false</code> 옵션을 추가했을 때 정확히 어떠한 동작이 수행 되는지에 대해서 언급은 찾지 못했지만, 범용적인 방법이기 때문에 해당 가설을 세우고 실행시켜 확인해보았다. (당연히 Vite나 Rollup의 config 파일에서는 최적화(tree-shaking)에 적용할 수 있는 sideEffect 옵션들이 있다.)</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrUlEQVQoz53Rz0sUYRzH8flPSigkiaBrB41I6SYrGh2yNqRDghrM2hYzq87MMz+c0cXVXTbYi3fpUKb7w5HaH7M2sVBegoqIOvc/vGNGMqoRpMOL5zk838/zfb6PVHaLvK/7dJ/vEL6s8rEd8Dk44FPQjX1otgh3q/SqNd7t1vjSCfgevuVbGB55E/K1e8CPw0MqqyWkiqLT2yjSWSsQrBVoreZprvxpW9PZVJeoLFo8faJRkJXYuqyynlEpyCrl7CLy1EOkoqzw2rSo64KGYbL3l7puspNbYO7uNJeujDJweYRzF68d67swxNn+Qc70D3J+4CpSKaPSsh32hIVv2on2TQt3Zp47N+9zb2KK26k0k2NpJlNpxm/cYvT6OGMjEwwPpaJAhZbl0DAsfJGsqhnxGrgeneWI+5vr0XY9evk8GxkVqSQrNC07fu5JgQ1dHI/kH7pJTRdxhjfz6HQd/prniRcaJm3bYWU2e/QpUXo94UNOK6qNmvKiwPK8SmA77AuLV2YSG98Q+IYZ75PORLVdxyE/9xhpeTbLiyXBVk7n2cL/2cppbGsC7YHMT7D4GnwpYF4eAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/6c87c44bf91deb211e8149d38681fbb8/8ac56/package-tree-shaking.webp 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d3be9/package-tree-shaking.webp 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e46b2/package-tree-shaking.webp 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/f992d/package-tree-shaking.webp 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/882b9/package-tree-shaking.webp 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/6fecd/package-tree-shaking.webp 2974w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/6c87c44bf91deb211e8149d38681fbb8/8ff5a/package-tree-shaking.png 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e85cb/package-tree-shaking.png 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/07a9c/package-tree-shaking.png 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/29114/package-tree-shaking.png 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png 2974w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png"
+            alt="package-tree-shaking"
+            title="package-tree-shaking"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p><code class="language-text">sideEffects: false</code> 옵션 추가 후 빌드 했을 때 <strong>트리쉐이킹이 잘 수행되는 것을 확인</strong>했다! 빌드 결과물에서 <code class="language-text">TestButton</code>은 물론 사용하지 않는 컴포넌트들이 사라졌다! 기존 24.29kb 였던 <code class="language-text">packages/ui/components</code> 청크의 사이즈도 6.91kb로 <strong>약 17kb 정도가 줄어든 것을 확인</strong>할 수 있었다. 빌드의 주체가 되는 번들러는 <strong>dashboard</strong>의 번들러이지만 의존성(패키지)의 <code class="language-text">package.json</code>에 <code class="language-text">sideEffect</code>옵션도 번들링에 영향을 준다는 것을 확인할 수 있었다.</p>
+<p>(그러나 패키지의<code class="language-text">package.json</code>에 <code class="language-text">sideEffect</code> 옵션이 구체적으로 어떤 과정을 통해 Vite의 트리쉐이킹을 트리거 시키는지는 찾지 못했다 🥹 정말 제대로 파악하려면 소스코드를 파보거나 해야겠지만…)</p>
+<h2 id="님아-그-호기심의-강을-건너지마오" style="position:relative;"><a href="#%EB%8B%98%EC%95%84-%EA%B7%B8-%ED%98%B8%EA%B8%B0%EC%8B%AC%EC%9D%98-%EA%B0%95%EC%9D%84-%EA%B1%B4%EB%84%88%EC%A7%80%EB%A7%88%EC%98%A4" aria-label="님아 그 호기심의 강을 건너지마오 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>님아 그 호기심의 강을 건너지마오</h2>
+<h3 id="추가적인-의문-해결-적절한-트리쉐이킹이-이뤄지고-있는가-" style="position:relative;"><a href="#%EC%B6%94%EA%B0%80%EC%A0%81%EC%9D%B8-%EC%9D%98%EB%AC%B8-%ED%95%B4%EA%B2%B0-%EC%A0%81%EC%A0%88%ED%95%9C-%ED%8A%B8%EB%A6%AC%EC%89%90%EC%9D%B4%ED%82%B9%EC%9D%B4-%EC%9D%B4%EB%A4%84%EC%A7%80%EA%B3%A0-%EC%9E%88%EB%8A%94%EA%B0%80-" aria-label="추가적인 의문 해결 적절한 트리쉐이킹이 이뤄지고 있는가  permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>추가적인 의문 해결, 적절한 트리쉐이킹이 이뤄지고 있는가 🤔?</h3>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrUlEQVQoz53Rz0sUYRzH8flPSigkiaBrB41I6SYrGh2yNqRDghrM2hYzq87MMz+c0cXVXTbYi3fpUKb7w5HaH7M2sVBegoqIOvc/vGNGMqoRpMOL5zk838/zfb6PVHaLvK/7dJ/vEL6s8rEd8Dk44FPQjX1otgh3q/SqNd7t1vjSCfgevuVbGB55E/K1e8CPw0MqqyWkiqLT2yjSWSsQrBVoreZprvxpW9PZVJeoLFo8faJRkJXYuqyynlEpyCrl7CLy1EOkoqzw2rSo64KGYbL3l7puspNbYO7uNJeujDJweYRzF68d67swxNn+Qc70D3J+4CpSKaPSsh32hIVv2on2TQt3Zp47N+9zb2KK26k0k2NpJlNpxm/cYvT6OGMjEwwPpaJAhZbl0DAsfJGsqhnxGrgeneWI+5vr0XY9evk8GxkVqSQrNC07fu5JgQ1dHI/kH7pJTRdxhjfz6HQd/prniRcaJm3bYWU2e/QpUXo94UNOK6qNmvKiwPK8SmA77AuLV2YSG98Q+IYZ75PORLVdxyE/9xhpeTbLiyXBVk7n2cL/2cppbGsC7YHMT7D4GnwpYF4eAAAAAElFTkSuQmCC'); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/6c87c44bf91deb211e8149d38681fbb8/8ac56/package-tree-shaking.webp 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d3be9/package-tree-shaking.webp 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e46b2/package-tree-shaking.webp 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/f992d/package-tree-shaking.webp 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/882b9/package-tree-shaking.webp 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/6fecd/package-tree-shaking.webp 2974w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/6c87c44bf91deb211e8149d38681fbb8/8ff5a/package-tree-shaking.png 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e85cb/package-tree-shaking.png 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/07a9c/package-tree-shaking.png 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/29114/package-tree-shaking.png 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png 2974w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png"
+            alt="package-tree-shaking"
+            title="package-tree-shaking"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>그런데 나는 이 결과를 확인하고 한가지 이상한 점을 발견했다. <code class="language-text">packages/ui/components</code>에 <code class="language-text">inputWithUnit</code> 컴포넌트가 존재하지 않았다. <code class="language-text">inputWithUnit</code>은 내가 비교적 최근에 만들고 사용한 컴포넌트여서 <strong>dashboard</strong>에서 사용하고 있는 컴포넌트 라는 것을 정확하게 인지하고 있었다.</p>
+<blockquote>
+<p>💡 혹시 부적절한 트리쉐이킹으로 필요한 코드가 누락된 것은 아닐까?</p>
+</blockquote>
+<p>확인해 보기로 했다.</p>
+<ol>
+<li>
+<p>빌드한 파일을 띄우고 <code class="language-text">inputWithUnit</code>이 사용되는 페이지가 정상적으로 노출 &#x26; 동작 하는지 확인</p>
+<p>→ 정상적으로 노출/동작하는 것을 확인했다.</p>
+</li>
+<li>
+<p><code class="language-text">vite-bundle-visualizer</code>를 통해 <code class="language-text">inputWithUnit</code>이 사용된 페이지가 어떤 파일명으로 빌드되었는지 확인 (<code class="language-text">index-c2e221fb.js</code>) 그리고 그 빌드 파일에 inputWithUnit이 존재하는지 확인</p>
+<p>→ 해당 파일에서 <code class="language-text">inputWithUnit</code>의 <strong>displayName</strong>을 확인할 수 있었다.</p>
+<p>참고로 <a href="https://ko.legacy.reactjs.org/docs/react-component.html#displayname" target="_blank" rel="nofollow noopener noreferrer">DisplayName</a> 문자열은 디버깅 메시지 표시에 사용되기 때문에 명시적으로 이 값을 지정해 놓으면 디버깅시에 도움을 받을 수 있다.</p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/1885359ca36fa1aaef41a71ca25057a2/e2310/search-build.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 64.16666666666666%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAABoElEQVQ4y52S3Y7TMBCF8wZNbMe/seM0v3WSbaFcgEArLhDv/0YH2UmQQO2y4uLTiSfj8cyxMy4Vun6EMhVOBUFBKArK3oZQCKVRuRrWeejKwliXNCs5h7UOlbWQUoFzAUoZKGObPoBQBi4EpFJQ2kAbA6l0Wmexw2G6YFlfcAkzXO2RFyRtIqx8zt5p/JbGwfgzuDLIYuXzMKEdJnRTSF0qpSClBGMlGGP/hlIIKSGk2kZelgW32w3X6xXzPCcNIaRkSumbxBxCCKQ2ydNMag3f9vDdgKYbEQ9ge+J7KMsyFVZKw8RLOYKP4Um3zSXYHv+7YJ6fcAkLvr5+RxYDXdfj3HZomjPquoFob+A+QHZ3cDeBkGIfkaTxHo0e40WRbwWd46jrGs45eO/ReI+qqmC03tSYpFVlYa2FEOKPwkV+QuU7hE/fkMWAVBJ9WNGOAf1lQTfNGMKaYsO8oulHrPdXfPj8Ax+//MQ431G3fSJ5H1/JNKOdFmTbSZsf8TGz5FH527PjgW9+isTxjx35+8VEsmP+91HsPM/J6BOT/5dfO4FNlrT0tZgAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/1885359ca36fa1aaef41a71ca25057a2/8ac56/search-build.webp 240w,
+/static/1885359ca36fa1aaef41a71ca25057a2/d3be9/search-build.webp 480w,
+/static/1885359ca36fa1aaef41a71ca25057a2/e46b2/search-build.webp 960w,
+/static/1885359ca36fa1aaef41a71ca25057a2/61c9b/search-build.webp 968w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/1885359ca36fa1aaef41a71ca25057a2/8ff5a/search-build.png 240w,
+/static/1885359ca36fa1aaef41a71ca25057a2/e85cb/search-build.png 480w,
+/static/1885359ca36fa1aaef41a71ca25057a2/d9199/search-build.png 960w,
+/static/1885359ca36fa1aaef41a71ca25057a2/e2310/search-build.png 968w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/1885359ca36fa1aaef41a71ca25057a2/d9199/search-build.png"
+            alt="search-inputwithunit"
+            title="search-inputwithunit"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+</li>
+</ol>
+<p>그럼 여기서 생길 수 있는 합리적인 의문이 있다.</p>
+<blockquote>
+<p>💡 사실 <code class="language-text">TestButton</code>이나 다른 사용하지 않는 컴포넌트들도 트리쉐이킹 된 것이 아니라 그냥 다른 청크에서 빌드된 것 아닌가?</p>
+</blockquote>
+<p>→ <code class="language-text">TestButton</code>을 비롯해 <code class="language-text">packages/ui</code>에 있는 모든 컴포넌트는 <strong>DisplayName</strong>을 지정해 놓았고, 빌드 결과물에서 <code class="language-text">TestButton</code>을 확인할 수 없는 것으로 미뤄보아 사용하지 않는 컴포넌트들은 트리쉐이킹 된 것을 알 수 있었다. 참고로 <code class="language-text">sideEffects: false</code>를 추가하기 전 빌드 결과물에서는 <code class="language-text">TestButton</code>이 검색 되었다.</p>
+<h3 id="최종-결과" style="position:relative;"><a href="#%EC%B5%9C%EC%A2%85-%EA%B2%B0%EA%B3%BC" aria-label="최종 결과 permalink" class="anchor before"><svg aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>최종 결과</h3>
+<p><code class="language-text">packages/ui</code> 뿐만 아니라 모노레포 내의 다른 패키지들에도 <code class="language-text">sideEffects: false</code> 옵션을 적용하여 트리쉐이킹이 수행되도록 했다.</p>
+<p><strong>AS-IS</strong>
+<span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/7b8e76d9d5cb088417613c99cdef4ab5/89896/tree-shaking-as-is.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.083333333333336%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB60lEQVQoz53OS2sTURjG8fkULgstKlTEpW4Ui2txIYgKmiKp1qaiaCTNZZJMJpOkDSZtMjNJ0wqlq6JImzb31l5yTxtd1U02Cn4BP8JfOmmDhWTj4sfzHN7DOa+QXlnjW75IYzNLO1+iU63RqdZ7jvf2qW9laOXytHNFftbr/D48POdXo8mfH8eExBBCYUHj+9IyR6lljhaXaOhJmnrSyIaWMHpuNsxBdJ5cVMXxxsXbF1ZePp3G/PA5E48mmXg8ydQTC/fvmRA25qLU4yrlBZVKTKVq0IysnPbdyDxNVeOjS+bajbtcvHqHkdExhkdvM3JljKHLt7gwdJ3hSzcRMlG1u1kyRTOZMvLMybmeWKSs6tT0BNsxnaQnSEIMELf7iM1IRn6wisxbRcYfmBHS4ZPf9d52tbhG9R81tbvhwUKchqrT0nSOEslzWlqCzuoq8rQN4ZMosePxUnB7Kbq9lE7zTMkjkZ5xkHWKRs+53BREDwXR25N1uqkoCvZxC8Ka3U3R7iQ/QMHhYuO9jS2b3ej97mRsDiqShN00hfDZ42dXVij5/Gz3IysUJbk7l5U+dxQKkkxjLozj2SuEdTlIORhiLxBif4CTx3ZkZeD8qz9AOxLBZX6NsOL0semVWff8vy9uH6XgLO9MFv4C0K4iWVCQuwwAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/7b8e76d9d5cb088417613c99cdef4ab5/8ac56/tree-shaking-as-is.webp 240w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/d3be9/tree-shaking-as-is.webp 480w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/e46b2/tree-shaking-as-is.webp 960w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/f992d/tree-shaking-as-is.webp 1440w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/882b9/tree-shaking-as-is.webp 1920w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/ece8d/tree-shaking-as-is.webp 2966w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/7b8e76d9d5cb088417613c99cdef4ab5/8ff5a/tree-shaking-as-is.png 240w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/e85cb/tree-shaking-as-is.png 480w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/d9199/tree-shaking-as-is.png 960w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/07a9c/tree-shaking-as-is.png 1440w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/29114/tree-shaking-as-is.png 1920w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/89896/tree-shaking-as-is.png 2966w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/7b8e76d9d5cb088417613c99cdef4ab5/d9199/tree-shaking-as-is.png"
+            alt="tree-shaking-as-is"
+            title="tree-shaking-as-is"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p><strong>TO-BE</strong></p>
+<p><span
+      class="gatsby-resp-image-wrapper"
+      style="position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; "
+    >
+      <a
+    class="gatsby-resp-image-link"
+    href="/static/44313c62272c2f68dca95a2de5609c2c/89896/tree-shaking-to-be.png"
+    style="display: block"
+    target="_blank"
+    rel="noopener"
+  >
+    <span
+    class="gatsby-resp-image-background-image"
+    style="padding-bottom: 52.083333333333336%; position: relative; bottom: 0; left: 0; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACG0lEQVQoz32QTW8SURhG+RUuNamJjda47MoNiUtdNH7tikI0/bDG2gJTkY8BZpgBBijWAo3GhaYr05IWOgOltJSWKW13aqIbjfoD/AnHMBTSdNHFyfPeuzj3ea9t9cMyR2WDVrFk5ffdJj9297o09/lS38ZcL9Mu6xxvGPxsmfxuH/L38Ig/J/wyD/j37SuKX8GmZxbYiidovlng+N17zFyhz14mSzOdYTuZwszM8ymi8mLMzYRjiscPnjB614njngvHfReuh08ZuTOKbVXVWPG9xoiptHIF9t/m+lRDYXSfnw1fgEZIJOia4urwbQZv3GJgyM7ANTuXh+xcvHKTC5eGGbxux1aMp1gPimzGk5j5JUvUWsxb2ZGVZj2U3F50t5flGQHt2SyJ8WmSYyeMTyM5J1FdkzhGHF1hQ1FpaOl+w57Q6AjdXsoegZJHQPcIGG4PpZlZNoU5ql7BwvAKtEURn2O8s3KKnZhiCfcX89QzWRrZBUu4GZGoBEJUgmIfIyCiB0IYnfmEsj9IU44hPJrEVlRTbEkx6+PPNqwrKrWoTE2KdbM3nzlXIhIHmsYr51S3YU2SqZ8S9tiSFaphyWraQxcjlIMi1VN3hhjFTCSZ6wjXE2maapy9dIbDwhLtXKHPjhKnHpXZ7jx4DrWIxJGm4XM9x/YxrLIWlliT4+jpLBvaPHpq3sqiKLESCLMSPJ/PfpGKrPBydIL/rVwhxW945+sAAAAASUVORK5CYII='); background-size: cover; display: block;"
+  ></span>
+  <picture>
+          <source
+              srcset="/static/44313c62272c2f68dca95a2de5609c2c/8ac56/tree-shaking-to-be.webp 240w,
+/static/44313c62272c2f68dca95a2de5609c2c/d3be9/tree-shaking-to-be.webp 480w,
+/static/44313c62272c2f68dca95a2de5609c2c/e46b2/tree-shaking-to-be.webp 960w,
+/static/44313c62272c2f68dca95a2de5609c2c/f992d/tree-shaking-to-be.webp 1440w,
+/static/44313c62272c2f68dca95a2de5609c2c/882b9/tree-shaking-to-be.webp 1920w,
+/static/44313c62272c2f68dca95a2de5609c2c/ece8d/tree-shaking-to-be.webp 2966w"
+              sizes="(max-width: 960px) 100vw, 960px"
+              type="image/webp"
+            />
+          <source
+            srcset="/static/44313c62272c2f68dca95a2de5609c2c/8ff5a/tree-shaking-to-be.png 240w,
+/static/44313c62272c2f68dca95a2de5609c2c/e85cb/tree-shaking-to-be.png 480w,
+/static/44313c62272c2f68dca95a2de5609c2c/d9199/tree-shaking-to-be.png 960w,
+/static/44313c62272c2f68dca95a2de5609c2c/07a9c/tree-shaking-to-be.png 1440w,
+/static/44313c62272c2f68dca95a2de5609c2c/29114/tree-shaking-to-be.png 1920w,
+/static/44313c62272c2f68dca95a2de5609c2c/89896/tree-shaking-to-be.png 2966w"
+            sizes="(max-width: 960px) 100vw, 960px"
+            type="image/png"
+          />
+          <img
+            class="gatsby-resp-image-image"
+            src="/static/44313c62272c2f68dca95a2de5609c2c/d9199/tree-shaking-to-be.png"
+            alt="tree-shaking-to-be"
+            title="tree-shaking-to-be"
+            loading="lazy"
+            decoding="async"
+            style="width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;"
+          />
+        </picture>
+  </a>
+    </span></p>
+<p>그 상태로 <strong>dashboard</strong>를 빌드한 결과 <strong>번들 사이즈가 약 17kb 줄어든 것을 확인</strong>할 수 있었다. (빌드 속도도 체크해 보았지만 로컬 빌드 기준으로 0.n초 정도 줄어들거나 거의 차이가 없었다.) 애초에 <strong>packages</strong>의 코드 대부분을 <strong>dashboard</strong>에 사용하고 있어서 미미한 축소 효과밖에 얻지 못했지만 트리쉐이킹에 성공 했다는 점과 앞으로 <strong>packages</strong>에 존재하는 사용하지 않는 코드들이 함께 번들링 되지 않는다는 안정감(^^)을 얻게 된 것에 의의를 두면서 이 글을 마친다.</p>
+<p>아 그리고 드디어 블로그에 댓글 기능을 달아서 이 말을 쓸 수 있게 되었다. 글을 읽다가 틀린 점이 발견되면 언제든 댓글 부탁드립니다!</p></div><div class="Content-module--divider--ba397"></div></div></div><div class="Post-module--footer--f8705"><div></div></div></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/posts/tree-shaking-monorepo-packages";window.___webpackCompilationHash="01fabd3418b627e5d04b";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-f85de7de7e804c3d8fbb.js"],"app":["/app-cb5b1d707c782d7d41e0.js"],"component---cache-caches-gatsby-plugin-offline-app-shell-js":["/component---cache-caches-gatsby-plugin-offline-app-shell-js-0c915c7b1bdb5eac4fdf.js"],"component---src-templates-categories-template-categories-template-tsx":["/component---src-templates-categories-template-categories-template-tsx-476aba622553283a555d.js"],"component---src-templates-category-template-category-template-tsx":["/component---src-templates-category-template-category-template-tsx-b58a40ac181644218f02.js"],"component---src-templates-index-template-index-template-tsx":["/component---src-templates-index-template-index-template-tsx-dae94005382c582e4f75.js"],"component---src-templates-not-found-template-not-found-template-tsx":["/component---src-templates-not-found-template-not-found-template-tsx-65cdb511419717d20404.js"],"component---src-templates-page-template-page-template-tsx":["/component---src-templates-page-template-page-template-tsx-6c008beccbce9ce80004.js"],"component---src-templates-post-template-post-template-tsx":["/component---src-templates-post-template-post-template-tsx-448a42462d2ebfd6acc7.js"],"component---src-templates-tag-template-tag-template-tsx":["/component---src-templates-tag-template-tag-template-tsx-0d39ea13639ca805e9a0.js"],"component---src-templates-tags-template-tags-template-tsx":["/component---src-templates-tags-template-tags-template-tsx-0350bbb7b72c9ccfd87b.js"]};/*]]>*/</script><script src="/polyfill-f85de7de7e804c3d8fbb.js" nomodule=""></script><script src="/app-cb5b1d707c782d7d41e0.js" async=""></script><script src="/framework-481a1b6416c14416b2fb.js" async=""></script><script src="/webpack-runtime-30148c792c22f8f01e23.js" async=""></script></body></html>

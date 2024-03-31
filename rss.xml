@@ -1,4 +1,403 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Eunsonny's Blog]]></title><description><![CDATA[Eunsonny's Blog]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 11 Mar 2024 01:03:20 GMT</lastBuildDate><item><title><![CDATA[Tree-Shaking의 원리와 과정 알아보기]]></title><description><![CDATA[Deep Dive Tree Shaking]]></description><link>https://eunsonny.github.io/posts/deep-dive-tree-shaking</link><guid isPermaLink="false">https://eunsonny.github.io/posts/deep-dive-tree-shaking</guid><pubDate>Sun, 10 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;tldr&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#tldr&quot; aria-label=&quot;tldr permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;TL;DR&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Eunsonny's Blog]]></title><description><![CDATA[Eunsonny's Blog]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 31 Mar 2024 07:50:00 GMT</lastBuildDate><item><title><![CDATA[모노레포 Packages Tree-Shaking 하기]]></title><description><![CDATA[습득한 지식 활용해보기]]></description><link>https://eunsonny.github.io/posts/tree-shaking-monorepo-packages</link><guid isPermaLink="false">https://eunsonny.github.io/posts/tree-shaking-monorepo-packages</guid><pubDate>Tue, 26 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;지난 글에서 트리쉐이킹의 원리와 동작에 대해서 알아본 이후 나는 이를 이용해서 회사 레포의 Packages를 트리쉐이킹 할 계획을 세웠다. 그리고 이 글에서는 그 과정과 결과에 대해 공유해보고자 한다.&lt;/p&gt;
+&lt;h2 id=&quot;프로젝트의-구조와-조건-사항&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EA%B5%AC%EC%A1%B0%EC%99%80-%EC%A1%B0%EA%B1%B4-%EC%82%AC%ED%95%AD&quot; aria-label=&quot;프로젝트의 구조와 조건 사항 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로젝트의 구조와 조건 사항&lt;/h2&gt;
+&lt;p&gt;우선 어떤 상황에서 트리쉐이킹을 시도했는지 그 상황과 조건에 대해 설명해야 할 것 같다. 프로젝트의 구조는 Turbo Repo로 설정된 모노레포 구조로 &lt;code class=&quot;language-text&quot;&gt;apps&lt;/code&gt;/&lt;code class=&quot;language-text&quot;&gt;docs&lt;/code&gt;/&lt;code class=&quot;language-text&quot;&gt;packages&lt;/code&gt; 이렇게 세 개의 워크스페이스를 갖고 있다. &lt;code class=&quot;language-text&quot;&gt;apps&lt;/code&gt; 하위에는 &lt;strong&gt;Dashboard&lt;/strong&gt;(웹) 와 &lt;strong&gt;mobile&lt;/strong&gt;(웹 앱) 두 개의 레포가 존재하고, &lt;code class=&quot;language-text&quot;&gt;packages&lt;/code&gt;의 하위에는 ui, css, hooks, types 등 대시보드와 모바일에서 공통적으로 사용되는 요소들이 패키지로 묶여있는 형태다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;├── apps
+│   ├── dashboard
+│   └── mobile
+├── docs
+└── packages
+    ├── ui
+    ├── css
+    ├── hooks
+    ├── types
+    ├── tsconfig  // 실제로는 더 많은 패키지들이 존재
+    └── sortable-tree&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;dashboard&lt;/strong&gt;와 &lt;strong&gt;mobile&lt;/strong&gt; 레포는 Vite로 번들링 되고 있으며 &lt;code class=&quot;language-text&quot;&gt;vite.config&lt;/code&gt; 파일에 트리쉐이킹을 위한 추가적인 옵션을 지정하지는 않았다. 또한 &lt;strong&gt;packages&lt;/strong&gt; 워크 스페이스 하위의 패키지들은 &lt;code class=&quot;language-text&quot;&gt;sortable-tree&lt;/code&gt;를 제외하고는 모두 패키지 자체적으로 번들러를 사용하여 빌드하지 않는 패키지이며, 대시보드와 모바일에서는 다음과 같은 형태로 패키지들에 의존하고 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// apps/dashboard/package.json
+
+ &quot;dependencies&quot;: {
+    &quot;@companyname-inc/api&quot;: &quot;workspace:*&quot;,
+    &quot;@companyname-inc/constants&quot;: &quot;workspace:*&quot;,
+    &quot;@companyname-inc/css&quot;: &quot;workspace:*&quot;,
+    &quot;@companyname-inc/hooks&quot;: &quot;workspace:*&quot;,
+    &quot;@companyname-inc/icons&quot;: &quot;workspace:*&quot;,
+    &quot;@companyname-inc/lib&quot;: &quot;workspace:*&quot;,
+    &quot;@companyname-inc/sortable-tree&quot;: &quot;workspace:*&quot;,
+	   ....&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;as-is&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#as-is&quot; aria-label=&quot;as is permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;AS-IS&lt;/h2&gt;
+&lt;p&gt;일단 &lt;strong&gt;dashboard&lt;/strong&gt; 와 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;를 기준으로 트리 쉐이킹이 되고 있는지, 즉 &lt;strong&gt;dashboard&lt;/strong&gt;를 빌드했을 때 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;의 모든 코드가 함께 번들링 되는 것이 아니라 &lt;strong&gt;dashboard&lt;/strong&gt;에서 사용하는 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;의 코드만 번들링 되는지를 확인하기로 했다. 결과를 보다 명확하게 확인하기 위해서 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt; 안에 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;를 작성하고 export 한 뒤, dashboard에서는 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;를 사용하지 않은 상태로 (import 하지 않음) 확인을 진행했다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACE0lEQVQoz22SzWsTURTF5+9RiwsTIVgQqkItSBdZuBHcVF0IfiBIP9KZeW/ezMQORJHWmrbaiOgi1pqkaZLJTBK1bUSbr7pQU+re/+KU+zKpsbj4cc99zD1z7ptRSu9zyKczKK1v4MduE912B79abXRbHfxstNDcrqPxeRt1r4od18fvve84aHdw0N47otts4c/+PoT2CEprNYVmKoV26hW+Lb+Q7K706pfkMrYWFuE+fgJ3IYna0kuUny2hNP8c7nxSQrrwdBFbK6vQ7kxByU7NIDMdQ1Fj2Iip2FR1eFygpHMUVB1Vw0Q6piMancDFS1cRiVzBmdAoQuHLCIV7NUycJcagFHSOvM5QFhZIl7hAxbThGabUNcvGO5VjdOwahs9HERke/8u5cZw6fQEnhkZwcmhEVqWoM+Q1hjIZMAPlwLDf+8KCKyykVUPyZlqTvA14PTmL1MMZrM0yPLh+GwqtSoaUyOVCGvmBIfVkSNRMwkZFmLJ+tHp8suOoCguNRALs1n0odFebOocnLJlu0LCfkKAXev0tAt3DQpEZ2JlzoN64B0V+gGDNwYT0cHkg4aDx8bOCxlGfc6DdHDD0g48i1wwM+yt7A8h0x85ovu70DRmXvwjdA5n7hil1hQa50dNBT7iMH2lJMPfVcaCT4TozscYEMsLGB24hY9jImXFkhS11VsT/IfefnuZ8J4HJibs4BCt7U+XmvWodAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/8ac56/no-tree-shaking.webp 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d3be9/no-tree-shaking.webp 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e46b2/no-tree-shaking.webp 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f992d/no-tree-shaking.webp 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/882b9/no-tree-shaking.webp 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f9142/no-tree-shaking.webp 2936w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/8ff5a/no-tree-shaking.png 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e85cb/no-tree-shaking.png 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/07a9c/no-tree-shaking.png 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/29114/no-tree-shaking.png 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png 2936w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png&quot;
+            alt=&quot;no-tree-shaking&quot;
+            title=&quot;no-tree-shaking&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/KusStar/vite-bundle-visualizer#readme&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;vite-bundle-visualizer&lt;/a&gt;를 이용해 번들링 한 결과물을 확인했다. &lt;strong&gt;dashboard&lt;/strong&gt;에서 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt; 컴포넌트를 사용하지 않았음에도 불구하고 결과물에 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;이 포함된 것을 확인할 수 있다. 즉 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;&lt;strong&gt;가 트리쉐이킹 되지 않고 있음&lt;/strong&gt;을 확인할 수 있었다.&lt;/p&gt;
+&lt;h2 id=&quot;packages-트리쉐이킹-시도하기-to-be-tree-shaking&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#packages-%ED%8A%B8%EB%A6%AC%EC%89%90%EC%9D%B4%ED%82%B9-%EC%8B%9C%EB%8F%84%ED%95%98%EA%B8%B0-to-be-tree-shaking&quot; aria-label=&quot;packages 트리쉐이킹 시도하기 to be tree shaking permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Packages 트리쉐이킹 시도하기 (TO-BE Tree Shaking)&lt;/h2&gt;
+&lt;h3 id=&quot;가설-1-packagesui의-packagejson에-type-module-옵션-추가하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B0%80%EC%84%A4-1-packagesui%EC%9D%98-packagejson%EC%97%90-type-module-%EC%98%B5%EC%85%98-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0&quot; aria-label=&quot;가설 1 packagesui의 packagejson에 type module 옵션 추가하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;가설 1) packages/ui의 package.json에 type: ‘module’ 옵션 추가하기&lt;/h3&gt;
+&lt;p&gt;앞선 글을 통해 ESM으로 작성된 코드를 번들러로 번들링 할 경우 기본적으로 트리쉐이킹이 수행된다는 것을 알게 되었기 때문에 생각한 가설이다. &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;type: &apos;module&lt;/code&gt;’ 을 추가 한다는 것은 해당 레포지토리의 &lt;code class=&quot;language-text&quot;&gt;.js&lt;/code&gt; 확장자 파일은 ESM으로 작성된 파일이라는 것을 의미한다.&lt;/p&gt;
+&lt;p&gt;따라서 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;의 &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;type: &apos;module&apos;&lt;/code&gt;을 추가하고 빌드를 진행했다. 여기서 빌드한 것은 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;를 의존성으로 가지고 있는 &lt;strong&gt;dashboard&lt;/strong&gt;를 빌드한 것이며, 앞서 언급 하였듯 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;는 자체적인 번들러로 빌드 하지 않는 패키지이다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 52.5%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAACE0lEQVQoz22SzWsTURTF5+9RiwsTIVgQqkItSBdZuBHcVF0IfiBIP9KZeW/ezMQORJHWmrbaiOgi1pqkaZLJTBK1bUSbr7pQU+re/+KU+zKpsbj4cc99zD1z7ptRSu9zyKczKK1v4MduE912B79abXRbHfxstNDcrqPxeRt1r4od18fvve84aHdw0N47otts4c/+PoT2CEprNYVmKoV26hW+Lb+Q7K706pfkMrYWFuE+fgJ3IYna0kuUny2hNP8c7nxSQrrwdBFbK6vQ7kxByU7NIDMdQ1Fj2Iip2FR1eFygpHMUVB1Vw0Q6piMancDFS1cRiVzBmdAoQuHLCIV7NUycJcagFHSOvM5QFhZIl7hAxbThGabUNcvGO5VjdOwahs9HERke/8u5cZw6fQEnhkZwcmhEVqWoM+Q1hjIZMAPlwLDf+8KCKyykVUPyZlqTvA14PTmL1MMZrM0yPLh+GwqtSoaUyOVCGvmBIfVkSNRMwkZFmLJ+tHp8suOoCguNRALs1n0odFebOocnLJlu0LCfkKAXev0tAt3DQpEZ2JlzoN64B0V+gGDNwYT0cHkg4aDx8bOCxlGfc6DdHDD0g48i1wwM+yt7A8h0x85ovu70DRmXvwjdA5n7hil1hQa50dNBT7iMH2lJMPfVcaCT4TozscYEMsLGB24hY9jImXFkhS11VsT/IfefnuZ8J4HJibs4BCt7U+XmvWodAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/8ac56/no-tree-shaking.webp 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d3be9/no-tree-shaking.webp 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e46b2/no-tree-shaking.webp 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f992d/no-tree-shaking.webp 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/882b9/no-tree-shaking.webp 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/f9142/no-tree-shaking.webp 2936w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/8ff5a/no-tree-shaking.png 240w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/e85cb/no-tree-shaking.png 480w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png 960w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/07a9c/no-tree-shaking.png 1440w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/29114/no-tree-shaking.png 1920w,
+/static/25f30ae8a8c19e025f0eade7cbf96d70/87cc4/no-tree-shaking.png 2936w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/25f30ae8a8c19e025f0eade7cbf96d70/d9199/no-tree-shaking.png&quot;
+            alt=&quot;no-tree-shaking&quot;
+            title=&quot;no-tree-shaking&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;type: &apos;module&apos;&lt;/code&gt;을 추가하지 않은 것과 차이가 없이 여전히 트리쉐이킹이 수행되지 않았다. 아마도 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt; 자체적으로 번들러를 두고 번들링 하는 것이 아니기 때문에 &lt;code class=&quot;language-text&quot;&gt;type: &apos;module&apos;&lt;/code&gt; 옵션의 영향도가 없었을 것으로 추측했다. (사실 보통 레포지토리에서 cjm 형태로 코드를 작성하고 package.json에 &lt;code class=&quot;language-text&quot;&gt;type:module&lt;/code&gt;을 추가한 뒤 번들링하면 작성한 코드가 ESM의 문법에 맞지 않기 때문에 에러가 발생하는데 그 에러가 발생하지 않는 것 부터 뭔가 이상하다는 생각은 들었다 🤫)&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;packages.json&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;type:module&lt;/code&gt; 을 추가하는 방법이 아니라 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt; 의 js 파일의 확장자를 &lt;code class=&quot;language-text&quot;&gt;mjs&lt;/code&gt;로 바꾸고 내부 코드를 ESM 형식으로 변경 했다면 트리쉐이킹이 잘 되었을 수도 있으나 이 방법을 적용하기엔 공수가 너무 커서 일단 여기서 1번 가설은 확인을 마쳤다.&lt;/p&gt;
+&lt;h3 id=&quot;가설-2-packagesui의-packagejson에-sideeffects-false-옵션-추가하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B0%80%EC%84%A4-2-packagesui%EC%9D%98-packagejson%EC%97%90-sideeffects-false-%EC%98%B5%EC%85%98-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0&quot; aria-label=&quot;가설 2 packagesui의 packagejson에 sideeffects false 옵션 추가하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;가설 2) packages/ui의 package.json에 sideEffects: false 옵션 추가하기&lt;/h3&gt;
+&lt;p&gt;Vite나 Rollup의 공식문서에는 &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;sideEffects: false&lt;/code&gt; 옵션을 추가했을 때, 특히 의존성 패키지의 &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;sideEffect:false&lt;/code&gt; 옵션을 추가했을 때 정확히 어떠한 동작이 수행 되는지에 대해서 언급은 찾지 못했지만, 범용적인 방법이기 때문에 해당 가설을 세우고 실행시켜 확인해보았다. (당연히 Vite나 Rollup의 config 파일에서는 최적화(tree-shaking)에 적용할 수 있는 sideEffect 옵션들이 있다.)&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrUlEQVQoz53Rz0sUYRzH8flPSigkiaBrB41I6SYrGh2yNqRDghrM2hYzq87MMz+c0cXVXTbYi3fpUKb7w5HaH7M2sVBegoqIOvc/vGNGMqoRpMOL5zk838/zfb6PVHaLvK/7dJ/vEL6s8rEd8Dk44FPQjX1otgh3q/SqNd7t1vjSCfgevuVbGB55E/K1e8CPw0MqqyWkiqLT2yjSWSsQrBVoreZprvxpW9PZVJeoLFo8faJRkJXYuqyynlEpyCrl7CLy1EOkoqzw2rSo64KGYbL3l7puspNbYO7uNJeujDJweYRzF68d67swxNn+Qc70D3J+4CpSKaPSsh32hIVv2on2TQt3Zp47N+9zb2KK26k0k2NpJlNpxm/cYvT6OGMjEwwPpaJAhZbl0DAsfJGsqhnxGrgeneWI+5vr0XY9evk8GxkVqSQrNC07fu5JgQ1dHI/kH7pJTRdxhjfz6HQd/prniRcaJm3bYWU2e/QpUXo94UNOK6qNmvKiwPK8SmA77AuLV2YSG98Q+IYZ75PORLVdxyE/9xhpeTbLiyXBVk7n2cL/2cppbGsC7YHMT7D4GnwpYF4eAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/8ac56/package-tree-shaking.webp 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d3be9/package-tree-shaking.webp 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e46b2/package-tree-shaking.webp 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/f992d/package-tree-shaking.webp 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/882b9/package-tree-shaking.webp 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/6fecd/package-tree-shaking.webp 2974w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/8ff5a/package-tree-shaking.png 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e85cb/package-tree-shaking.png 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/07a9c/package-tree-shaking.png 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/29114/package-tree-shaking.png 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png 2974w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png&quot;
+            alt=&quot;package-tree-shaking&quot;
+            title=&quot;package-tree-shaking&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;sideEffects: false&lt;/code&gt; 옵션 추가 후 빌드 했을 때 &lt;strong&gt;트리쉐이킹이 잘 수행되는 것을 확인&lt;/strong&gt;했다! 빌드 결과물에서 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;은 물론 사용하지 않는 컴포넌트들이 사라졌다! 기존 24.29kb 였던 &lt;code class=&quot;language-text&quot;&gt;packages/ui/components&lt;/code&gt; 청크의 사이즈도 6.91kb로 &lt;strong&gt;약 17kb 정도가 줄어든 것을 확인&lt;/strong&gt;할 수 있었다. 빌드의 주체가 되는 번들러는 &lt;strong&gt;dashboard&lt;/strong&gt;의 번들러이지만 의존성(패키지)의 &lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;sideEffect&lt;/code&gt;옵션도 번들링에 영향을 준다는 것을 확인할 수 있었다.&lt;/p&gt;
+&lt;p&gt;(그러나 패키지의&lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;sideEffect&lt;/code&gt; 옵션이 구체적으로 어떤 과정을 통해 Vite의 트리쉐이킹을 트리거 시키는지는 찾지 못했다 🥹 정말 제대로 파악하려면 소스코드를 파보거나 해야겠지만…)&lt;/p&gt;
+&lt;h2 id=&quot;님아-그-호기심의-강을-건너지마오&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8B%98%EC%95%84-%EA%B7%B8-%ED%98%B8%EA%B8%B0%EC%8B%AC%EC%9D%98-%EA%B0%95%EC%9D%84-%EA%B1%B4%EB%84%88%EC%A7%80%EB%A7%88%EC%98%A4&quot; aria-label=&quot;님아 그 호기심의 강을 건너지마오 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;님아 그 호기심의 강을 건너지마오&lt;/h2&gt;
+&lt;h3 id=&quot;추가적인-의문-해결-적절한-트리쉐이킹이-이뤄지고-있는가-&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B6%94%EA%B0%80%EC%A0%81%EC%9D%B8-%EC%9D%98%EB%AC%B8-%ED%95%B4%EA%B2%B0-%EC%A0%81%EC%A0%88%ED%95%9C-%ED%8A%B8%EB%A6%AC%EC%89%90%EC%9D%B4%ED%82%B9%EC%9D%B4-%EC%9D%B4%EB%A4%84%EC%A7%80%EA%B3%A0-%EC%9E%88%EB%8A%94%EA%B0%80-&quot; aria-label=&quot;추가적인 의문 해결 적절한 트리쉐이킹이 이뤄지고 있는가  permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;추가적인 의문 해결, 적절한 트리쉐이킹이 이뤄지고 있는가 🤔?&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.66666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABrUlEQVQoz53Rz0sUYRzH8flPSigkiaBrB41I6SYrGh2yNqRDghrM2hYzq87MMz+c0cXVXTbYi3fpUKb7w5HaH7M2sVBegoqIOvc/vGNGMqoRpMOL5zk838/zfb6PVHaLvK/7dJ/vEL6s8rEd8Dk44FPQjX1otgh3q/SqNd7t1vjSCfgevuVbGB55E/K1e8CPw0MqqyWkiqLT2yjSWSsQrBVoreZprvxpW9PZVJeoLFo8faJRkJXYuqyynlEpyCrl7CLy1EOkoqzw2rSo64KGYbL3l7puspNbYO7uNJeujDJweYRzF68d67swxNn+Qc70D3J+4CpSKaPSsh32hIVv2on2TQt3Zp47N+9zb2KK26k0k2NpJlNpxm/cYvT6OGMjEwwPpaJAhZbl0DAsfJGsqhnxGrgeneWI+5vr0XY9evk8GxkVqSQrNC07fu5JgQ1dHI/kH7pJTRdxhjfz6HQd/prniRcaJm3bYWU2e/QpUXo94UNOK6qNmvKiwPK8SmA77AuLV2YSG98Q+IYZ75PORLVdxyE/9xhpeTbLiyXBVk7n2cL/2cppbGsC7YHMT7D4GnwpYF4eAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/8ac56/package-tree-shaking.webp 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d3be9/package-tree-shaking.webp 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e46b2/package-tree-shaking.webp 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/f992d/package-tree-shaking.webp 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/882b9/package-tree-shaking.webp 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/6fecd/package-tree-shaking.webp 2974w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/8ff5a/package-tree-shaking.png 240w,
+/static/6c87c44bf91deb211e8149d38681fbb8/e85cb/package-tree-shaking.png 480w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png 960w,
+/static/6c87c44bf91deb211e8149d38681fbb8/07a9c/package-tree-shaking.png 1440w,
+/static/6c87c44bf91deb211e8149d38681fbb8/29114/package-tree-shaking.png 1920w,
+/static/6c87c44bf91deb211e8149d38681fbb8/d85e3/package-tree-shaking.png 2974w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/6c87c44bf91deb211e8149d38681fbb8/d9199/package-tree-shaking.png&quot;
+            alt=&quot;package-tree-shaking&quot;
+            title=&quot;package-tree-shaking&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그런데 나는 이 결과를 확인하고 한가지 이상한 점을 발견했다. &lt;code class=&quot;language-text&quot;&gt;packages/ui/components&lt;/code&gt;에 &lt;code class=&quot;language-text&quot;&gt;inputWithUnit&lt;/code&gt; 컴포넌트가 존재하지 않았다. &lt;code class=&quot;language-text&quot;&gt;inputWithUnit&lt;/code&gt;은 내가 비교적 최근에 만들고 사용한 컴포넌트여서 &lt;strong&gt;dashboard&lt;/strong&gt;에서 사용하고 있는 컴포넌트 라는 것을 정확하게 인지하고 있었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 혹시 부적절한 트리쉐이킹으로 필요한 코드가 누락된 것은 아닐까?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;확인해 보기로 했다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;빌드한 파일을 띄우고 &lt;code class=&quot;language-text&quot;&gt;inputWithUnit&lt;/code&gt;이 사용되는 페이지가 정상적으로 노출 &amp;#x26; 동작 하는지 확인&lt;/p&gt;
+&lt;p&gt;→ 정상적으로 노출/동작하는 것을 확인했다.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;vite-bundle-visualizer&lt;/code&gt;를 통해 &lt;code class=&quot;language-text&quot;&gt;inputWithUnit&lt;/code&gt;이 사용된 페이지가 어떤 파일명으로 빌드되었는지 확인 (&lt;code class=&quot;language-text&quot;&gt;index-c2e221fb.js&lt;/code&gt;) 그리고 그 빌드 파일에 inputWithUnit이 존재하는지 확인&lt;/p&gt;
+&lt;p&gt;→ 해당 파일에서 &lt;code class=&quot;language-text&quot;&gt;inputWithUnit&lt;/code&gt;의 &lt;strong&gt;displayName&lt;/strong&gt;을 확인할 수 있었다.&lt;/p&gt;
+&lt;p&gt;참고로 &lt;a href=&quot;https://ko.legacy.reactjs.org/docs/react-component.html#displayname&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;DisplayName&lt;/a&gt; 문자열은 디버깅 메시지 표시에 사용되기 때문에 명시적으로 이 값을 지정해 놓으면 디버깅시에 도움을 받을 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1885359ca36fa1aaef41a71ca25057a2/e2310/search-build.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 64.16666666666666%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAACXBIWXMAABYlAAAWJQFJUiTwAAABoElEQVQ4y52S3Y7TMBCF8wZNbMe/seM0v3WSbaFcgEArLhDv/0YH2UmQQO2y4uLTiSfj8cyxMy4Vun6EMhVOBUFBKArK3oZQCKVRuRrWeejKwliXNCs5h7UOlbWQUoFzAUoZKGObPoBQBi4EpFJQ2kAbA6l0Wmexw2G6YFlfcAkzXO2RFyRtIqx8zt5p/JbGwfgzuDLIYuXzMKEdJnRTSF0qpSClBGMlGGP/hlIIKSGk2kZelgW32w3X6xXzPCcNIaRkSumbxBxCCKQ2ydNMag3f9vDdgKYbEQ9ge+J7KMsyFVZKw8RLOYKP4Um3zSXYHv+7YJ6fcAkLvr5+RxYDXdfj3HZomjPquoFob+A+QHZ3cDeBkGIfkaTxHo0e40WRbwWd46jrGs45eO/ReI+qqmC03tSYpFVlYa2FEOKPwkV+QuU7hE/fkMWAVBJ9WNGOAf1lQTfNGMKaYsO8oulHrPdXfPj8Ax+//MQ431G3fSJ5H1/JNKOdFmTbSZsf8TGz5FH527PjgW9+isTxjx35+8VEsmP+91HsPM/J6BOT/5dfO4FNlrT0tZgAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/1885359ca36fa1aaef41a71ca25057a2/8ac56/search-build.webp 240w,
+/static/1885359ca36fa1aaef41a71ca25057a2/d3be9/search-build.webp 480w,
+/static/1885359ca36fa1aaef41a71ca25057a2/e46b2/search-build.webp 960w,
+/static/1885359ca36fa1aaef41a71ca25057a2/61c9b/search-build.webp 968w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/1885359ca36fa1aaef41a71ca25057a2/8ff5a/search-build.png 240w,
+/static/1885359ca36fa1aaef41a71ca25057a2/e85cb/search-build.png 480w,
+/static/1885359ca36fa1aaef41a71ca25057a2/d9199/search-build.png 960w,
+/static/1885359ca36fa1aaef41a71ca25057a2/e2310/search-build.png 968w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/1885359ca36fa1aaef41a71ca25057a2/d9199/search-build.png&quot;
+            alt=&quot;search-inputwithunit&quot;
+            title=&quot;search-inputwithunit&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;그럼 여기서 생길 수 있는 합리적인 의문이 있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 사실 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;이나 다른 사용하지 않는 컴포넌트들도 트리쉐이킹 된 것이 아니라 그냥 다른 청크에서 빌드된 것 아닌가?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;→ &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;을 비롯해 &lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt;에 있는 모든 컴포넌트는 &lt;strong&gt;DisplayName&lt;/strong&gt;을 지정해 놓았고, 빌드 결과물에서 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;을 확인할 수 없는 것으로 미뤄보아 사용하지 않는 컴포넌트들은 트리쉐이킹 된 것을 알 수 있었다. 참고로 &lt;code class=&quot;language-text&quot;&gt;sideEffects: false&lt;/code&gt;를 추가하기 전 빌드 결과물에서는 &lt;code class=&quot;language-text&quot;&gt;TestButton&lt;/code&gt;이 검색 되었다.&lt;/p&gt;
+&lt;h3 id=&quot;최종-결과&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%B5%9C%EC%A2%85-%EA%B2%B0%EA%B3%BC&quot; aria-label=&quot;최종 결과 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;최종 결과&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;packages/ui&lt;/code&gt; 뿐만 아니라 모노레포 내의 다른 패키지들에도 &lt;code class=&quot;language-text&quot;&gt;sideEffects: false&lt;/code&gt; 옵션을 적용하여 트리쉐이킹이 수행되도록 했다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;AS-IS&lt;/strong&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7b8e76d9d5cb088417613c99cdef4ab5/89896/tree-shaking-as-is.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 52.083333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB60lEQVQoz53OS2sTURjG8fkULgstKlTEpW4Ui2txIYgKmiKp1qaiaCTNZZJMJpOkDSZtMjNJ0wqlq6JImzb31l5yTxtd1U02Cn4BP8JfOmmDhWTj4sfzHN7DOa+QXlnjW75IYzNLO1+iU63RqdZ7jvf2qW9laOXytHNFftbr/D48POdXo8mfH8eExBBCYUHj+9IyR6lljhaXaOhJmnrSyIaWMHpuNsxBdJ5cVMXxxsXbF1ZePp3G/PA5E48mmXg8ydQTC/fvmRA25qLU4yrlBZVKTKVq0IysnPbdyDxNVeOjS+bajbtcvHqHkdExhkdvM3JljKHLt7gwdJ3hSzcRMlG1u1kyRTOZMvLMybmeWKSs6tT0BNsxnaQnSEIMELf7iM1IRn6wisxbRcYfmBHS4ZPf9d52tbhG9R81tbvhwUKchqrT0nSOEslzWlqCzuoq8rQN4ZMosePxUnB7Kbq9lE7zTMkjkZ5xkHWKRs+53BREDwXR25N1uqkoCvZxC8Ka3U3R7iQ/QMHhYuO9jS2b3ej97mRsDiqShN00hfDZ42dXVij5/Gz3IysUJbk7l5U+dxQKkkxjLozj2SuEdTlIORhiLxBif4CTx3ZkZeD8qz9AOxLBZX6NsOL0semVWff8vy9uH6XgLO9MFv4C0K4iWVCQuwwAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/7b8e76d9d5cb088417613c99cdef4ab5/8ac56/tree-shaking-as-is.webp 240w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/d3be9/tree-shaking-as-is.webp 480w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/e46b2/tree-shaking-as-is.webp 960w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/f992d/tree-shaking-as-is.webp 1440w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/882b9/tree-shaking-as-is.webp 1920w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/ece8d/tree-shaking-as-is.webp 2966w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/7b8e76d9d5cb088417613c99cdef4ab5/8ff5a/tree-shaking-as-is.png 240w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/e85cb/tree-shaking-as-is.png 480w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/d9199/tree-shaking-as-is.png 960w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/07a9c/tree-shaking-as-is.png 1440w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/29114/tree-shaking-as-is.png 1920w,
+/static/7b8e76d9d5cb088417613c99cdef4ab5/89896/tree-shaking-as-is.png 2966w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/7b8e76d9d5cb088417613c99cdef4ab5/d9199/tree-shaking-as-is.png&quot;
+            alt=&quot;tree-shaking-as-is&quot;
+            title=&quot;tree-shaking-as-is&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TO-BE&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/44313c62272c2f68dca95a2de5609c2c/89896/tree-shaking-to-be.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 52.083333333333336%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACG0lEQVQoz32QTW8SURhG+RUuNamJjda47MoNiUtdNH7tikI0/bDG2gJTkY8BZpgBBijWAo3GhaYr05IWOgOltJSWKW13aqIbjfoD/AnHMBTSdNHFyfPeuzj3ea9t9cMyR2WDVrFk5ffdJj9297o09/lS38ZcL9Mu6xxvGPxsmfxuH/L38Ig/J/wyD/j37SuKX8GmZxbYiidovlng+N17zFyhz14mSzOdYTuZwszM8ymi8mLMzYRjiscPnjB614njngvHfReuh08ZuTOKbVXVWPG9xoiptHIF9t/m+lRDYXSfnw1fgEZIJOia4urwbQZv3GJgyM7ANTuXh+xcvHKTC5eGGbxux1aMp1gPimzGk5j5JUvUWsxb2ZGVZj2U3F50t5flGQHt2SyJ8WmSYyeMTyM5J1FdkzhGHF1hQ1FpaOl+w57Q6AjdXsoegZJHQPcIGG4PpZlZNoU5ql7BwvAKtEURn2O8s3KKnZhiCfcX89QzWRrZBUu4GZGoBEJUgmIfIyCiB0IYnfmEsj9IU44hPJrEVlRTbEkx6+PPNqwrKrWoTE2KdbM3nzlXIhIHmsYr51S3YU2SqZ8S9tiSFaphyWraQxcjlIMi1VN3hhjFTCSZ6wjXE2maapy9dIbDwhLtXKHPjhKnHpXZ7jx4DrWIxJGm4XM9x/YxrLIWlliT4+jpLBvaPHpq3sqiKLESCLMSPJ/PfpGKrPBydIL/rVwhxW945+sAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/44313c62272c2f68dca95a2de5609c2c/8ac56/tree-shaking-to-be.webp 240w,
+/static/44313c62272c2f68dca95a2de5609c2c/d3be9/tree-shaking-to-be.webp 480w,
+/static/44313c62272c2f68dca95a2de5609c2c/e46b2/tree-shaking-to-be.webp 960w,
+/static/44313c62272c2f68dca95a2de5609c2c/f992d/tree-shaking-to-be.webp 1440w,
+/static/44313c62272c2f68dca95a2de5609c2c/882b9/tree-shaking-to-be.webp 1920w,
+/static/44313c62272c2f68dca95a2de5609c2c/ece8d/tree-shaking-to-be.webp 2966w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/44313c62272c2f68dca95a2de5609c2c/8ff5a/tree-shaking-to-be.png 240w,
+/static/44313c62272c2f68dca95a2de5609c2c/e85cb/tree-shaking-to-be.png 480w,
+/static/44313c62272c2f68dca95a2de5609c2c/d9199/tree-shaking-to-be.png 960w,
+/static/44313c62272c2f68dca95a2de5609c2c/07a9c/tree-shaking-to-be.png 1440w,
+/static/44313c62272c2f68dca95a2de5609c2c/29114/tree-shaking-to-be.png 1920w,
+/static/44313c62272c2f68dca95a2de5609c2c/89896/tree-shaking-to-be.png 2966w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/44313c62272c2f68dca95a2de5609c2c/d9199/tree-shaking-to-be.png&quot;
+            alt=&quot;tree-shaking-to-be&quot;
+            title=&quot;tree-shaking-to-be&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;그 상태로 &lt;strong&gt;dashboard&lt;/strong&gt;를 빌드한 결과 &lt;strong&gt;번들 사이즈가 약 17kb 줄어든 것을 확인&lt;/strong&gt;할 수 있었다. (빌드 속도도 체크해 보았지만 로컬 빌드 기준으로 0.n초 정도 줄어들거나 거의 차이가 없었다.) 애초에 &lt;strong&gt;packages&lt;/strong&gt;의 코드 대부분을 &lt;strong&gt;dashboard&lt;/strong&gt;에 사용하고 있어서 미미한 축소 효과밖에 얻지 못했지만 트리쉐이킹에 성공 했다는 점과 앞으로 &lt;strong&gt;packages&lt;/strong&gt;에 존재하는 사용하지 않는 코드들이 함께 번들링 되지 않는다는 안정감(^^)을 얻게 된 것에 의의를 두면서 이 글을 마친다.&lt;/p&gt;
+&lt;p&gt;아 그리고 드디어 블로그에 댓글 기능을 달아서 이 말을 쓸 수 있게 되었다. 글을 읽다가 틀린 점이 발견되면 언제든 댓글 부탁드립니다!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Tree-Shaking의 원리와 과정 알아보기]]></title><description><![CDATA[Deep Dive Tree Shaking]]></description><link>https://eunsonny.github.io/posts/deep-dive-tree-shaking</link><guid isPermaLink="false">https://eunsonny.github.io/posts/deep-dive-tree-shaking</guid><pubDate>Sun, 10 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;tldr&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#tldr&quot; aria-label=&quot;tldr permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;TL;DR&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;트리 셰이킹이란 자바스크립트 컨텍스트에서 데드 코드 제거를 설명하는 용어로 &lt;strong&gt;번들러에 의해 수행&lt;/strong&gt;됩니다.&lt;/li&gt;
 &lt;li&gt;각 번들러에 따라 트리셰이킹을 구현하는 내부 원리는 조금씩 다를 수 있지만, 기본적으로 &lt;strong&gt;1)&lt;/strong&gt; 모듈을 추상구문트리 형태로 시각화하여 서로 간의 의존성을 분석 &lt;strong&gt;2)&lt;/strong&gt; 의존성 분석 결과를 바탕으로, 사용되지 않는 코드를 식별 &lt;strong&gt;3)&lt;/strong&gt; 식별한 불필요한 코드 제거의 형태로 이루어집니다.&lt;/li&gt;
