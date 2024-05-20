@@ -38,6 +38,7 @@ pre[class*="language-"] {
 }
 
 :not(pre) > code[class*="language-text"] {
+  word-break: break-word;
   font-weight: 500;
   background-color: var(--color-prism-text-background);
 }
