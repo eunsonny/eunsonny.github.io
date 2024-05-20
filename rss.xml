@@ -1,4 +1,205 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Eunsonny's Blog]]></title><description><![CDATA[Eunsonny's Blog]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 31 Mar 2024 07:50:00 GMT</lastBuildDate><item><title><![CDATA[모노레포 Packages Tree-Shaking 하기]]></title><description><![CDATA[습득한 지식 활용해보기]]></description><link>https://eunsonny.github.io/posts/tree-shaking-monorepo-packages</link><guid isPermaLink="false">https://eunsonny.github.io/posts/tree-shaking-monorepo-packages</guid><pubDate>Tue, 26 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;지난 글에서 트리쉐이킹의 원리와 동작에 대해서 알아본 이후 나는 이를 이용해서 회사 레포의 Packages를 트리쉐이킹 할 계획을 세웠다. 그리고 이 글에서는 그 과정과 결과에 대해 공유해보고자 한다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Eunsonny's Blog]]></title><description><![CDATA[Eunsonny's Blog]]></description><link>http://github.com/dylang/node-rss</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 20 May 2024 14:21:02 GMT</lastBuildDate><item><title><![CDATA[createRoot와 createPortal의 차이점]]></title><description><![CDATA[Alert 컴포넌트를 직접 구현한다면 어떻게 할래?]]></description><link>https://eunsonny.github.io/posts/difference-between-createRoot-and-createPortal</link><guid isPermaLink="false">https://eunsonny.github.io/posts/difference-between-createRoot-and-createPortal</guid><pubDate>Mon, 20 May 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;궁금증의-시작&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B6%81%EA%B8%88%EC%A6%9D%EC%9D%98-%EC%8B%9C%EC%9E%91&quot; aria-label=&quot;궁금증의 시작 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;궁금증의 시작&lt;/h2&gt;
+&lt;p&gt;코드리뷰를 하다가 팀원분이 Alert 컴포넌트를 직접 구현하셨는데 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;를 사용하신 걸 보게 되었다. 만약 나였다면 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;을 사용했을 것 같은데 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;를 사용한 것이 신기하게 느껴져 이유를 물어보았다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9516e1201c984991f973656523e8181d/e8950/createRoot-review.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 29.583333333333332%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAAsTAAALEwEAmpwYAAABIElEQVQY02WQ62rCQBBGff+3qpReQbAYBWu1UmNijJusyeayt1M2Xn60A4dvhhm+GWZUnQVVrRClpG4aHFA3Lapt0cYQwl+x3uO8x7obDtlYRG0olMFax8g7OzTKXJDtEspTQZ7l5OmRUkgKISkLyVlW6FbTt/2gutODNqpHBeoe5xyjcEHYKtdz8ukTYjXjMJuwfHlg8TomehkTPY+Zvz2SrSK2X0uSeIMSe2qxRxUXahFjjQ6GfnCOu5Sl+mYj1iSnDe/xB5OfKevjiihZEaUL5vkn2zZlpw/EJruzNxk7ndI7fb3QOYzW7OOEOE6oqpr0kFGWEqWaoZbniq7r+Bf+Is55vPcXw/DDUKimxViLMWZAa33XgLV2mPtLcL3lvwLgy+ILA3TOAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/9516e1201c984991f973656523e8181d/8ac56/createRoot-review.webp 240w,
+/static/9516e1201c984991f973656523e8181d/d3be9/createRoot-review.webp 480w,
+/static/9516e1201c984991f973656523e8181d/e46b2/createRoot-review.webp 960w,
+/static/9516e1201c984991f973656523e8181d/f992d/createRoot-review.webp 1440w,
+/static/9516e1201c984991f973656523e8181d/882b9/createRoot-review.webp 1920w,
+/static/9516e1201c984991f973656523e8181d/b84eb/createRoot-review.webp 2000w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/9516e1201c984991f973656523e8181d/8ff5a/createRoot-review.png 240w,
+/static/9516e1201c984991f973656523e8181d/e85cb/createRoot-review.png 480w,
+/static/9516e1201c984991f973656523e8181d/d9199/createRoot-review.png 960w,
+/static/9516e1201c984991f973656523e8181d/07a9c/createRoot-review.png 1440w,
+/static/9516e1201c984991f973656523e8181d/29114/createRoot-review.png 1920w,
+/static/9516e1201c984991f973656523e8181d/e8950/createRoot-review.png 2000w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/9516e1201c984991f973656523e8181d/d9199/createRoot-review.png&quot;
+            alt=&quot;code-review&quot;
+            title=&quot;code-review&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/245070137d181b016582000f553339f1/e8950/createRoot-review-2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 70.41666666666667%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAACBElEQVQ4y31Ta4/bIBDM//93VaX7cGruLvErdjBgzHMBTwXOJU0bFWm861087HqHgzaEiTvEDPi4QduAWRrwxUAZjxC3Gve0Vf/VWrWGdQ7btuFQHqtLaFhAOxN6HtBywiB29DfbccJFElLKyDkj/YEYEwLF6lfCsmGeNIazxJUt0MbCh4AQCIHobn0gWB9g3DNciODLWvOVMOYMxlc07YRhXNBeBORqod2/HxcU0m/ixwEEiulGmHKtrO9nTExhmhWUdi/JnonpCQ/CmGCcB6Vcy3eB4DztNpRW4y0eb/F9j/3rgEpYpmSsRdv1aNoOX6czuq5H23a4XEY0TYuv0wnDMNQ4F6JCygVCCAgh9xgXiDHuFZYBcCEh5AK1aixqrSjDKXbme65Y5wN8QSAQRVCMd1sUcNg2IHgPsy4wWkEtAquS0EpikbzGgYzXa6va+0ZRy6EEF0N47w0+R4vjYPDeafwaDI6Dru/H0ePrSjgxwsdU9BiryCk9Cz0XYRdH2YSfrcWP1uJt8DjPqaLlCc0c8TEFfE6hkhacWRF8hDAJuFV3J0wpwRoNxhmE1og1mYAc/9Pqi+a37XFTlFI4nRowxqp/Ga+4jBPG6VqHoRUHUxa9TBhkRCdibX+QCUwoeO/2Cvd/iKottcw1USdGVCVQ7O6Xq5fgKN9hw27LtSxdfhP+Bin9PPN3toh2AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/245070137d181b016582000f553339f1/8ac56/createRoot-review-2.webp 240w,
+/static/245070137d181b016582000f553339f1/d3be9/createRoot-review-2.webp 480w,
+/static/245070137d181b016582000f553339f1/e46b2/createRoot-review-2.webp 960w,
+/static/245070137d181b016582000f553339f1/f992d/createRoot-review-2.webp 1440w,
+/static/245070137d181b016582000f553339f1/882b9/createRoot-review-2.webp 1920w,
+/static/245070137d181b016582000f553339f1/b84eb/createRoot-review-2.webp 2000w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/245070137d181b016582000f553339f1/8ff5a/createRoot-review-2.png 240w,
+/static/245070137d181b016582000f553339f1/e85cb/createRoot-review-2.png 480w,
+/static/245070137d181b016582000f553339f1/d9199/createRoot-review-2.png 960w,
+/static/245070137d181b016582000f553339f1/07a9c/createRoot-review-2.png 1440w,
+/static/245070137d181b016582000f553339f1/29114/createRoot-review-2.png 1920w,
+/static/245070137d181b016582000f553339f1/e8950/createRoot-review-2.png 2000w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/245070137d181b016582000f553339f1/d9199/createRoot-review-2.png&quot;
+            alt=&quot;code-review2&quot;
+            title=&quot;code-review2&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;toast 팝업처럼 간단하게 제어가 가능한 인터페이스를 구현하고 싶었는데, &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;로 구현하려고 하면 결국 제어에 필요한 상태를 추가해야 하는 단점이 있어서…&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;라는 답변을 받았다. 추가로 구현을 위해 참고했던 소스링크들도 공유해주셨다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;참고한 소스 링크&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/GA-MO/react-confirm-alert/blob/master/src/index.js#L186&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://github.com/GA-MO/react-confirm-alert/blob/master/src/index.js#L186&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/haradakunihiko/react-confirm/blob/master/src/mounter/domTree.js#L15&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://github.com/haradakunihiko/react-confirm/blob/master/src/mounter/domTree.js#L15&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;참고한 소스코드 링크들을 살펴보면 &lt;code class=&quot;language-text&quot;&gt;react-confirm-alert&lt;/code&gt; 이나 &lt;code class=&quot;language-text&quot;&gt;react-confirm&lt;/code&gt; 과 같은 라이브러리에서도 Alert 컴포넌트를 &lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;에서 바로 렌더링 하는 방식으로 구현했다는 것을 알 수 있었다.&lt;/p&gt;
+&lt;p&gt;과거의 기억을 더듬어 보면 2년 전 쯤 사이드 프로젝트에서 Toast 컴포넌트를 직접 구현한 적이 있었는데, 당시 &lt;a href=&quot;https://github.com/ant-design/ant-design-mobile/tree/master&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;ant-design-mobile&lt;/a&gt;의 Toast 컴포넌트 구현을 참고 했었고 그 때도 &lt;code class=&quot;language-text&quot;&gt;portal&lt;/code&gt;이 아닌 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;와&lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;함수를 사용해서 구현한 것을 보고 ‘오 신기하네..?’ 라고 생각했었다.&lt;/p&gt;
+&lt;p&gt;잠시 그 때 참고한 코드를 훑어보자면 ant-design-mobile의 Toast 컴포넌트 &lt;a href=&quot;https://github.com/ant-design/ant-design-mobile/blob/master/src/components/toast/methods.tsx#L47&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;method 파일&lt;/a&gt;의 코드를 보면&lt;code class=&quot;language-text&quot;&gt;renderImperatively&lt;/code&gt;라는 함수를 사용해서 컴포넌트를 렌더링하고 있다. &lt;a href=&quot;https://github.com/ant-design/ant-design-mobile/blob/master/src/utils/render-imperatively.tsx&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;renderImperatively&lt;/a&gt; 를 살펴보면 결국 &lt;code class=&quot;language-text&quot;&gt;renderToBody&lt;/code&gt; 라는 함수를 사용하고 있고 &lt;code class=&quot;language-text&quot;&gt;renderToBody&lt;/code&gt;에서 사용하는 &lt;a href=&quot;https://github.com/ant-design/ant-design-mobile/blob/master/src/utils/render.ts#L63-L69&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;render&lt;/a&gt;를 따라가면 &lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;를 사용하고 있음을 확인할 수 있다.&lt;/p&gt;
+&lt;p&gt;다시 돌아와서,
+Alert의 동작은 사실상 모달과 비슷하다고 생각되어 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;을 이용할 법도 한데, 왜 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;를 이용해 구현한 것일까? 단순히 제어에 필요한 상태값을 추가하지 않아도 되어서 사용한 것일까? 이런 방법에 문제는 없을까? 그렇다면 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;과 &lt;code class=&quot;language-text&quot;&gt;createRender&lt;/code&gt;는 뭐가 다른 것일까? 하는 궁금증이 생겼고, 관련해서 조금 더 찾아보았다.&lt;/p&gt;
+&lt;h2 id=&quot;createroot와-createportal은-뭐가-다른-것일까&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#createroot%EC%99%80-createportal%EC%9D%80-%EB%AD%90%EA%B0%80-%EB%8B%A4%EB%A5%B8-%EA%B2%83%EC%9D%BC%EA%B9%8C&quot; aria-label=&quot;createroot와 createportal은 뭐가 다른 것일까 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;createRoot와 createPortal은 뭐가 다른 것일까?&lt;/h2&gt;
+&lt;p&gt;그렇게 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;과 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;의 차이점을 찾던 중 해당 글을 발견했다.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://jaeseokim.dev/React/React-Portal_Render%EC%9D%98_%EC%B0%A8%EC%9D%B4%EC%A0%90_%ED%99%9C%EC%9A%A9%EB%B0%A9%EC%95%88_%EC%95%8C%EC%95%84%EB%B3%B4%EA%B8%B0/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;[React] Portal, Render의 차이점, 활용방안 알아보기!&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;요약하자면 다음과 같다.&lt;/p&gt;
+&lt;p&gt;ReactDOM의 Portal 기능은 루트 노드의 DOM 계층 구조 바깥에 있는 DOM 노드를, 루트 노드의 자식으로 렌더링 하는 기능을 제공한다. 외부에 존재하는 DOM 노드가 React App DOM 계층 안에 존재하는 것처럼 연결을 해주는 포탈 기능을 제공하는 것이다. 따라서 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt; 로 연결된 경우에는 부모 컴포넌트의 생명주기(Component LifeCycle)가 적용된다.&lt;/p&gt;
+&lt;p&gt;그러나 &lt;code class=&quot;language-text&quot;&gt;creatRoot&lt;/code&gt;의 경우 단순하게 보기에는 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;과 동일하게 보일 수 있지만, 차이점은 새로운 React LifeCycle 생성 한다는 점이다. 일반적으로는 React 어플리케이션의 최초 생성을 하기 위해서 사용하는 함수 이지만, &lt;strong&gt;함수를 통해 React Component를 생성 할 수 있다 라는 점&lt;/strong&gt;을 이용하여 활용이 가능하며 &lt;strong&gt;기존 React의 렌더링 트리와는 별개의 렌더링 트리를 새롭게 생성이 가능이 가능하다. 즉, 호출한 부모의 React LifeCycle과 별개로 동작을 한다.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;즉 Alert과 같은 컴포넌트를 구현 할 때 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;를 사용하게 되면 &lt;strong&gt;제어를 위한 값을 추가하거나 Context API로 감싸서 관리하는 등의 필요가 사라져 코드가 단순해지고, 기존의 React 렌더링 트리의 변화로 인한 Effect 발생 상태관리의 어려움 등을 쉽게 처리할 수 있게 된다는 이점이 생긴다&lt;/strong&gt;는 것을 알 수 있었다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;는 보통 리액트 어플리케이션의 최초 생성을 하기 위해서 사용하는 함수이기 때문에 이 메서드를 사용하면 새로운 React 렌더링 트리(라이프 사이클)을 생성한다는 점은 자연스럽게 이해 되었지만 하나의 프로젝트에서 &lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;를 중첩해서 사용(&lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;로 렌더링 되는 컴포넌트 내부에서 또 다시 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;를 호출)해 여러 개의 리액트 사이프 사이클을 사용하는 것에 대해서 문제는 없는지, 이러한 활용 사례가 일반적인 것인지(?)에 대해서도 궁금해졌다.&lt;/p&gt;
+&lt;h3 id=&quot;createroot와-createportal의-차이를-공식문서로-확인해보기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#createroot%EC%99%80-createportal%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EA%B3%B5%EC%8B%9D%EB%AC%B8%EC%84%9C%EB%A1%9C-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0&quot; aria-label=&quot;createroot와 createportal의 차이를 공식문서로 확인해보기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;createRoot와 createPortal의 차이를 공식문서로 확인해보기&lt;/h3&gt;
+&lt;p&gt;일단 공식문서를 확인해보았다.&lt;/p&gt;
+&lt;h3 id=&quot;createportal&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#createportal&quot; aria-label=&quot;createportal permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;createPortal&lt;/h3&gt;
+&lt;p&gt;React 공식문서에서는 &lt;a href=&quot;https://react.dev/reference/react-dom/createPortal#createportal&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;createPortal&lt;/a&gt;을 다음과 같이 설명하고 있다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Portals&lt;/em&gt; let your components render some of their children into a different place in the DOM. This lets a part of your component “escape” from whatever containers it may be in. For example, a component can display a modal dialog or a tooltip that appears above and outside of the rest of the page.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;포털을 사용하면 컴포넌트가 자식 중 일부를 DOM의 다른 위치에 렌더링할 수 있습니다. 이를 통해 컴포넌트의 일부가 어떤 컨테이너에 있든 그 컨테이너에서 “탈출”할 수 있습니다. 예를 들어, 컴포넌트는 모달 대화상자나 툴팁을 페이지의 나머지 부분 위와 외부에 표시할 수 있습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A portal only changes the physical placement of the DOM node. In every other way, the JSX you render into a portal acts as a child node of the React component that renders it. For example, the child can access the context provided by the parent tree, and events still bubble up from children to parents according to the React tree.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;포털은 DOM 노드의 물리적 배치만 변경합니다. 다른 모든 면에서 포털에 렌더링하는 JSX는 이를 렌더링하는 React 컴포넌트의 자식 노드 역할을 합니다. 예를 들어, 자식은 부모 트리에서 제공하는 컨텍스트에 액세스할 수 있으며 이벤트는 여전히 React 트리에 따라 자식에서 부모로 버블업됩니다.&lt;/p&gt;
+&lt;p&gt;앞선 글에서 언급한 것과 같이 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;을 사용하면 외부에 존재하는 &lt;strong&gt;DOM 노드&lt;/strong&gt;가 &lt;strong&gt;React App DOM 계층 안에 존재하는 것처럼 연결&lt;/strong&gt;을 해주는 &lt;strong&gt;포탈 기능&lt;/strong&gt;을 제공한다는 것을 확인할 수 있었다.&lt;/p&gt;
+&lt;h3 id=&quot;createrootrender&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#createrootrender&quot; aria-label=&quot;createrootrender permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;createRoot.render&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://react.dev/reference/react-dom/client/createRoot#createroot&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;createRoot&lt;/a&gt;를 설명한 공식문서를 읽던 중에는 다음과 같은 부분을 발견했다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An app fully built with React will usually only have one &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt; call for its root component. A page that uses “sprinkles” of React for parts of the page may have as many separate roots as needed.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;React로 완전히 빌드된 앱에는 일반적으로 루트 컴포넌트에 대한 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt; 호출이 하나만 있습니다. 페이지의 일부에 React를 부분적으로 사용하는 페이지에는 필요한 만큼의 루트가 따로 있을 수 있습니다.&lt;/p&gt;
+&lt;p&gt;라고 언급하면서 글 하단의 &lt;strong&gt;Rendering a page partially built with React&lt;/strong&gt; 부분에서 코드 예시를 통해 자세히 설명해준다. 즉 온전히 React만으로 만들어진 어플리케이션이 아닐 경우 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;을 여러번 호출해서 각각에 최상단 UI를 만들어 관리 할 수 있다고 말하고 있다. 각 각의 root에서 서로 다른 컨텐츠들이 보여지도록 할 수 있는 것이다.&lt;/p&gt;
+&lt;p&gt;물론 Alert 컴포넌트를 구현할 때 사용한 것 처럼 &lt;code class=&quot;language-text&quot;&gt;creartRoot&lt;/code&gt;를 중첩해서 사용하는 경우에 대한 언급은 찾지 못했다. 다만 리액트를 부분적으로 사용하는 어플리케이션에서는 &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;를 다수 호출해서 사용할 수 있다는 힌트를 얻었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;When you want to render a piece of JSX in a different part of the DOM tree that isn’t a child of your component (for example, a modal or a tooltip), use &lt;a href=&quot;https://react.dev/reference/react-dom/createPortal&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;createPortal&lt;/a&gt; instead of &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;컴포넌트의 자식이 아닌 DOM 트리의 다른 부분에서 JSX를 렌더링하고자 할 때(예: 모달 또는 툴팁), &lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt; 대신 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;을 사용할 것을 권장한다.&lt;/p&gt;
+&lt;h3 id=&quot;createroot와-createportal의-차이를-직접-구현해서-확인해보기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#createroot%EC%99%80-createportal%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%A5%BC-%EC%A7%81%EC%A0%91-%EA%B5%AC%ED%98%84%ED%95%B4%EC%84%9C-%ED%99%95%EC%9D%B8%ED%95%B4%EB%B3%B4%EA%B8%B0&quot; aria-label=&quot;createroot와 createportal의 차이를 직접 구현해서 확인해보기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;createRoot와 createPortal의 차이를 직접 구현해서 확인해보기&lt;/h3&gt;
+&lt;p&gt;직접 &lt;code class=&quot;language-text&quot;&gt;creatRoot&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;로 Alert 컴포넌트를 구현한 뒤 React dev tool로 확인해보았다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 960px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/39324d0f4f8eca10fcfd210470cf9116/dd507/react-dev-tool.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 85.41666666666667%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAABYlAAAWJQFJUiTwAAACe0lEQVQ4y5WS23KUQBRF+RKTmBm6udPcGmgGGExizGXUWL5a5eXBP/Dzl0UPmMTSKn1YtU/tDadPH3DiqidUDUnZERcd8aIy0XhJjYw1iR6oVINONH5ujmQtXlwh45Iwa8jqgaTocKJUExYdgZcQiIhAxgQywnPDI9vAeklcEYY5rp8h/Bwxa5BbvKgkSDRhWuPIh2/kX39w/uE7p4cvnL39+hvfODt8Jh9uUflIkhnivEaVParqibIWGRb2ID+ucOTFA+HVR7b9HZvh/jn9qncE2YCubjB9x24/UNQTcd7a6eaGM/O0jpQxwo2YVYrfkEeEiCnrgd14TZhqu7t5mrXJ2nDGkcsJ4i/Y6wQ5aWF4ffvAdHVvd+UuO1ybrjgyenzxTzzN1uWv0/0JR4bLF/sb8xQLT335xP+V2wlVjacagrzFVw2eqq2G87+mGmSqkWm98FiLRB9Jj6y5k0xXRBfXpOMFyfAKtb8k2u3JpkvCbsTVBlF3iNrg1uao2hB0o8U3PaHpcavG9nC6Nme/rxjGgqZJKMoIlXkkqSRVHirzF57XeRGSZT5Fo2gvB6qxRZscZxMGqEajas1L3+OFu+WF61o9Ea7lef3oHX1BsJ9Qt/e4ZYnTZTk308Su0gx1w9g0TMZw2feMbcvYtLzqdjafs/3izUymo6803TjRv75B1y3OtdZ8urnmfb+zvNt1lrW+b1tbH4zhYNpf+aEz1p/zQ9/zxhguihxnG8XoYSQqK87kfGXBiSs5WVUstVhr+cQ/Zv5uJH1zhyg1zrkfsPF83DDipfQ4E/K/cbMCqRvOoxhnnup0nmDrWrUPzfqvCMnpdsvJZsPp1uUnBg0XY5LE85sAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;picture&gt;
+          &lt;source
+              srcset=&quot;/static/39324d0f4f8eca10fcfd210470cf9116/8ac56/react-dev-tool.webp 240w,
+/static/39324d0f4f8eca10fcfd210470cf9116/d3be9/react-dev-tool.webp 480w,
+/static/39324d0f4f8eca10fcfd210470cf9116/e46b2/react-dev-tool.webp 960w,
+/static/39324d0f4f8eca10fcfd210470cf9116/f992d/react-dev-tool.webp 1440w,
+/static/39324d0f4f8eca10fcfd210470cf9116/2be02/react-dev-tool.webp 1528w&quot;
+              sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+              type=&quot;image/webp&quot;
+            /&gt;
+          &lt;source
+            srcset=&quot;/static/39324d0f4f8eca10fcfd210470cf9116/8ff5a/react-dev-tool.png 240w,
+/static/39324d0f4f8eca10fcfd210470cf9116/e85cb/react-dev-tool.png 480w,
+/static/39324d0f4f8eca10fcfd210470cf9116/d9199/react-dev-tool.png 960w,
+/static/39324d0f4f8eca10fcfd210470cf9116/07a9c/react-dev-tool.png 1440w,
+/static/39324d0f4f8eca10fcfd210470cf9116/dd507/react-dev-tool.png 1528w&quot;
+            sizes=&quot;(max-width: 960px) 100vw, 960px&quot;
+            type=&quot;image/png&quot;
+          /&gt;
+          &lt;img
+            class=&quot;gatsby-resp-image-image&quot;
+            src=&quot;/static/39324d0f4f8eca10fcfd210470cf9116/d9199/react-dev-tool.png&quot;
+            alt=&quot;react-dev-tool&quot;
+            title=&quot;react-dev-tool&quot;
+            loading=&quot;lazy&quot;
+            decoding=&quot;async&quot;
+            style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+          /&gt;
+        &lt;/picture&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;React dev tool에서 최상위 APP의 하위 트리로 렌더링 되는 것이 아닌 별도의 렌더링 트리로 생성된 것을 확인할 수 있었다. 또한 Alert 컴포넌트는 의도한대로 잘 동작하긴 하지만 &lt;strong&gt;Warning: You are calling ReactDOMclient.createRoot() on a container that has already been passed to createRoot() before. Instead, call root.render() on the existing root instead if you want to update it.&lt;/strong&gt; 이라는 경고 메세지가 콘솔에 노출된다.&lt;/p&gt;
+&lt;h2 id=&quot;정리해보면&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A0%95%EB%A6%AC%ED%95%B4%EB%B3%B4%EB%A9%B4&quot; aria-label=&quot;정리해보면 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;정리해보면&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;은 React 루트 외부에 존재하는 &lt;strong&gt;DOM 노드를&lt;/strong&gt; &lt;strong&gt;React Root 렌더링 트리 계층 안에 존재하는 것처럼 연결&lt;/strong&gt;을 해주는 &lt;strong&gt;포탈 기능&lt;/strong&gt;을 제공하며 Modal, Tooltip과 같은 컴포넌트를 구현할 때 유용하게 쓸 수 있고 React에서 권장하는 방식이다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;createRoot&lt;/code&gt; 와 &lt;code class=&quot;language-text&quot;&gt;root.render&lt;/code&gt;는 브라우저 DOM 엘리먼트 안에 콘텐츠를 표시하기 위한 React 루트를 생성하고, JSX 조각(React 노드)을 React 루트의 브라우저 DOM 노드에 표시하는 기능으로 언뜻 보기에 &lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;과 비슷해 보이지만 새로운 React 렌더링 트리를 생성한다는 점이 다르다.&lt;/li&gt;
+&lt;li&gt;완벽히 React로만 구현된 어플리케이션에서 Alert과 같은 컴포넌트를 구현하기 위에 &lt;code class=&quot;language-text&quot;&gt;CreateRoot&lt;/code&gt;를 중첩해서 사용하는 방식은 React에서 정식적으로 권장하는 방식은 아니다. 그러나 이러한 방식으로 구현할 경우 (&lt;code class=&quot;language-text&quot;&gt;createPortal&lt;/code&gt;을 사용할 때와 비교하여) &lt;strong&gt;제어를 위한 값을 추가하거나 Context API로 감싸서 관리하는 등의 필욕가 사라져 코드가 단순해지고, 기존의 React 렌더링 트리의 변화로 인한 Effect 발생 상태관리의 어려움 등을 쉽게 처리할 수 있게 된다&lt;/strong&gt;는 이점이 있다.&lt;/li&gt;
+&lt;li&gt;다양한 기능을 수행해야 하는 모달의 경우에는 부모 컴포넌트로부터 값을 주고 받거나(context 공유), 같은 리액트 라이프 사이클을 이용해야 할 필요성이 크기 때문에 &lt;code class=&quot;language-text&quot;&gt;CreateRoot&lt;/code&gt;를 중첩 사용해 렌더링 하는 방식은 부적절하며, Toast, Alert, Notification과 같이 독립적으로 수행되는 컴포넌트에 활용이 가능해 보인다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br /&gt;</content:encoded></item><item><title><![CDATA[모노레포 Packages Tree-Shaking 하기]]></title><description><![CDATA[습득한 지식 활용해보기]]></description><link>https://eunsonny.github.io/posts/tree-shaking-monorepo-packages</link><guid isPermaLink="false">https://eunsonny.github.io/posts/tree-shaking-monorepo-packages</guid><pubDate>Tue, 26 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;지난 글에서 트리쉐이킹의 원리와 동작에 대해서 알아본 이후 나는 이를 이용해서 회사 레포의 Packages를 트리쉐이킹 할 계획을 세웠다. 그리고 이 글에서는 그 과정과 결과에 대해 공유해보고자 한다.&lt;/p&gt;
 &lt;h2 id=&quot;프로젝트의-구조와-조건-사항&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EC%9D%98-%EA%B5%AC%EC%A1%B0%EC%99%80-%EC%A1%B0%EA%B1%B4-%EC%82%AC%ED%95%AD&quot; aria-label=&quot;프로젝트의 구조와 조건 사항 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프로젝트의 구조와 조건 사항&lt;/h2&gt;
 &lt;p&gt;우선 어떤 상황에서 트리쉐이킹을 시도했는지 그 상황과 조건에 대해 설명해야 할 것 같다. 프로젝트의 구조는 Turbo Repo로 설정된 모노레포 구조로 &lt;code class=&quot;language-text&quot;&gt;apps&lt;/code&gt;/&lt;code class=&quot;language-text&quot;&gt;docs&lt;/code&gt;/&lt;code class=&quot;language-text&quot;&gt;packages&lt;/code&gt; 이렇게 세 개의 워크스페이스를 갖고 있다. &lt;code class=&quot;language-text&quot;&gt;apps&lt;/code&gt; 하위에는 &lt;strong&gt;Dashboard&lt;/strong&gt;(웹) 와 &lt;strong&gt;mobile&lt;/strong&gt;(웹 앱) 두 개의 레포가 존재하고, &lt;code class=&quot;language-text&quot;&gt;packages&lt;/code&gt;의 하위에는 ui, css, hooks, types 등 대시보드와 모바일에서 공통적으로 사용되는 요소들이 패키지로 묶여있는 형태다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;├── apps
